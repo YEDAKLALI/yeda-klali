@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ידע כללי • 500 שאלות • כרטיס ידע (Pro)</title>
+  <title>ידע כללי • 500 • מד עגול • הדרגתיות לפי נושא</title>
   <style>
     :root{
       --bg:#0b1220; --ink:#e9eefc; --muted:#a9b4d6; --line:rgba(255,255,255,.10);
@@ -75,13 +75,15 @@
     .stat{border:1px solid var(--line);border-radius:14px;padding:10px;background:rgba(255,255,255,.02)}
     .stat .k{color:var(--muted);font-size:12px}
     .stat .v{font-size:18px;font-weight:900;margin-top:2px}
+
     canvas{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+
     .toast{
       position:fixed;bottom:14px;left:14px;right:14px;max-width:980px;margin:0 auto;
       padding:10px 12px;border-radius:14px;border:1px solid var(--line);
       background:rgba(0,0,0,.55);backdrop-filter:blur(6px);display:none;color:var(--ink)
     }
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
     .badgeRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
     .badge{
       display:inline-flex;gap:8px;align-items:center;
@@ -90,21 +92,31 @@
     }
     .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.20);border:1px solid rgba(255,255,255,.14)}
     .bname{color:var(--ink);font-weight:900}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+    /* meter row */
+    .meters{display:grid;grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px}
+    @media (max-width:900px){.meters{grid-template-columns:1fr}}
+    .meterCard{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);padding:10px}
+    .meterTitle{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .meterTitle b{font-size:13px}
+    .meterTitle span{font-size:12px;color:var(--muted)}
   </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div style="flex:1">
-      <h1>ידע כללי • 500 שאלות קבועות • כרטיס ידע (Pro)</h1>
+      <h1>ידע כללי • 500 • מד עגול • הדרגתיות לפי נושא</h1>
       <div class="sub">
-        דרגות לכל תחום + גרף התקדמות (7/30 ימים) + שמירת כרטיס כתמונה (PNG).
+        לכל תחום יש רמת קושי משלו (1–5) שעולה רק עם הצלחות עקביות. חזרות “נדחפות” בצורה מבוקרת ולא שוברות סדר.
       </div>
     </div>
     <div class="pillrow">
-      <div class="pill">רמה: <b id="lvlPill">1</b></div>
-      <div class="pill">רצף: <b id="streakPill">0</b> 🔥</div>
+      <div class="pill">Overall: <b id="overallPill">—</b></div>
       <div class="pill">דיוק: <b id="accPill">—</b></div>
+      <div class="pill">נענו: <b id="answeredPill">0</b></div>
+      <div class="pill">רצף: <b id="streakPill">0</b> 🔥</div>
       <div class="pill">מאגר: <b>500</b></div>
     </div>
   </header>
@@ -115,9 +127,9 @@
         <div class="row space">
           <div>
             <div class="qtext" style="margin:0">התחלה</div>
-            <div class="small">טיפ: בוואטסאפ — הורדה → “קבצים” → פתח באמצעות Chrome.</div>
+            <div class="small">טיפ וואטסאפ: לפתוח את הקישור בדפדפן (Chrome). מקשים: 1–4 לבחירה, N לשאלה הבאה.</div>
             <div class="box small" style="margin-top:10px">
-              מקשים: 1–4 לבחירה, N לשאלה הבאה אחרי משוב.
+              הדרגתיות: כל נושא מתחיל קל (רמה 1). אחרי סדרת הצלחות הנושא עולה רמה.
             </div>
           </div>
           <div class="row">
@@ -138,8 +150,21 @@
           </div>
         </div>
 
+        <div class="meters">
+          <div class="meterCard">
+            <div class="meterTitle"><b>מד עגול: Overall</b><span id="overallLabel">—</span></div>
+            <canvas id="meterOverall" width="900" height="260"></canvas>
+            <div class="small">משקלול: דיוק + עומק תרגול. (לא מושפע ממשתמשים אחרים)</div>
+          </div>
+          <div class="meterCard">
+            <div class="meterTitle"><b>מד עגול: הנושא הנוכחי</b><span id="topicLabel">—</span></div>
+            <canvas id="meterTopic" width="900" height="260"></canvas>
+            <div class="small">מבוסס על ביצועים בתוך הנושא בלבד + מינימום ניסיונות.</div>
+          </div>
+        </div>
+
         <div class="progress" style="margin:10px 0 8px"><div class="bar" id="xpBar"></div></div>
-        <div class="small" id="xpText">XP: 0 / 100</div>
+        <div class="small" id="xpText">התקדמות בנושא: —</div>
 
         <div class="answers" id="answers"></div>
 
@@ -158,7 +183,7 @@
       <div class="row space">
         <div>
           <div class="qtext" style="margin:0">כרטיס ידע</div>
-          <div class="small">Overall + רדאר תחומים + דרגות + התקדמות זמן.</div>
+          <div class="small">רדאר לפי תחומים + דרגות + התקדמות זמן + שמירת PNG.</div>
         </div>
         <div class="row">
           <button id="savePngBtn">שמור כרטיס (PNG)</button>
@@ -169,13 +194,12 @@
       <div class="statgrid" style="margin-top:10px">
         <div class="stat"><div class="k">נענו</div><div class="v" id="answeredStat">0</div></div>
         <div class="stat"><div class="k">נכון</div><div class="v" id="correctStat">0</div></div>
-        <div class="stat"><div class="k">חזרות</div><div class="v" id="reviewStat">0</div></div>
-        <div class="stat"><div class="k">קטגוריה</div><div class="v" style="font-size:14px" id="catStat">—</div></div>
+        <div class="stat"><div class="k">חזרות בתור</div><div class="v" id="reviewStat">0</div></div>
+        <div class="stat"><div class="k">רמה בנושא נוכחי</div><div class="v" id="topicLvlStat">—</div></div>
       </div>
 
-      <!-- This is the "shareable card" area -->
       <div id="shareCard" class="box" style="margin-top:10px">
-        <div class="small"><b>טבעת התקדמות (Overall)</b></div>
+        <div class="small"><b>טבעת Overall + סטטוס</b></div>
         <canvas id="donut" width="900" height="280"></canvas>
 
         <div class="small" style="margin-top:10px"><b>רדאר ידע לפי תחומים</b></div>
@@ -190,7 +214,7 @@
 
       <div class="box" style="margin-top:10px">
         <div class="row space">
-          <div class="small"><b>היסטוריית התקדמות</b> (בחר חלון זמן)</div>
+          <div class="small"><b>היסטוריית התקדמות</b></div>
           <div class="row">
             <button id="w7Btn" class="primary">7 ימים</button>
             <button id="w30Btn">30 ימים</button>
@@ -198,12 +222,12 @@
         </div>
         <canvas id="timeline" width="900" height="320" style="margin-top:8px"></canvas>
         <div class="small" style="margin-top:6px">
-          הקו העליון: Overall • הקו התחתון: Accuracy יומי (אם נענו שאלות באותו יום).
+          Overall (חלון) + Accuracy יומי.
         </div>
       </div>
 
       <div class="box small mono" style="margin-top:10px">
-        Seed קבוע: <span id="seedBox"></span> (שינוי SEED יוצר 500 שאלות אחרות).
+        Seed: <span id="seedBox"></span> • עדכון האתר = Commit ל־index.html
       </div>
     </aside>
   </main>
@@ -213,7 +237,7 @@
 
 <script>
 /* ===================== Core ===================== */
-const LS_KEY="gk500_pro_state_v1";
+const LS_KEY="gk500_topicprog_v2";
 const SEED = 222905;
 document.getElementById("seedBox").textContent = String(SEED);
 
@@ -251,7 +275,10 @@ function shuffle(rng, arr){
   return a;
 }
 
-/* ===================== Bank (500 fixed) ===================== */
+/* ===================== Question Bank (500 fixed) ===================== */
+/* NOTE: This is the same concept-based generator as before (stable facts),
+   but now difficulty is used *within each topic* via TopicLevel mapping. */
+
 const CONCEPTS = [
   {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:1, term:"דמוקרטיה ייצוגית", def:"שיטה שבה הציבור בוחר נציגים שמקבלים החלטות בשמו."},
   {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:1, term:"משאל עם", def:"הצבעה כללית של ציבור הבוחרים על סוגיה אחת מוגדרת."},
@@ -310,7 +337,7 @@ const CONCEPTS = [
 
   {topic:"סביבה", region:"ישראל+עולם", diff:2, term:"קיימות", def:"שימוש במשאבים באופן שאינו פוגע ביכולת הדורות הבאים לחיות ולשגשג."},
   {topic:"סביבה", region:"ישראל+עולם", diff:2, term:"מגוון ביולוגי", def:"עושר וגיוון של מינים, גנים ומערכות אקולוגיות."},
-  {topic:"סביבה", region:"ישראל+עולם", diff:3, term:"אפקט חממה", def:"תהליך שבו גזים באטמוספרה לוכדים חום ומחממים את פני כדור הארץ."},
+  {topic:"סביבה", region:"ישראל+עולם", diff:3, term:"אפקט חממה", def:"תהליך שבו גזים באטמוספרה לוכדים חום ומעלים את הטמפרטורה הממוצעת."},
 
   {topic:"תרבות ואומנות", region:"עולם", diff:2, term:"רנסנס", def:"תקופה של 'לידה מחדש' באירופה עם עניין מחודש בקלאסיקה, מדע ואומנות."},
   {topic:"תרבות ואומנות", region:"עולם", diff:2, term:"אימפרסיוניזם", def:"סגנון אומנות שמדגיש אור ורושם רגעי, פחות דיוק ריאליסטי."},
@@ -341,14 +368,14 @@ const SCENARIOS = [
   {term:"עלות אלטרנטיבית", scenario:"כשבחרת ללמוד במקום לעבוד, הוויתור על ההכנסה הוא 'המחיר' של הבחירה."},
   {term:"מדיניות מוניטרית", scenario:"בנק מרכזי מעלה ריבית כדי לקרר ביקושים ולהפחית לחץ אינפלציוני."},
   {term:"הפרדת רשויות", scenario:"הסמכויות מחולקות כדי שממשלה לא תשלוט גם בחקיקה וגם במשפט בלי פיקוח."},
-  {term:"שלטון החוק", scenario:"גם שר/ראש ממשלה כפופים לכללים ויכולים לעמוד לדין כמו כל אזרח."},
-  {term:"פדרליזם", scenario:"במדינה מסוימת יש ממשל מרכזי, אבל גם למדינות/מחוזות יש סמכויות חקיקה."},
-  {term:"פישינג", scenario:"קיבלת מייל שנראה כמו הבנק ומבקש להזין סיסמה — אבל זה ניסיון גניבה."},
-  {term:"אימות דו-שלבי (2FA)", scenario:"אחרי סיסמה, את מקבלת קוד ב-SMS/אפליקציה כדי להיכנס לחשבון."},
-  {term:"הרתעה", scenario:"מדינה נמנעת מתקיפה כי היא חוששת מהתגובה ומהמחיר הצפוי."},
-  {term:"מתאם", scenario:"בנתונים רואים ששני משתנים 'זזים יחד', אך זה לא מוכיח שאחד גורם לשני."},
+  {term:"שלטון החוק", scenario:"גם השלטון כפוף לכללים ויכול לעמוד לדין כמו כל אזרח."},
+  {term:"פדרליזם", scenario:"יש ממשל מרכזי, אבל למחוזות/מדינות יש סמכויות חקיקה נפרדות."},
+  {term:"פישינג", scenario:"מייל שנראה כמו הבנק ומבקש להזין סיסמה — ניסיון גניבה."},
+  {term:"אימות דו-שלבי (2FA)", scenario:"אחרי סיסמה מתקבל קוד נוסף ב-SMS/אפליקציה."},
+  {term:"הרתעה", scenario:"מדינה נמנעת מתקיפה כי היא חוששת מהתגובה ומהמחיר."},
+  {term:"מתאם", scenario:"שני משתנים זזים יחד בנתונים — אבל זה לא מוכיח סיבתיות."},
   {term:"ניסוי מבוקר", scenario:"בודקים תרופה מול קבוצת ביקורת כדי לוודא שההשפעה לא מקרית."},
-  {term:"אפקט חממה", scenario:"גזים באטמוספרה לוכדים חום ומעלים את הטמפרטורה הממוצעת."},
+  {term:"אפקט חממה", scenario:"גזים באטמוספרה לוכדים חום ומעלים טמפרטורה ממוצעת."},
 ];
 
 const TEMPLATE_TYPES=["DEF_TO_TERM","TERM_TO_DEF","SCENARIO_TERM"];
@@ -361,7 +388,7 @@ function makeQuestion_DefToTerm(rng, concept, pool){
   return { topic: concept.topic, region: concept.region, difficulty: concept.diff,
     q: "איזה מושג מתאים להגדרה הבאה?\n" + concept.def,
     options, answer,
-    explain: "המושג הנכון הוא: " + correct + ". הגדרה: " + concept.def,
+    explain: "המושג הנכון הוא: " + correct + ". " + concept.def,
     hint: "(מושג=שם קצר לרעיון/תופעה.)"
   };
 }
@@ -388,7 +415,7 @@ function makeQuestion_Scenario(rng, pool){
     q: "איזה מושג מתאר הכי טוב את המצב הבא?\n" + sc.scenario,
     options, answer,
     explain: "המושג הנכון הוא: " + correct + (c.def?(". " + c.def):""),
-    hint: "(תרחיש=תיאור מצב אמיתי/אפשרי.)"
+    hint: "(תרחיש=תיאור מצב.)"
   };
 }
 function generateBank500(){
@@ -405,13 +432,9 @@ function generateBank500(){
     else q = makeQuestion_Scenario(rng, pool);
     q.id = "q_" + String(qs.length+1).padStart(3,"0");
     if(!q.options || q.options.length!==4) { i++; continue; }
+    // keep a base difficulty from concept/template
     qs.push(q); i++;
   }
-  qs.forEach((q,idx)=>{
-    const prog = idx/(qs.length-1);
-    const target = 1 + Math.floor(prog*4);
-    q.difficulty = clamp(Math.round((q.difficulty*0.6)+(target*0.4)),1,5);
-  });
   return qs;
 }
 const BANK = generateBank500();
@@ -419,80 +442,67 @@ const BANK = generateBank500();
 /* ===================== State ===================== */
 let state = loadState() || {
   started:false,
-  level:1, xp:0, streak:0,
+  streak:0,
   answered:0, correct:0, acc:null,
   enabledTopics:Object.fromEntries(TOPICS.map(t=>[t,true])),
   seen:{}, reviewQueue:[], history:[],
   current:null, lock:false,
-  windowDays:7
+  windowDays:7,
+
+  // NEW: per-topic progression
+  topicProg: Object.fromEntries(TOPICS.map(t=>[t,{
+    lvl:1, xp:0, // 0..100
+    streakInTopic:0, // consecutive correct in this topic
+    attempts:0, correct:0
+  }]))
 };
 
-/* ===================== Selection & Reviews ===================== */
-function getDueReview(){
-  const t=now();
-  state.reviewQueue.sort((a,b)=>a.dueAt-b.dueAt);
-  const item=state.reviewQueue.find(x=>x.dueAt<=t);
-  if(!item) return null;
-  state.reviewQueue=state.reviewQueue.filter(x=>x!==item);
-  return BANK.find(q=>q.id===item.id)||null;
-}
-function pickNew(){
-  const enabled=BANK.filter(q=>state.enabledTopics[q.topic]);
-  if(!enabled.length) return null;
-  const target=clamp(state.level+(Math.random()<0.25?1:0)-(Math.random()<0.15?1:0),1,5);
-  const scored=enabled.map(q=>{
-    const seen=state.seen[q.id];
-    const unseenBoost=seen?0.85:1.35;
-    const diffScore=1/(1+Math.abs((q.difficulty||3)-target));
-    const wrongBoost=seen?(1+(seen.wrongCount||0)*0.35):1;
-    const flaggedBoost=(seen&&seen.flagged)?1.25:1;
-    return {q,w:diffScore*unseenBoost*wrongBoost*flaggedBoost};
-  });
-  const total=scored.reduce((s,x)=>s+x.w,0);
-  let r=Math.random()*total;
-  for(const x of scored){r-=x.w; if(r<=0) return x.q;}
-  return scored[scored.length-1].q;
-}
-function pickQuestion(){
-  if(state.reviewQueue.length && Math.random()<0.40){
-    const rq=getDueReview();
-    if(rq && state.enabledTopics[rq.topic]) return rq;
-  }
-  return pickNew();
-}
-function scheduleReview(qid,ok){
+/* ===================== Reviews (controlled) ===================== */
+/* We still schedule reviews, but only when the topic lvl is stable:
+   - wrong: quick review
+   - right after wrongs: spaced review
+*/
+function scheduleReview(qid, ok){
   const seen=state.seen[qid]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
   const wrongs=seen.wrongCount||0, corrects=seen.correctCount||0;
   let mins=0;
-  if(!ok) mins = wrongs>=2 ? 2 : 5;
-  else if(wrongs>0){
+  if(!ok){
+    mins = wrongs>=2 ? 2 : 5;
+  } else if(wrongs>0){
     const stage=clamp(corrects,0,4);
     const sch=[10,60,24*60,3*24*60,7*24*60];
     mins=sch[stage];
   }
   if(mins>0) state.reviewQueue.push({id:qid,dueAt:now()+mins*60*1000});
 }
-function updateLeveling(ok,qd){
-  const base = ok ? (10+qd*4) : 3;
-  state.xp += base;
-  state.streak = ok ? state.streak+1 : 0;
-  state.answered += 1;
-  if(ok) state.correct += 1;
-  state.acc = state.correct/state.answered;
-
-  // timeline history entry (store per answer)
-  state.history.push({t:now(), ok, topic:state.current?.topic||"", level:state.level});
-  if(state.history.length>2000) state.history = state.history.slice(-2000);
-
-  if(state.xp>=100){
-    const minAcc=(state.level<=2)?0.62:(state.level===3?0.68:0.72);
-    if((state.acc||0)>=minAcc && state.level<5){state.level+=1; state.xp=0; toast("עלית רמה! 🎉");}
-    else{state.xp=92; toast("כמעט! עוד קצת 🙂");}
+function getDueReview(topic){
+  // Controlled: only pull review if it's from SAME topic OR if queue is huge
+  const t=now();
+  state.reviewQueue.sort((a,b)=>a.dueAt-b.dueAt);
+  const same = state.reviewQueue.find(x=>x.dueAt<=t && (BANK.find(q=>q.id===x.id)?.topic===topic));
+  if(same){ state.reviewQueue=state.reviewQueue.filter(x=>x!==same); return BANK.find(q=>q.id===same.id)||null; }
+  if(state.reviewQueue.length>=30){
+    const any = state.reviewQueue.find(x=>x.dueAt<=t);
+    if(any){ state.reviewQueue=state.reviewQueue.filter(x=>x!==any); return BANK.find(q=>q.id===any.id)||null; }
   }
-  saveState();
+  return null;
 }
 
-/* ===================== Topic Scores + Badges ===================== */
+/* ===================== Topic Stats / Badges ===================== */
+function badgeFor(score,total){
+  if(total < 5) return "New";
+  if(score < 0.55) return "Bronze";
+  if(score < 0.70) return "Silver";
+  if(score < 0.82) return "Gold";
+  return "Platinum";
+}
+function badgeColor(name){
+  if(name==="Platinum") return "rgba(110,168,255,.28)";
+  if(name==="Gold") return "rgba(251,191,36,.20)";
+  if(name==="Silver") return "rgba(233,238,252,.14)";
+  if(name==="Bronze") return "rgba(251,113,133,.14)";
+  return "rgba(255,255,255,.10)";
+}
 function topicStats(){
   const out = {};
   TOPICS.forEach(t=>out[t]={correct:0,wrong:0,total:0,score:0,badge:"—"});
@@ -512,26 +522,9 @@ function topicStats(){
     const k = 6;
     const p = a.total ? (a.correct/a.total) : base;
     a.score = clamp(((p*a.total) + (base*k)) / (a.total + k),0,1);
-
-    // badge thresholds + minimum attempts
     a.badge = badgeFor(a.score, a.total);
   }
   return out;
-}
-function badgeFor(score,total){
-  if(total < 5) return "New";
-  if(score < 0.55) return "Bronze";
-  if(score < 0.70) return "Silver";
-  if(score < 0.82) return "Gold";
-  return "Platinum";
-}
-function badgeColor(name){
-  // keep simple: no explicit colors in CSS; use alpha overlays
-  if(name==="Platinum") return "rgba(110,168,255,.28)";
-  if(name==="Gold") return "rgba(251,191,36,.20)";
-  if(name==="Silver") return "rgba(233,238,252,.14)";
-  if(name==="Bronze") return "rgba(251,113,133,.14)";
-  return "rgba(255,255,255,.10)";
 }
 function strengthWeakList(stats){
   const arr = TOPICS.map(t=>({t,score:stats[t].score,total:stats[t].total}));
@@ -541,9 +534,134 @@ function strengthWeakList(stats){
   return {best,worst};
 }
 
+/* ===================== Per-topic progression ===================== */
+/* Hard guarantee: within a topic, we pick difficulty around topic lvl. */
+function getTopicProg(topic){ return state.topicProg[topic] || (state.topicProg[topic]={lvl:1,xp:0,streakInTopic:0,attempts:0,correct:0}); }
+
+function topicLevelRules(lvl){
+  // required consecutive correct (within topic) + min accuracy in topic window
+  // becomes stricter as lvl goes up
+  if(lvl<=1) return {needStreak:3, minAcc:0.60};
+  if(lvl===2) return {needStreak:4, minAcc:0.65};
+  if(lvl===3) return {needStreak:5, minAcc:0.70};
+  if(lvl===4) return {needStreak:6, minAcc:0.75};
+  return {needStreak:999, minAcc:0.80};
+}
+
+function updateTopicProgress(topic, ok, qDifficulty){
+  const tp = getTopicProg(topic);
+  tp.attempts += 1;
+  if(ok) tp.correct += 1;
+  const acc = tp.attempts ? (tp.correct/tp.attempts) : 0;
+
+  // XP is topic-local
+  tp.xp += ok ? (10 + qDifficulty*4) : 2;
+  tp.xp = clamp(tp.xp, 0, 120);
+
+  // streak in topic
+  tp.streakInTopic = ok ? (tp.streakInTopic+1) : 0;
+
+  // Level up only when BOTH: xp>=100 and streak requirement met and accuracy met
+  if(tp.lvl<5 && tp.xp>=100){
+    const rule = topicLevelRules(tp.lvl);
+    if(tp.streakInTopic>=rule.needStreak && acc>=rule.minAcc){
+      tp.lvl += 1;
+      tp.xp = 0;
+      tp.streakInTopic = 0;
+      toast(`רמה עלתה בנושא "${topic}" ➜ ${tp.lvl}/5 🎉`);
+    } else {
+      // hold near threshold to prevent "jumping"
+      tp.xp = 92;
+      toast("כמעט! עוד קצת בתוך הנושא 🙂");
+    }
+  }
+
+  state.topicProg[topic]=tp;
+  return tp;
+}
+
+/* ===================== Selection (topic-first, gradual) ===================== */
+function enabledTopicsList(){
+  return TOPICS.filter(t=>state.enabledTopics[t]);
+}
+
+function pickTopic(){
+  const enabled = enabledTopicsList();
+  if(!enabled.length) return null;
+
+  // weighted: prefer weaker topics + topics with lower lvl + topics not practiced recently
+  const stats = topicStats();
+  const weights = enabled.map(t=>{
+    const tp = getTopicProg(t);
+    const weakness = 1.15 - stats[t].score; // low score => higher weight
+    const lvlBias = 1.25 - (tp.lvl-1)*0.10; // lower lvl => higher weight
+    const practice = Math.max(1, tp.attempts);
+    const exploration = 1.15 / Math.sqrt(practice); // prefer less practiced a bit
+    const w = clamp(weakness*lvlBias*exploration, 0.25, 2.5);
+    return {t,w};
+  });
+  const total = weights.reduce((s,x)=>s+x.w,0);
+  let r = Math.random()*total;
+  for(const x of weights){ r-=x.w; if(r<=0) return x.t; }
+  return weights[weights.length-1].t;
+}
+
+function pickQuestion(){
+  const topic = pickTopic();
+  if(!topic) return null;
+
+  // Controlled review injection (same topic only)
+  if(state.reviewQueue.length){
+    const rq = getDueReview(topic);
+    if(rq && rq.topic===topic) return rq;
+  }
+
+  const tp = getTopicProg(topic);
+  const target = tp.lvl;
+
+  // filter bank by topic and target difficulty band
+  const all = BANK.filter(q=>q.topic===topic);
+  if(!all.length) return null;
+
+  const band = (lvl)=>{
+    if(lvl<=1) return [1,2];
+    if(lvl===2) return [2,3];
+    if(lvl===3) return [3,4];
+    if(lvl===4) return [4,5];
+    return [4,5];
+  }
+  const [lo,hi] = band(target);
+
+  const candidates = all.filter(q=> (q.difficulty||3)>=lo && (q.difficulty||3)<=hi);
+  const pool = candidates.length ? candidates : all;
+
+  // deterministic-ish choice biased to unseen & flagged & past wrong
+  const scored = pool.map(q=>{
+    const seen = state.seen[q.id];
+    const unseenBoost = seen ? 0.9 : 1.4;
+    const wrongBoost = seen ? (1 + (seen.wrongCount||0)*0.35) : 1;
+    const flaggedBoost = (seen && seen.flagged) ? 1.25 : 1;
+    const diff = q.difficulty||3;
+    const diffFit = 1/(1+Math.abs(diff - clamp(target+0.2,1,5)));
+    return {q,w: unseenBoost*wrongBoost*flaggedBoost*diffFit};
+  });
+
+  const totalW = scored.reduce((s,x)=>s+x.w,0);
+  let r = Math.random()*totalW;
+  for(const x of scored){ r-=x.w; if(r<=0) return x.q; }
+  return scored[scored.length-1].q;
+}
+
+/* ===================== Overall metrics ===================== */
+function calcOverall(){
+  const answered = state.answered||0;
+  const acc = (state.acc==null)?0:(state.acc);
+  const depth = clamp(Math.sqrt(answered/80),0,1);
+  return clamp((acc*0.7)+(depth*0.3),0,1);
+}
+
 /* ===================== Canvas helpers ===================== */
 function roundRect(ctx, x, y, w, h, r, fill, stroke){
-  if(w<0) return;
   r=Math.min(r,w/2,h/2);
   ctx.beginPath();
   ctx.moveTo(x+r,y);
@@ -556,14 +674,65 @@ function roundRect(ctx, x, y, w, h, r, fill, stroke){
   if(stroke) ctx.stroke();
 }
 
-/* ===================== Infographics ===================== */
-function calcOverall(){
-  const answered = state.answered||0;
-  const acc = (state.acc==null)?0:(state.acc);
-  const depth = clamp(Math.sqrt(answered/60),0,1);
-  return clamp((acc*0.7)+(depth*0.3),0,1);
+/* ===================== Meters (circular) ===================== */
+function drawCircularMeter(canvasId, value01, titleBig, subtitle, tone){
+  const c=$(canvasId), ctx=c.getContext("2d");
+  const w=c.width, h=c.height;
+  ctx.clearRect(0,0,w,h);
+
+  // background
+  ctx.fillStyle="rgba(255,255,255,.02)";
+  roundRect(ctx, 10, 10, w-20, h-20, 18, true, false);
+
+  const v = clamp(value01,0,1);
+  const cx = w*0.22, cy = h*0.55;
+  const r  = Math.min(w,h)*0.28;
+
+  // base ring
+  ctx.lineWidth = 26;
+  ctx.strokeStyle = "rgba(255,255,255,.10)";
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.stroke();
+
+  // progress ring
+  ctx.strokeStyle = tone || "rgba(110,168,255,.75)";
+  ctx.beginPath();
+  ctx.arc(cx,cy,r,-Math.PI/2, -Math.PI/2 + v*2*Math.PI);
+  ctx.stroke();
+
+  // value
+  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.font="900 34px system-ui";
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText(Math.round(v*100)+"%", cx, cy-6);
+
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.font="700 14px system-ui";
+  ctx.fillText(titleBig, cx, cy+28);
+
+  // right text
+  ctx.textAlign="right"; ctx.textBaseline="alphabetic";
+  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.font="900 18px system-ui";
+  ctx.fillText(subtitle, w-24, 54);
+
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.font="600 13px system-ui";
+  const lines = [
+    "מנגנון: קושי עולה בהדרגה",
+    "חזרות: מבוקר (לא שובר סדר)"
+  ];
+  lines.forEach((t,i)=>ctx.fillText(t, w-24, 86+i*22));
 }
 
+function toneForBadge(b){
+  if(b==="Platinum") return "rgba(110,168,255,.80)";
+  if(b==="Gold") return "rgba(251,191,36,.75)";
+  if(b==="Silver") return "rgba(233,238,252,.45)";
+  if(b==="Bronze") return "rgba(251,113,133,.55)";
+  return "rgba(110,168,255,.75)";
+}
+
+/* ===================== Donut + Radar + Timeline + PNG ===================== */
 function drawDonut(){
   const c=$("donut"),ctx=c.getContext("2d");
   const w=c.width,h=c.height;
@@ -599,21 +768,25 @@ function drawDonut(){
   const lines=[
     `דיוק: ${fmtPct(state.acc)}`,
     `נענו: ${state.answered||0}`,
-    `רמה: ${state.level}/5`,
+    `רצף: ${state.streak||0}`,
     `חזרות בתור: ${state.reviewQueue.length}`
   ];
   lines.forEach((t,i)=>ctx.fillText(t, w-24, y2+30+i*22));
+}
 
-  const bx=w*0.40, by=h*0.73, bw=w*0.56, bh=16;
-  ctx.strokeStyle="rgba(255,255,255,.12)";
-  ctx.lineWidth=2;
-  roundRect(ctx,bx,by,bw,bh,10,false,true);
-  ctx.fillStyle="rgba(110,168,255,.55)";
-  roundRect(ctx,bx,by,bw*clamp(state.xp/100,0,1),bh,10,true,false);
-  ctx.fillStyle="rgba(169,180,214,.95)";
-  ctx.font="600 12px system-ui";
-  ctx.textAlign="right";
-  ctx.fillText("XP לרמה הבאה", w-24, by-8);
+function drawBadges(stats){
+  const box = $("badges");
+  box.innerHTML = "";
+  TOPICS.forEach(t=>{
+    const b = stats[t].badge;
+    const score = Math.round(stats[t].score*100);
+    const total = stats[t].total;
+    const el = document.createElement("div");
+    el.className = "badge";
+    el.style.background = badgeColor(b);
+    el.innerHTML = `<span class="dot"></span><span class="bname">${escapeHtml(t)}</span> — ${escapeHtml(b)} • ${score}% • N=${total}`;
+    box.appendChild(el);
+  });
 }
 
 function drawRadar(){
@@ -675,11 +848,6 @@ function drawRadar(){
     ctx.fillText(label, x, y);
   }
 
-  ctx.fillStyle="rgba(169,180,214,.95)";
-  ctx.font="600 12px system-ui";
-  ctx.textAlign="right"; ctx.textBaseline="alphabetic";
-  ctx.fillText("מדד ידע = דיוק מתוקן לפי כמות ניסיונות (מונע קפיצות מוקדמות).", w-20, h-18);
-
   const sw = strengthWeakList(stats);
   const best = sw.best.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("\n") || "—";
   const worst= sw.worst.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("\n") || "—";
@@ -689,22 +857,6 @@ function drawRadar(){
   drawBadges(stats);
 }
 
-function drawBadges(stats){
-  const box = $("badges");
-  box.innerHTML = "";
-  TOPICS.forEach(t=>{
-    const b = stats[t].badge;
-    const score = Math.round(stats[t].score*100);
-    const total = stats[t].total;
-    const el = document.createElement("div");
-    el.className = "badge";
-    el.style.background = badgeColor(b);
-    el.innerHTML = `<span class="dot"></span><span class="bname">${escapeHtml(t)}</span> — ${escapeHtml(b)} • ${score}% • N=${total}`;
-    box.appendChild(el);
-  });
-}
-
-/* ===================== Timeline (7/30 days) ===================== */
 function startOfDay(ts){
   const d = new Date(ts);
   d.setHours(0,0,0,0);
@@ -719,10 +871,8 @@ function formatDay(ts){
 function aggregateDaily(days){
   const end = startOfDay(now());
   const start = end - (days-1)*24*60*60*1000;
-  const map = new Map(); // day-> {ans, ok}
-  for(let t=start; t<=end; t+=24*60*60*1000){
-    map.set(t,{ans:0,ok:0});
-  }
+  const map = new Map();
+  for(let t=start; t<=end; t+=24*60*60*1000) map.set(t,{ans:0,ok:0});
   for(const h of state.history){
     const d = startOfDay(h.t);
     if(d<start || d>end) continue;
@@ -730,7 +880,6 @@ function aggregateDaily(days){
     obj.ans += 1;
     obj.ok += (h.ok?1:0);
   }
-  // Build series: overall = cumulative in window, acc = daily
   let cumA=0, cumOk=0;
   const xs=[], dailyAcc=[], overall=[];
   for(const [day,val] of map.entries()){
@@ -744,7 +893,6 @@ function aggregateDaily(days){
   }
   return {xs, dailyAcc, overall};
 }
-
 function drawTimeline(){
   const days = state.windowDays || 7;
   $("w7Btn").className = (days===7) ? "primary" : "";
@@ -754,14 +902,13 @@ function drawTimeline(){
   const w=c.width,h=c.height;
   ctx.clearRect(0,0,w,h);
 
-  // frame
   ctx.strokeStyle="rgba(255,255,255,.10)";
   ctx.lineWidth=2;
   ctx.strokeRect(10,10,w-20,h-20);
 
   const padL=50, padR=20, padT=22, padB=40;
   const x0=padL, x1=w-padR, y0=h-padB, y1=padT;
-  // grid lines
+
   ctx.strokeStyle="rgba(255,255,255,.08)";
   ctx.lineWidth=1;
   for(let i=0;i<=4;i++){
@@ -771,15 +918,8 @@ function drawTimeline(){
 
   const series = aggregateDaily(days);
   const n=series.xs.length;
-  if(n<2){
-    ctx.fillStyle="rgba(169,180,214,.95)";
-    ctx.font="600 14px system-ui";
-    ctx.fillText("אין מספיק נתונים.", w-24, h/2);
-    return;
-  }
   const dx=(x1-x0)/(n-1);
 
-  // helper to plot
   function plot(arr, strokeStyle, lineWidth){
     ctx.strokeStyle=strokeStyle;
     ctx.lineWidth=lineWidth;
@@ -796,22 +936,18 @@ function drawTimeline(){
     if(started) ctx.stroke();
   }
 
-  // overall (thicker)
   plot(series.overall, "rgba(110,168,255,.75)", 4);
-  // daily accuracy (thinner)
   plot(series.dailyAcc, "rgba(233,238,252,.40)", 3);
 
-  // labels X
   ctx.fillStyle="rgba(169,180,214,.95)";
   ctx.font="600 12px system-ui";
-  ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+  ctx.textAlign="center";
   for(let i=0;i<n;i++){
     if(days===30 && i%5!==0 && i!==n-1) continue;
     const x=x0+i*dx;
     ctx.fillText(formatDay(series.xs[i]), x, h-16);
   }
 
-  // y axis marks
   ctx.textAlign="right";
   for(let i=0;i<=4;i++){
     const v=i/4;
@@ -819,7 +955,6 @@ function drawTimeline(){
     ctx.fillText(Math.round(v*100)+"%", x0-10, y+4);
   }
 
-  // legend
   ctx.textAlign="right";
   ctx.fillStyle="rgba(233,238,252,.85)";
   ctx.fillText("Overall (חלון)", w-20, 26);
@@ -827,33 +962,21 @@ function drawTimeline(){
   ctx.fillText("Accuracy יומי", w-20, 48);
 }
 
-/* ===================== Share as PNG ===================== */
 function saveShareCardPng(){
-  // combine donut + radar + badges into a single canvas
   const donut=$("donut"), radar=$("radar");
-  const stats=topicStats(); // to render badges as text in the image
+  const stats=topicStats();
   const overall=Math.round(calcOverall()*100);
   const accTxt = fmtPct(state.acc);
   const answered = state.answered||0;
-  const level = state.level;
 
-  const pad=26;
-  const W = 1100;
-  const H = 1600;
-
-  const out = document.createElement("canvas");
-  out.width=W; out.height=H;
+  const pad=26, W=1100, H=1600;
+  const out=document.createElement("canvas"); out.width=W; out.height=H;
   const ctx=out.getContext("2d");
 
-  // background
-  ctx.fillStyle="#0b1220";
-  ctx.fillRect(0,0,W,H);
-
-  // subtle panels
+  ctx.fillStyle="#0b1220"; ctx.fillRect(0,0,W,H);
   ctx.fillStyle="rgba(255,255,255,.04)";
   roundRect(ctx, pad, pad, W-2*pad, H-2*pad, 22, true, false);
 
-  // title
   ctx.fillStyle="rgba(233,238,252,.95)";
   ctx.font="900 28px system-ui";
   ctx.textAlign="right";
@@ -861,18 +984,13 @@ function saveShareCardPng(){
 
   ctx.fillStyle="rgba(169,180,214,.95)";
   ctx.font="600 14px system-ui";
-  ctx.fillText(`Overall: ${overall}% • דיוק: ${accTxt} • נענו: ${answered} • רמה: ${level}/5`, W-pad, pad+62);
+  ctx.fillText(`Overall: ${overall}% • דיוק: ${accTxt} • נענו: ${answered}`, W-pad, pad+62);
 
-  // draw donut snapshot
   ctx.drawImage(donut, pad+20, pad+85, 520, 210);
-
-  // draw radar snapshot
   ctx.drawImage(radar, pad+20, pad+320, W-2*pad-40, 620);
 
-  // badges text
   ctx.fillStyle="rgba(233,238,252,.95)";
   ctx.font="800 18px system-ui";
-  ctx.textAlign="right";
   ctx.fillText("דרגות לפי תחום", W-pad, pad+1000);
 
   ctx.font="600 14px system-ui";
@@ -885,7 +1003,6 @@ function saveShareCardPng(){
     const n=stats[t].total;
     rows.push(`${t}: ${b} • ${sc}% • N=${n}`);
   });
-  // split into columns
   const col1 = rows.slice(0,6);
   const col2 = rows.slice(6,12);
   const x1 = W-pad;
@@ -893,25 +1010,10 @@ function saveShareCardPng(){
   col1.forEach((r,i)=>ctx.fillText(r, x1, y+i*26));
   col2.forEach((r,i)=>ctx.fillText(r, x2, y+i*26));
 
-  // strengths/weaknesses
-  const sw = strengthWeakList(stats);
-  ctx.fillStyle="rgba(233,238,252,.95)";
-  ctx.font="800 18px system-ui";
-  ctx.fillText("חזקות / חלשות", W-pad, pad+1230);
-
-  ctx.fillStyle="rgba(169,180,214,.95)";
-  ctx.font="600 14px system-ui";
-  const best = sw.best.length ? sw.best.map(x=>`${x.t} (${Math.round(x.score*100)}%)`).join(" • ") : "—";
-  const worst= sw.worst.length? sw.worst.map(x=>`${x.t} (${Math.round(x.score*100)}%)`).join(" • ") : "—";
-  ctx.fillText("חזקות: " + best, W-pad, pad+1260);
-  ctx.fillText("חלשות: " + worst, W-pad, pad+1286);
-
-  // footer
   ctx.fillStyle="rgba(169,180,214,.80)";
   ctx.font="600 12px system-ui";
   ctx.fillText(`Seed: ${SEED} • ${new Date().toLocaleString("he-IL")}`, W-pad, H-pad);
 
-  // download
   const a=document.createElement("a");
   a.download = "כרטיס-ידע.png";
   a.href = out.toDataURL("image/png");
@@ -920,16 +1022,40 @@ function saveShareCardPng(){
 
 /* ===================== UI render & quiz ===================== */
 function drawStats(){
-  $("lvlPill").textContent=state.level;
-  $("streakPill").textContent=state.streak;
-  $("accPill").textContent=fmtPct(state.acc);
-  $("answeredStat").textContent=state.answered;
-  $("correctStat").textContent=state.correct;
-  $("reviewStat").textContent=state.reviewQueue.length;
+  const overall = calcOverall();
+  $("overallPill").textContent = Math.round(overall*100)+"%";
+  $("accPill").textContent = fmtPct(state.acc);
+  $("answeredPill").textContent = state.answered||0;
+  $("streakPill").textContent = state.streak||0;
 
-  const pct=clamp((state.xp/100)*100,0,100);
-  $("xpBar").style.width=pct+"%";
-  $("xpText").textContent=`XP: ${Math.round(state.xp)} / 100`;
+  $("answeredStat").textContent = state.answered||0;
+  $("correctStat").textContent = state.correct||0;
+  $("reviewStat").textContent = state.reviewQueue.length;
+
+  const q = state.current;
+  if(q){
+    const tp = getTopicProg(q.topic);
+    $("topicLvlStat").textContent = `${tp.lvl}/5`;
+    $("topicLabel").textContent = `${q.topic} • רמה ${tp.lvl}/5`;
+    $("xpText").textContent = `התקדמות בנושא: XP ${Math.round(tp.xp)} / 100 • רצף בנושא: ${tp.streakInTopic}`;
+    $("xpBar").style.width = clamp((tp.xp/100)*100,0,100)+"%";
+
+    // topic meter value: mix of topic accuracy + depth
+    const accT = tp.attempts ? (tp.correct/tp.attempts) : 0;
+    const depthT = clamp(Math.sqrt(tp.attempts/20),0,1);
+    const valT = clamp(accT*0.75 + depthT*0.25, 0, 1);
+
+    const stats = topicStats();
+    const badge = stats[q.topic]?.badge || "New";
+    const tone = toneForBadge(badge);
+
+    $("overallLabel").textContent = `Overall ${Math.round(overall*100)}%`;
+    drawCircularMeter("meterOverall", overall, "Overall", "תמונת מצב כללית", "rgba(110,168,255,.80)");
+    drawCircularMeter("meterTopic", valT, "נושא", `${badge} • ${Math.round(valT*100)}%`, tone);
+  } else {
+    $("xpText").textContent = "התקדמות בנושא: —";
+    $("xpBar").style.width = "0%";
+  }
 
   drawDonut();
   drawRadar();
@@ -939,10 +1065,17 @@ function drawStats(){
 
 function setCurrent(q){
   state.current=q; state.lock=false; saveState();
-  $("catStat").textContent=q.topic;
+
+  const tp = getTopicProg(q.topic);
+
   $("qMeta").innerHTML=[
-    `תחום: ${q.topic}`, `אזור: ${q.region}`, `קושי: ${q.difficulty}/5`, `#${q.id.replace("q_","")}`
+    `תחום: ${q.topic}`,
+    `אזור: ${q.region}`,
+    `קושי: ${(q.difficulty||3)}/5`,
+    `רמה בתחום: ${tp.lvl}/5`,
+    `#${q.id.replace("q_","")}`
   ].map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join("");
+
   $("qText").textContent=q.q;
 
   const box=$("answers");
@@ -976,12 +1109,30 @@ function selectAnswer(idx){
   const q=state.current;
   const ok = idx===q.answer;
 
+  // per-question stats
   const seen=state.seen[q.id]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
   seen.lastSeen=now();
   if(ok) seen.correctCount=(seen.correctCount||0)+1;
   else seen.wrongCount=(seen.wrongCount||0)+1;
   state.seen[q.id]=seen;
 
+  // global stats
+  state.answered += 1;
+  if(ok) state.correct += 1;
+  state.acc = state.correct/state.answered;
+  state.streak = ok ? (state.streak+1) : 0;
+
+  // topic progression (hard gradual)
+  const tp = updateTopicProgress(q.topic, ok, q.difficulty||3);
+
+  // history
+  state.history.push({t:now(), ok, topic:q.topic, topicLvl:tp.lvl});
+  if(state.history.length>2500) state.history = state.history.slice(-2500);
+
+  // schedule reviews
+  scheduleReview(q.id, ok);
+
+  // paint UI choices
   const nodes=Array.from(document.querySelectorAll(".ans"));
   nodes.forEach(n=>{
     const i=Number(n.dataset.idx);
@@ -995,8 +1146,7 @@ function selectAnswer(idx){
   $("hintText").textContent=q.hint||"";
   $("feedbackBox").style.display="block";
 
-  scheduleReview(q.id, ok);
-  updateLeveling(ok, q.difficulty||3);
+  saveState();
   drawStats();
 }
 
@@ -1021,19 +1171,18 @@ $("copyStatsBtn").onclick=()=>{
   const stats=topicStats();
   const summary={
     date:new Date().toISOString(), seed:SEED, bankSize:500,
-    level:state.level, answered:state.answered, correct:state.correct,
-    accuracy:state.acc, reviewsQueued:state.reviewQueue.length,
+    answered:state.answered, correct:state.correct, accuracy:state.acc,
     overall:Math.round(calcOverall()*100),
+    reviewsQueued:state.reviewQueue.length,
+    topicProgress:Object.fromEntries(TOPICS.map(t=>[t,state.topicProg[t]])),
     topicBadges:Object.fromEntries(TOPICS.map(t=>[t,stats[t].badge])),
     topicScores:Object.fromEntries(TOPICS.map(t=>[t,Math.round(stats[t].score*100)])),
-    windowDays: state.windowDays
   };
   const txt=JSON.stringify(summary,null,2);
   navigator.clipboard?.writeText(txt).then(()=>toast("הדוח הועתק ללוח")).catch(()=>toast("לא הצלחתי להעתיק"));
 };
 
 $("savePngBtn").onclick=()=>saveShareCardPng();
-
 $("w7Btn").onclick=()=>{state.windowDays=7; saveState(); drawTimeline(); drawStats();};
 $("w30Btn").onclick=()=>{state.windowDays=30; saveState(); drawTimeline(); drawStats();};
 
