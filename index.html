@@ -2,121 +2,221 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ידע כללי • 500 • מד עגול • הדרגתיות לפי נושא</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ידע כללי • 500 • Light • Mastery+Spaced+Confidence</title>
   <style>
     :root{
-      --bg:#0b1220; --ink:#e9eefc; --muted:#a9b4d6; --line:rgba(255,255,255,.10);
-      --accent:#6ea8ff; --good:#4ade80; --bad:#fb7185; --warn:#fbbf24;
+      --bg:#f6f8fc;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#475569;
+      --line:rgba(15,23,42,.12);
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --accent:#2563eb;      /* blue */
+      --accent2:#06b6d4;     /* cyan */
+      --good:#16a34a;
+      --bad:#e11d48;
+      --warn:#d97706;
+      --ringbg:rgba(15,23,42,.10);
     }
     *{box-sizing:border-box}
     body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans Hebrew",sans-serif;
-      background:
-        radial-gradient(1200px 800px at 70% -10%, rgba(110,168,255,.35), transparent 55%),
-        radial-gradient(900px 700px at 10% 0%, rgba(251,113,133,.22), transparent 50%),
-        var(--bg);
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans Hebrew",sans-serif;
       color:var(--ink);
+      background:
+        radial-gradient(1200px 700px at 85% -10%, rgba(37,99,235,.14), transparent 55%),
+        radial-gradient(900px 600px at 10% 0%, rgba(6,182,212,.12), transparent 55%),
+        var(--bg);
     }
     .wrap{max-width:980px;margin:0 auto;padding:16px}
     header{
-      display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
-      padding:14px;border:1px solid var(--line);border-radius:18px;
-      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
-      backdrop-filter:blur(8px)
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:14px 14px 12px;
+      display:flex;gap:12px;justify-content:space-between;align-items:flex-start;
     }
     h1{margin:0;font-size:18px;letter-spacing:.2px}
-    .sub{color:var(--muted);font-size:13px;line-height:1.35;margin-top:4px}
-    .pillrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}
+    .sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.4}
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
     .pill{
-      border:1px solid var(--line);border-radius:999px;padding:6px 10px;
-      font-size:12px;color:var(--muted);background:rgba(255,255,255,.03);
-      display:inline-flex;gap:6px;align-items:center
+      background:rgba(37,99,235,.06);
+      border:1px solid rgba(37,99,235,.18);
+      color:var(--muted);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px;
+      display:inline-flex;gap:6px;align-items:center;
+      white-space:nowrap;
     }
     .pill b{color:var(--ink);font-weight:900}
-    main{margin-top:14px;display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+    main{margin-top:14px;display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
     @media (max-width:900px){main{grid-template-columns:1fr}}
-    .card{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03);padding:14px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .row.space{justify-content:space-between;align-items:flex-start}
     button{
-      border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);
-      padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:900;font-size:14px
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--ink);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:14px;
+      box-shadow:0 4px 10px rgba(15,23,42,.06);
     }
-    button:hover{border-color:rgba(255,255,255,.22)}
-    button.primary{background:rgba(110,168,255,.18);border-color:rgba(110,168,255,.45)}
-    button.good{background:rgba(74,222,128,.16);border-color:rgba(74,222,128,.45)}
+    button:hover{border-color:rgba(37,99,235,.35)}
+    button.primary{
+      background:linear-gradient(180deg, rgba(37,99,235,.12), rgba(37,99,235,.06));
+      border-color:rgba(37,99,235,.35);
+    }
+    button.good{
+      background:linear-gradient(180deg, rgba(22,163,74,.12), rgba(22,163,74,.06));
+      border-color:rgba(22,163,74,.35);
+    }
+    button.bad{
+      background:linear-gradient(180deg, rgba(225,29,72,.10), rgba(225,29,72,.05));
+      border-color:rgba(225,29,72,.28);
+    }
     button:disabled{opacity:.55;cursor:not-allowed}
-    .meta{color:var(--muted);font-size:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .meta{color:var(--muted);font-size:12px;display:flex;gap:8px;flex-wrap:wrap}
     .tag{
-      display:inline-flex;gap:6px;align-items:center;padding:6px 9px;border-radius:999px;
-      border:1px solid var(--line);background:rgba(255,255,255,.02);
-      font-size:12px;color:var(--muted);margin:2px 6px 2px 0
+      background:rgba(2,6,23,.03);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 9px;
+      font-size:12px;
+      color:var(--muted);
+      display:inline-flex;gap:6px;align-items:center;
     }
-    .progress{height:10px;border-radius:999px;border:1px solid var(--line);overflow:hidden;background:rgba(255,255,255,.03)}
-    .bar{height:100%;width:0%;background:rgba(110,168,255,.55)}
     .qtext{font-size:17px;line-height:1.55;margin:10px 0 10px}
     .answers{display:grid;gap:10px;margin-top:10px}
     .ans{
-      text-align:right;padding:12px;border-radius:14px;border:1px solid var(--line);
-      background:rgba(255,255,255,.03);cursor:pointer;display:flex;gap:10px;align-items:flex-start
+      text-align:right;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(2,6,23,.02);
+      cursor:pointer;
+      display:flex;gap:10px;align-items:flex-start;
     }
-    .ans:hover{border-color:rgba(255,255,255,.22)}
+    .ans:hover{border-color:rgba(37,99,235,.30);background:rgba(37,99,235,.03)}
     .ans .key{
-      width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;
-      border:1px solid var(--line);color:var(--muted);font-weight:900;flex:0 0 auto;background:rgba(0,0,0,.12)
+      width:26px;height:26px;border-radius:9px;
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-weight:900;
+      flex:0 0 auto;
+      background:#fff;
     }
     .ans .label{flex:1}
-    .ans.correct{border-color:rgba(74,222,128,.6);background:rgba(74,222,128,.10)}
-    .ans.wrong{border-color:rgba(251,113,133,.6);background:rgba(251,113,133,.09)}
-    .box{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.12);line-height:1.55}
+    .ans.correct{border-color:rgba(22,163,74,.45);background:rgba(22,163,74,.06)}
+    .ans.wrong{border-color:rgba(225,29,72,.40);background:rgba(225,29,72,.05)}
+    .box{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(2,6,23,.02);
+      line-height:1.55;
+      color:var(--ink);
+    }
     .small{color:var(--muted);font-size:12px;line-height:1.45}
-    .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .stat{border:1px solid var(--line);border-radius:14px;padding:10px;background:rgba(255,255,255,.02)}
+    .progress{height:10px;border-radius:999px;border:1px solid var(--line);overflow:hidden;background:#fff}
+    .bar{height:100%;width:0%;background:linear-gradient(90deg, var(--accent), var(--accent2))}
+    .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .stat{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+      background:rgba(2,6,23,.02);
+    }
     .stat .k{color:var(--muted);font-size:12px}
     .stat .v{font-size:18px;font-weight:900;margin-top:2px}
-
-    canvas{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
-
+    canvas{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:#fff}
     .toast{
       position:fixed;bottom:14px;left:14px;right:14px;max-width:980px;margin:0 auto;
       padding:10px 12px;border-radius:14px;border:1px solid var(--line);
-      background:rgba(0,0,0,.55);backdrop-filter:blur(6px);display:none;color:var(--ink)
+      background:rgba(255,255,255,.92);box-shadow:var(--shadow);
+      display:none;color:var(--ink)
     }
-
-    .badgeRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-    .badge{
-      display:inline-flex;gap:8px;align-items:center;
-      border:1px solid var(--line);background:rgba(255,255,255,.02);
-      border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)
-    }
-    .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.20);border:1px solid rgba(255,255,255,.14)}
-    .bname{color:var(--ink);font-weight:900}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-
-    /* meter row */
     .meters{display:grid;grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px}
     @media (max-width:900px){.meters{grid-template-columns:1fr}}
-    .meterCard{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);padding:10px}
+    .meterCard{border:1px solid var(--line);border-radius:16px;background:rgba(2,6,23,.02);padding:10px}
     .meterTitle{display:flex;justify-content:space-between;align-items:center;gap:10px}
     .meterTitle b{font-size:13px}
     .meterTitle span{font-size:12px;color:var(--muted)}
+    .badgeRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .badge{
+      display:inline-flex;gap:8px;align-items:center;
+      border:1px solid var(--line);background:#fff;
+      border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)
+    }
+    .dot{width:10px;height:10px;border-radius:999px;background:rgba(37,99,235,.28);border:1px solid rgba(37,99,235,.22)}
+    .bname{color:var(--ink);font-weight:900}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .divider{height:1px;background:var(--line);margin:10px 0}
+    .choiceRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .chip{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12px;
+      color:var(--muted);
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip.on{
+      border-color:rgba(37,99,235,.35);
+      background:rgba(37,99,235,.06);
+      color:var(--ink);
+      font-weight:900;
+    }
+    .confBtns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+    .confBtn{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12px;
+      color:var(--muted);
+      cursor:pointer;
+    }
+    .confBtn.on{
+      border-color:rgba(6,182,212,.45);
+      background:rgba(6,182,212,.10);
+      color:var(--ink);
+      font-weight:900;
+    }
   </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div style="flex:1">
-      <h1>ידע כללי • 500 • מד עגול • הדרגתיות לפי נושא</h1>
+      <h1>ידע כללי • 500 שאלות • גרסה בהירה • Mastery + Spaced + Confidence</h1>
       <div class="sub">
-        לכל תחום יש רמת קושי משלו (1–5) שעולה רק עם הצלחות עקביות. חזרות “נדחפות” בצורה מבוקרת ולא שוברות סדר.
+        למידה מבוססת: שליפה (Quiz), חזרות מרווחות (Spaced), דירוג ביטחון (Confidence), הדרגתיות קשיחה לכל נושא (Topic Mastery),
+        ערבוב חכם (Interleaving), ותיקון מיידי אחרי טעות (Micro-Retest).
       </div>
     </div>
     <div class="pillrow">
       <div class="pill">Overall: <b id="overallPill">—</b></div>
       <div class="pill">דיוק: <b id="accPill">—</b></div>
       <div class="pill">נענו: <b id="answeredPill">0</b></div>
-      <div class="pill">רצף: <b id="streakPill">0</b> 🔥</div>
+      <div class="pill">מסוכן: <b id="dangerPill">0</b></div>
+      <div class="pill">חזרות: <b id="reviewPill">0</b></div>
       <div class="pill">מאגר: <b>500</b></div>
     </div>
   </header>
@@ -127,14 +227,39 @@
         <div class="row space">
           <div>
             <div class="qtext" style="margin:0">התחלה</div>
-            <div class="small">טיפ וואטסאפ: לפתוח את הקישור בדפדפן (Chrome). מקשים: 1–4 לבחירה, N לשאלה הבאה.</div>
+            <div class="small">
+              לפתוח בדפדפן (Chrome). מקשים: 1–4 לבחירה, N לשאלה הבאה.
+            </div>
+
             <div class="box small" style="margin-top:10px">
-              הדרגתיות: כל נושא מתחיל קל (רמה 1). אחרי סדרת הצלחות הנושא עולה רמה.
+              <b>מצבי למידה:</b><br>
+              • <b>Mix</b>: ערבוב חכם בין נושאים (Interleaving).<br>
+              • <b>Focus</b>: להתמקד בנושאים שתבחר.<br><br>
+              <b>Mastery:</b> לכל נושא רמה 1–5. הרמה עולה רק עם רצף הצלחות + דיוק מינימלי + XP בתחום.
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="small"><b>בחירת מצב</b></div>
+            <div class="choiceRow">
+              <div class="chip on" id="modeMix">Mix (מומלץ)</div>
+              <div class="chip" id="modeFocus">Focus</div>
+              <div class="chip" id="modeDaily">Daily 10</div>
+            </div>
+
+            <div id="topicChooser" style="display:none;margin-top:8px">
+              <div class="small"><b>בחר נושאים לפוקוס</b></div>
+              <div class="choiceRow" id="topicChips"></div>
+            </div>
+
+            <div class="box small" style="margin-top:10px">
+              <b>מה חדש בבוחן:</b> אחרי תשובה תדרג ביטחון (1–3). אם טעית בביטחון גבוה—המערכת תיתן לזה עדיפות בחזרות (זה "אזור סיכון").
             </div>
           </div>
+
           <div class="row">
             <button class="primary" id="startBtn">התחילי</button>
-            <button id="resetBtn">איפוס</button>
+            <button id="resetBtn" class="bad">איפוס</button>
           </div>
         </div>
       </div>
@@ -154,12 +279,12 @@
           <div class="meterCard">
             <div class="meterTitle"><b>מד עגול: Overall</b><span id="overallLabel">—</span></div>
             <canvas id="meterOverall" width="900" height="260"></canvas>
-            <div class="small">משקלול: דיוק + עומק תרגול. (לא מושפע ממשתמשים אחרים)</div>
+            <div class="small">משקלול: דיוק + עומק תרגול (כמה נענו). לא משותף בין משתמשים.</div>
           </div>
           <div class="meterCard">
             <div class="meterTitle"><b>מד עגול: הנושא הנוכחי</b><span id="topicLabel">—</span></div>
             <canvas id="meterTopic" width="900" height="260"></canvas>
-            <div class="small">מבוסס על ביצועים בתוך הנושא בלבד + מינימום ניסיונות.</div>
+            <div class="small">מבוסס על ביצועים בתוך הנושא בלבד + מינימום ניסיונות (Mastery).</div>
           </div>
         </div>
 
@@ -170,11 +295,24 @@
 
         <div class="box" id="feedbackBox" style="display:none">
           <div id="feedbackText"></div>
-          <div class="small" id="hintText" style="margin-top:6px"></div>
+
+          <div class="divider"></div>
+
+          <div class="small"><b>כמה היית בטוחה בתשובה?</b> (Confidence)</div>
+          <div class="confBtns">
+            <div class="confBtn" data-c="1">1 — לא בטוחה</div>
+            <div class="confBtn" data-c="2">2 — די בטוחה</div>
+            <div class="confBtn" data-c="3">3 — בטוחה מאוד</div>
+          </div>
+          <div class="small" id="confHint" style="margin-top:6px"></div>
+
           <div class="row" style="margin-top:10px">
             <button class="good" id="nextBtn">שאלה הבאה</button>
             <button id="flagBtn">סמני לחזרה</button>
+            <button id="whyBtn">למה השאר שגוי?</button>
           </div>
+
+          <div id="whyBox" class="box small" style="display:none;margin-top:10px"></div>
         </div>
       </div>
     </section>
@@ -183,7 +321,7 @@
       <div class="row space">
         <div>
           <div class="qtext" style="margin:0">כרטיס ידע</div>
-          <div class="small">רדאר לפי תחומים + דרגות + התקדמות זמן + שמירת PNG.</div>
+          <div class="small">רדאר לפי תחומים, דרגות, “אזור סיכון”, ושמירת PNG.</div>
         </div>
         <div class="row">
           <button id="savePngBtn">שמור כרטיס (PNG)</button>
@@ -191,43 +329,35 @@
         </div>
       </div>
 
-      <div class="statgrid" style="margin-top:10px">
+      <div class="statgrid">
         <div class="stat"><div class="k">נענו</div><div class="v" id="answeredStat">0</div></div>
         <div class="stat"><div class="k">נכון</div><div class="v" id="correctStat">0</div></div>
-        <div class="stat"><div class="k">חזרות בתור</div><div class="v" id="reviewStat">0</div></div>
+        <div class="stat"><div class="k">אזור סיכון</div><div class="v" id="dangerStat">0</div></div>
         <div class="stat"><div class="k">רמה בנושא נוכחי</div><div class="v" id="topicLvlStat">—</div></div>
       </div>
 
-      <div id="shareCard" class="box" style="margin-top:10px">
+      <div class="box" style="margin-top:10px">
         <div class="small"><b>טבעת Overall + סטטוס</b></div>
         <canvas id="donut" width="900" height="280"></canvas>
 
-        <div class="small" style="margin-top:10px"><b>רדאר ידע לפי תחומים</b></div>
+        <div class="divider"></div>
+
+        <div class="small"><b>רדאר ידע לפי תחומים</b></div>
         <canvas id="radar" width="900" height="560"></canvas>
 
-        <div class="small" style="margin-top:10px"><b>דרגות לפי תחום</b></div>
+        <div class="divider"></div>
+
+        <div class="small"><b>דרגות לפי תחום (Mastery)</b></div>
         <div id="badges" class="badgeRow"></div>
 
-        <div class="small" style="margin-top:10px"><b>חזקות / חלשות</b></div>
+        <div class="divider"></div>
+
+        <div class="small"><b>חזקות / חלשות</b></div>
         <div id="strengthWeak" class="small" style="margin-top:6px"></div>
       </div>
 
-      <div class="box" style="margin-top:10px">
-        <div class="row space">
-          <div class="small"><b>היסטוריית התקדמות</b></div>
-          <div class="row">
-            <button id="w7Btn" class="primary">7 ימים</button>
-            <button id="w30Btn">30 ימים</button>
-          </div>
-        </div>
-        <canvas id="timeline" width="900" height="320" style="margin-top:8px"></canvas>
-        <div class="small" style="margin-top:6px">
-          Overall (חלון) + Accuracy יומי.
-        </div>
-      </div>
-
       <div class="box small mono" style="margin-top:10px">
-        Seed: <span id="seedBox"></span> • עדכון האתר = Commit ל־index.html
+        Version: <span id="verBox"></span> • Seed: <span id="seedBox"></span>
       </div>
     </aside>
   </main>
@@ -236,9 +366,14 @@
 </div>
 
 <script>
-/* ===================== Core ===================== */
-const LS_KEY="gk500_topicprog_v2";
-const SEED = 222905;
+/* =========================================================
+   CONFIG
+========================================================= */
+const LS_KEY="gk500_light_mastery_v1";
+const VERSION="2025-12-19-light-mastery";
+const SEED=222905;
+
+document.getElementById("verBox").textContent = VERSION;
 document.getElementById("seedBox").textContent = String(SEED);
 
 const TOPICS=[
@@ -246,6 +381,11 @@ const TOPICS=[
   "גיאוגרפיה","תרבות ואומנות","ספרות","טכנולוגיה","סביבה","ספורט"
 ];
 
+const BLOOM = ["זיכרון","הבנה","יישום","ניתוח"]; // kept compact for UI
+
+/* =========================================================
+   Utils
+========================================================= */
 function $(id){return document.getElementById(id)}
 function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
 function now(){return Date.now()}
@@ -256,7 +396,6 @@ function loadState(){try{const r=localStorage.getItem(LS_KEY); return r?JSON.par
 function saveState(){localStorage.setItem(LS_KEY, JSON.stringify(state))}
 function hardReset(){localStorage.removeItem(LS_KEY); location.reload()}
 
-/* ---------- PRNG (deterministic) ---------- */
 function mulberry32(a){
   return function(){
     let t = a += 0x6D2B79F5;
@@ -265,7 +404,6 @@ function mulberry32(a){
     return ((t ^ t >>> 14) >>> 0) / 4294967296;
   }
 }
-function pick(rng, arr){ return arr[Math.floor(rng()*arr.length)] }
 function shuffle(rng, arr){
   const a=arr.slice();
   for(let i=a.length-1;i>0;i--){
@@ -274,304 +412,323 @@ function shuffle(rng, arr){
   }
   return a;
 }
+function pick(rng, arr){ return arr[Math.floor(rng()*arr.length)] }
 
-/* ===================== Question Bank (500 fixed) ===================== */
-/* NOTE: This is the same concept-based generator as before (stable facts),
-   but now difficulty is used *within each topic* via TopicLevel mapping. */
-
+/* =========================================================
+   Concepts (compact, generated to 500 questions deterministically)
+   Each question includes:
+   - topic, difficulty 1..5 (content difficulty)
+   - bloom level
+   - conceptTerm (anchor), so we can do micro-retest
+========================================================= */
 const CONCEPTS = [
   {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:1, term:"דמוקרטיה ייצוגית", def:"שיטה שבה הציבור בוחר נציגים שמקבלים החלטות בשמו."},
-  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:1, term:"משאל עם", def:"הצבעה כללית של ציבור הבוחרים על סוגיה אחת מוגדרת."},
   {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:2, term:"הפרדת רשויות", def:"חלוקת סמכויות בין מחוקקת, מבצעת ושופטת כדי לצמצם ריכוז כוח."},
   {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:2, term:"איזונים ובלמים", def:"מנגנונים שמאפשרים לרשויות לפקח זו על זו ולהגביל שימוש לרעה בכוח."},
   {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:2, term:"שלטון החוק", def:"עיקרון שלפיו גם השלטון כפוף לחוק וכללים כלליים ולא לשרירות."},
   {topic:"פוליטיקה ומדינה", region:"עולם", diff:3, term:"פדרליזם", def:"מבנה מדיני המחלק סמכויות בין ממשל מרכזי ליחידות אזוריות (מדינות/מחוזות)."},
-  {topic:"פוליטיקה ומדינה", region:"עולם", diff:3, term:"משטר נשיאותי", def:"משטר שבו הנשיא נבחר בנפרד מהפרלמנט ומשמש ראש הרשות המבצעת."},
-  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:3, term:"משטר פרלמנטרי", def:"ממשלה שנשענת על אמון הפרלמנט ויכולה ליפול בהצבעת אי-אמון."},
-  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:3, term:"לגיטימציה", def:"מקור הקבלה וההצדקה לסמכות שלטונית (בחירות, חוק, מסורת, ביצועים)."},
   {topic:"פוליטיקה ומדינה", region:"עולם", diff:3, term:"פופוליזם", def:"סגנון פוליטי שמדגיש עימות 'העם' מול 'אליטות' ולעיתים מציע פתרונות פשוטים לבעיות מורכבות."},
   {topic:"פוליטיקה ומדינה", region:"עולם", diff:4, term:"ג'רימנדרינג", def:"שרטוט גבולות מחוזות בחירה באופן שמיטיב פוליטית עם צד מסוים."},
 
   {topic:"כלכלה", region:"ישראל+עולם", diff:1, term:"אינפלציה", def:"עלייה כללית ומתמשכת במחירים שמפחיתה את כוח הקנייה."},
-  {topic:"כלכלה", region:"ישראל+עולם", diff:1, term:"מיתון", def:"ירידה ממושכת בפעילות כלכלית, לרוב עם עלייה באבטלה."},
   {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"דפלציה", def:"ירידה כללית ומתמשכת במחירים (לעיתים מלווה בירידה בביקוש)."},
-  {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"תוצר מקומי גולמי (GDP)", def:"מדד לערך הכולל של סחורות ושירותים שיוצרו בכלכלה בזמן נתון."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"GDP (תוצר מקומי גולמי)", def:"מדד לערך הכולל של סחורות ושירותים שיוצרו בכלכלה בזמן נתון."},
   {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"מדיניות פיסקלית", def:"שימוש בתקציב המדינה: מיסים והוצאות כדי להשפיע על הכלכלה."},
   {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"מדיניות מוניטרית", def:"שימוש בכלים כמו ריבית והיצע כסף (בנק מרכזי) כדי להשפיע על אינפלציה וצמיחה."},
-  {topic:"כלכלה", region:"ישראל+עולם", diff:3, term:"ריבית", def:"המחיר של כסף: התשלום על הלוואה או התשואה על חיסכון."},
-  {topic:"כלכלה", region:"ישראל+עולם", diff:3, term:"היצע וביקוש", def:"מסגרת שמסבירה כיצד מחיר וכמות נקבעים בשוק לפי רצון לקנות מול רצון למכור."},
   {topic:"כלכלה", region:"ישראל+עולם", diff:3, term:"יתרון יחסי", def:"יכולת לייצר מוצר בעלות אלטרנטיבית נמוכה יחסית לאחרים, בסיס לסחר."},
   {topic:"כלכלה", region:"ישראל+עולם", diff:4, term:"עלות אלטרנטיבית", def:"מה שמוותרים עליו כשבוחרים אפשרות אחת במקום אחרת."},
-  {topic:"כלכלה", region:"עולם", diff:4, term:"מדד המחירים לצרכן (CPI)", def:"מדד שמודד שינוי במחירים של סל מוצרים ושירותים של משקי בית."},
 
   {topic:"מדע", region:"ישראל+עולם", diff:1, term:"DNA", def:"מולקולה שנושאת מידע גנטי בתאים."},
-  {topic:"מדע", region:"ישראל+עולם", diff:1, term:"חיידק", def:"יצור חד-תאי (פרוקריוט) שיכול לחיות בסביבות רבות."},
   {topic:"מדע", region:"ישראל+עולם", diff:1, term:"וירוס", def:"גורם זיהומי שזקוק לתא מארח כדי להשתכפל."},
   {topic:"מדע", region:"ישראל+עולם", diff:2, term:"השערה", def:"טענה/ניבוי שניתן לבדוק בניסוי או תצפית."},
   {topic:"מדע", region:"ישראל+עולם", diff:2, term:"תיאוריה מדעית", def:"מסגרת הסבר מבוססת ראיות רבות שמסוגלת לנבא תוצאות."},
-  {topic:"מדע", region:"ישראל+עולם", diff:2, term:"מתאם", def:"קשר סטטיסטי בין משתנים שאינו בהכרח סיבתיות."},
-  {topic:"מדע", region:"ישראל+עולם", diff:3, term:"סיבתיות", def:"יחס שבו שינוי ב-X גורם לשינוי ב-Y."},
   {topic:"מדע", region:"ישראל+עולם", diff:3, term:"ניסוי מבוקר", def:"ניסוי עם תנאים נשלטים וקבוצת ביקורת להשוואה."},
-  {topic:"מדע", region:"ישראל+עולם", diff:3, term:"פוטוסינתזה", def:"תהליך שבו צמחים מייצרים סוכרים מאור, מים ו-CO₂ ומשחררים חמצן."},
   {topic:"מדע", region:"ישראל+עולם", diff:4, term:"אנטרופיה", def:"מדד לאי-סדר/מספר מצבים אפשריים במערכת (בהקשר תרמודינמי)."},
-  {topic:"מדע", region:"ישראל+עולם", diff:4, term:"חוק שני של התרמודינמיקה", def:"באופן כללי: אנטרופיה (אי-סדר) במערכת סגורה נוטה לעלות."},
 
-  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:1, term:"קוד פתוח", def:"תוכנה עם קוד מקור גלוי לשימוש ושינוי לפי רישיון."},
   {topic:"טכנולוגיה", region:"ישראל+עולם", diff:1, term:"אלגוריתם", def:"סט צעדים/כללים לפתרון בעיה או ביצוע משימה."},
   {topic:"טכנולוגיה", region:"ישראל+עולם", diff:2, term:"הצפנה", def:"המרת מידע לצורה שלא ניתן לקרוא בלי מפתח מתאים."},
   {topic:"טכנולוגיה", region:"ישראל+עולם", diff:2, term:"פישינג", def:"התחזות כדי לגרום למשתמש למסור סיסמה/מידע רגיש."},
   {topic:"טכנולוגיה", region:"ישראל+עולם", diff:3, term:"אימות דו-שלבי (2FA)", def:"אבטחה שמוסיפה שכבת אימות נוספת מעבר לסיסמה."},
-  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:3, term:"ענן מחשוב", def:"אספקת משאבי מחשוב (אחסון/שרתים) דרך האינטרנט לפי צורך."},
   {topic:"טכנולוגיה", region:"ישראל+עולם", diff:4, term:"למידת מכונה", def:"שיטות שבהן מודלים לומדים דפוסים מנתונים כדי לחזות/לסווג."},
 
   {topic:"צבא וביטחון", region:"ישראל+עולם", diff:1, term:"הרתעה", def:"לגרום ליריב להימנע מפעולה בגלל עלות/סיכון צפויים."},
   {topic:"צבא וביטחון", region:"ישראל+עולם", diff:1, term:"מודיעין", def:"איסוף וניתוח מידע להפחתת אי-ודאות ותמיכה בהחלטות."},
-  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:2, term:"הגנה אזרחית", def:"היערכות להגן על אוכלוסייה ותשתיות בזמן חירום."},
-  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:3, term:"דוקטרינה", def:"עקרונות מנחים להפעלת כוח/מדיניות ביטחונית."},
   {topic:"צבא וביטחון", region:"ישראל+עולם", diff:3, term:"מלחמה היברידית", def:"שילוב אמצעים צבאיים ולא-צבאיים (סייבר, תודעה, כלכלה) במערכה אחת."},
   {topic:"צבא וביטחון", region:"ישראל+עולם", diff:4, term:"סייבר", def:"תחום התקיפה/הגנה במערכות מחשוב, רשתות ונתונים."},
 
   {topic:"גיאוגרפיה", region:"עולם", diff:1, term:"קו המשווה", def:"קו רוחב 0° שמחלק את העולם לצפון ולדרום."},
-  {topic:"גיאוגרפיה", region:"עולם", diff:1, term:"קו גריניץ' (מרידיאן 0)", def:"קו אורך 0° המשמש בסיס למדידת קווי אורך ואזורי זמן."},
-  {topic:"גיאוגרפיה", region:"עולם", diff:3, term:"אקלים", def:"דפוס מזג אוויר ארוך טווח באזור מסוים."},
+  {topic:"גיאוגרפיה", region:"עולם", diff:2, term:"אקלים", def:"דפוס מזג אוויר ארוך טווח באזור מסוים."},
 
   {topic:"סביבה", region:"ישראל+עולם", diff:2, term:"קיימות", def:"שימוש במשאבים באופן שאינו פוגע ביכולת הדורות הבאים לחיות ולשגשג."},
-  {topic:"סביבה", region:"ישראל+עולם", diff:2, term:"מגוון ביולוגי", def:"עושר וגיוון של מינים, גנים ומערכות אקולוגיות."},
   {topic:"סביבה", region:"ישראל+עולם", diff:3, term:"אפקט חממה", def:"תהליך שבו גזים באטמוספרה לוכדים חום ומעלים את הטמפרטורה הממוצעת."},
 
   {topic:"תרבות ואומנות", region:"עולם", diff:2, term:"רנסנס", def:"תקופה של 'לידה מחדש' באירופה עם עניין מחודש בקלאסיקה, מדע ואומנות."},
-  {topic:"תרבות ואומנות", region:"עולם", diff:2, term:"אימפרסיוניזם", def:"סגנון אומנות שמדגיש אור ורושם רגעי, פחות דיוק ריאליסטי."},
-
   {topic:"ספרות", region:"ישראל+עולם", diff:2, term:"מטאפורה", def:"דימוי לא-מילולי שמעניק משמעות חדשה ('ים של דאגות')."},
-  {topic:"ספרות", region:"ישראל+עולם", diff:3, term:"אירוניה", def:"פער בין הציפייה/הנאמר לבין מה שקורה בפועל או מה שהקורא מבין."},
   {topic:"ספרות", region:"ישראל+עולם", diff:3, term:"מספר לא-מהימן", def:"מספר שסיפורו אינו בהכרח אמין; הקורא מזהה סתירות/הטיות."},
 
   {topic:"ספורט", region:"עולם", diff:1, term:"אולימפיאדה", def:"תחרות ספורט בינלאומית רב-ענפית (קיץ/חורף) לפי כללים רשמיים."},
-  {topic:"ספורט", region:"עולם", diff:2, term:"שיא עולם", def:"התוצאה הטובה ביותר שנמדדה באופן רשמי בענף לפי הכללים."},
 
   {topic:"היסטוריה", region:"עולם", diff:1, term:"מלחמת העולם הראשונה", def:"עימות עולמי בשנים 1914–1918 בין בריתות מעצמות."},
   {topic:"היסטוריה", region:"עולם", diff:1, term:"מלחמת העולם השנייה", def:"עימות עולמי בשנים 1939–1945."},
   {topic:"היסטוריה", region:"עולם", diff:2, term:"המלחמה הקרה", def:"עימות גיאו-פוליטי בין גושים (מזרח/מערב) בלי מלחמה ישירה כוללת."},
-  {topic:"היסטוריה", region:"עולם", diff:2, term:"נפילת חומת ברלין (1989)", def:"אירוע שסימל שינויי משטר באירופה והאיץ את סיום המלחמה הקרה."},
   {topic:"היסטוריה", region:"עולם", diff:3, term:"השפל הגדול", def:"משבר כלכלי עולמי חמור בעיקר בשנות ה-30."},
   {topic:"היסטוריה", region:"ישראל", diff:1, term:"הכרזת המדינה (1948)", def:"הכרזת עצמאות ישראל והקמת המדינה בשנת 1948."},
-  {topic:"היסטוריה", region:"ישראל", diff:2, term:"תוכנית החלוקה (1947)", def:"הצעת האו״ם לחלוקת שטח המנדט לשתי מדינות (יהודית/ערבית)."},
-  {topic:"היסטוריה", region:"ישראל", diff:3, term:"מלחמת ששת הימים (1967)", def:"מלחמה קצרה שהובילה לשינויים טריטוריאליים משמעותיים ולהשלכות מדיניות ארוכות."},
-
   {topic:"אישים", region:"עולם", diff:1, term:"אלברט איינשטיין", def:"מדען המזוהה במיוחד עם תורת היחסות."},
-  {topic:"אישים", region:"עולם", diff:1, term:"אייזק ניוטון", def:"מדען המזוהה עם חוקי התנועה הקלאסיים והכבידה."},
   {topic:"אישים", region:"ישראל", diff:2, term:"דוד בן-גוריון", def:"ראש הממשלה הראשון של ישראל ומנהיג מרכזי בהכרזת העצמאות."}
 ];
 
 const SCENARIOS = [
   {term:"אינפלציה", scenario:"המחירים של רוב המוצרים עולים לאורך חודשים וכוח הקנייה של הכסף יורד."},
-  {term:"עלות אלטרנטיבית", scenario:"כשבחרת ללמוד במקום לעבוד, הוויתור על ההכנסה הוא 'המחיר' של הבחירה."},
+  {term:"עלות אלטרנטיבית", scenario:"כשבחרת ללמוד במקום לעבוד, הוויתור על ההכנסה הוא המחיר של הבחירה."},
   {term:"מדיניות מוניטרית", scenario:"בנק מרכזי מעלה ריבית כדי לקרר ביקושים ולהפחית לחץ אינפלציוני."},
-  {term:"הפרדת רשויות", scenario:"הסמכויות מחולקות כדי שממשלה לא תשלוט גם בחקיקה וגם במשפט בלי פיקוח."},
+  {term:"הפרדת רשויות", scenario:"סמכויות מחולקות כדי שממשלה לא תשלוט גם בחקיקה וגם במשפט בלי פיקוח."},
   {term:"שלטון החוק", scenario:"גם השלטון כפוף לכללים ויכול לעמוד לדין כמו כל אזרח."},
-  {term:"פדרליזם", scenario:"יש ממשל מרכזי, אבל למחוזות/מדינות יש סמכויות חקיקה נפרדות."},
+  {term:"פדרליזם", scenario:"יש ממשל מרכזי, אבל למחוזות/מדינות יש סמכויות נפרדות."},
   {term:"פישינג", scenario:"מייל שנראה כמו הבנק ומבקש להזין סיסמה — ניסיון גניבה."},
   {term:"אימות דו-שלבי (2FA)", scenario:"אחרי סיסמה מתקבל קוד נוסף ב-SMS/אפליקציה."},
   {term:"הרתעה", scenario:"מדינה נמנעת מתקיפה כי היא חוששת מהתגובה ומהמחיר."},
-  {term:"מתאם", scenario:"שני משתנים זזים יחד בנתונים — אבל זה לא מוכיח סיבתיות."},
   {term:"ניסוי מבוקר", scenario:"בודקים תרופה מול קבוצת ביקורת כדי לוודא שההשפעה לא מקרית."},
   {term:"אפקט חממה", scenario:"גזים באטמוספרה לוכדים חום ומעלים טמפרטורה ממוצעת."},
 ];
 
-const TEMPLATE_TYPES=["DEF_TO_TERM","TERM_TO_DEF","SCENARIO_TERM"];
+const TEMPLATES=["DEF_TO_TERM","TERM_TO_DEF","SCENARIO_TERM","COMPARE","APPLY"];
 
-function makeQuestion_DefToTerm(rng, concept, pool){
-  const correct = concept.term;
-  const distractors = shuffle(rng, pool.filter(c=>c.topic===concept.topic && c.term!==correct).map(c=>c.term)).slice(0,3);
-  const options = shuffle(rng, [correct, ...distractors]);
-  const answer = options.indexOf(correct);
-  return { topic: concept.topic, region: concept.region, difficulty: concept.diff,
-    q: "איזה מושג מתאים להגדרה הבאה?\n" + concept.def,
+/* Bloom heuristics by template */
+function bloomOf(template){
+  if(template==="DEF_TO_TERM") return "זיכרון";
+  if(template==="TERM_TO_DEF") return "הבנה";
+  if(template==="SCENARIO_TERM") return "יישום";
+  if(template==="APPLY") return "יישום";
+  return "ניתוח";
+}
+
+/* Build distractor explanations: brief, no heavy claims */
+function makeDistractorWhy(correctTerm, optionTerm){
+  if(optionTerm===correctTerm) return "זו התשובה הנכונה.";
+  return "זו אופציה 'מפתה' כי היא קשורה לאותו תחום, אבל היא לא מתאימה להגדרה/תרחיש המדויקים בשאלה.";
+}
+
+function makeQuestion(rng, template, concept, pool){
+  const topic=concept.topic;
+  const bloom=bloomOf(template);
+  const baseDiff=concept.diff;
+
+  function optsFromTerms(correct, sameTopic=true){
+    const candidates = pool.filter(c => (sameTopic?c.topic===topic:true) && c.term!==correct).map(c=>c.term);
+    const distract = shuffle(rng, candidates).slice(0,3);
+    const options = shuffle(rng, [correct, ...distract]);
+    return {options, answer: options.indexOf(correct)};
+  }
+  function optsFromDefs(correct, sameTopic=true){
+    const candidates = pool.filter(c => (sameTopic?c.topic===topic:true) && c.def!==correct).map(c=>c.def);
+    const distract = shuffle(rng, candidates).slice(0,3);
+    const options = shuffle(rng, [correct, ...distract]);
+    return {options, answer: options.indexOf(correct)};
+  }
+
+  if(template==="DEF_TO_TERM"){
+    const {options,answer}=optsFromTerms(concept.term,true);
+    return {
+      id:null, topic, region:concept.region, difficulty: clamp(baseDiff,1,5),
+      bloom, conceptTerm: concept.term, template,
+      q:"איזה מושג מתאים להגדרה הבאה?\n" + concept.def,
+      options, answer,
+      explain:"המושג הנכון הוא: " + concept.term + ". " + concept.def,
+      why: options.map(o=>makeDistractorWhy(concept.term,o)),
+      hint:"(מושג=שם קצר לרעיון/תופעה.)",
+      updated:"2025-12"
+    };
+  }
+
+  if(template==="TERM_TO_DEF"){
+    const {options,answer}=optsFromDefs(concept.def,true);
+    return {
+      id:null, topic, region:concept.region, difficulty: clamp(baseDiff+1,1,5),
+      bloom, conceptTerm: concept.term, template,
+      q:"מה ההגדרה המדויקת ביותר ל:\n" + concept.term,
+      options, answer,
+      explain:"הגדרה נכונה: " + concept.def,
+      why: options.map(o=> (o===concept.def?"זו ההגדרה המדויקת.":"נשמע דומה, אבל אינו מתאר את המושג הזה באופן הנכון.")),
+      hint:"(הגדרה=הסבר קצר למה זה.)",
+      updated:"2025-12"
+    };
+  }
+
+  if(template==="SCENARIO_TERM"){
+    const sc = pick(rng, SCENARIOS);
+    const correct = sc.term;
+    const anchor = pool.find(c=>c.term===correct) || concept;
+    const {options,answer}=optsFromTerms(correct,false);
+    return {
+      id:null, topic: anchor.topic, region:anchor.region, difficulty: clamp((anchor.diff||3)+1,1,5),
+      bloom, conceptTerm: correct, template,
+      q:"איזה מושג מתאר הכי טוב את המצב הבא?\n" + sc.scenario,
+      options, answer,
+      explain:"המושג הנכון הוא: " + correct + ". " + (anchor.def||""),
+      why: options.map(o=>makeDistractorWhy(correct,o)),
+      hint:"(תרחיש=תיאור מצב.)",
+      updated:"2025-12"
+    };
+  }
+
+  if(template==="APPLY"){
+    // Apply: choose what action best matches concept principle (light, not policy advice)
+    const correct = concept.term;
+    const {options,answer}=optsFromTerms(correct,true);
+    const q =
+      "יישום קצר: איזו תשובה משקפת שימוש נכון במושג הבא?\n" +
+      correct + "\n\n" +
+      "בחרי את המושג המתאים ביותר (ואז נקשר אותו ליישום בהסבר).";
+    return {
+      id:null, topic, region:concept.region, difficulty: clamp(baseDiff+2,1,5),
+      bloom, conceptTerm: correct, template,
+      q, options, answer,
+      explain:"מפתח היישום: " + correct + " — " + concept.def,
+      why: options.map(o=>makeDistractorWhy(correct,o)),
+      hint:"(יישום=להבין איך הרעיון עובד במציאות.)",
+      updated:"2025-12"
+    };
+  }
+
+  // COMPARE (analysis)
+  const a = concept;
+  const b = pick(rng, pool.filter(x=>x.topic===topic && x.term!==a.term)) || concept;
+  const correct = a.term;
+  const {options,answer}=optsFromTerms(correct,true);
+  return {
+    id:null, topic, region:a.region, difficulty: clamp(Math.max(a.diff,b.diff)+2,1,5),
+    bloom, conceptTerm: a.term, template,
+    q:"ניתוח קצר: איזה מושג מתאים יותר להגדרה הבאה, בהשוואה ל־" + b.term + "?\n" + a.def,
     options, answer,
-    explain: "המושג הנכון הוא: " + correct + ". " + concept.def,
-    hint: "(מושג=שם קצר לרעיון/תופעה.)"
+    explain:"למרות ש-" + b.term + " יכול להישמע קשור, ההגדרה כאן תואמת יותר ל-" + a.term + ". " + a.def,
+    why: options.map(o=>makeDistractorWhy(a.term,o)),
+    hint:"(ניתוח=להבחין בהבדלים דקים.)",
+    updated:"2025-12"
   };
 }
-function makeQuestion_TermToDef(rng, concept, pool){
-  const correct = concept.def;
-  const distractors = shuffle(rng, pool.filter(c=>c.topic===concept.topic && c.term!==concept.term).map(c=>c.def)).slice(0,3);
-  const options = shuffle(rng, [correct, ...distractors]);
-  const answer = options.indexOf(correct);
-  return { topic: concept.topic, region: concept.region, difficulty: clamp(concept.diff+1,1,5),
-    q: "מה ההגדרה המדויקת ביותר ל:\n" + concept.term,
-    options, answer,
-    explain: "הגדרה נכונה: " + correct,
-    hint: "(הגדרה=הסבר קצר למה זה.)"
-  };
-}
-function makeQuestion_Scenario(rng, pool){
-  const sc = pick(rng, SCENARIOS);
-  const correct = sc.term;
-  const distractors = shuffle(rng, pool.filter(c=>c.term!==correct).map(c=>c.term)).slice(0,3);
-  const options = shuffle(rng, [correct, ...distractors]);
-  const answer = options.indexOf(correct);
-  const c = pool.find(x=>x.term===correct) || {topic:"כלכלה",region:"ישראל+עולם",diff:3,def:""};
-  return { topic: c.topic, region: c.region, difficulty: clamp((c.diff||3)+1,1,5),
-    q: "איזה מושג מתאר הכי טוב את המצב הבא?\n" + sc.scenario,
-    options, answer,
-    explain: "המושג הנכון הוא: " + correct + (c.def?(". " + c.def):""),
-    hint: "(תרחיש=תיאור מצב.)"
-  };
-}
+
 function generateBank500(){
   const rng = mulberry32(SEED);
   const pool = CONCEPTS.slice();
   const qs = [];
   let i=0;
   while(qs.length<500){
-    const t = TEMPLATE_TYPES[Math.floor(rng()*TEMPLATE_TYPES.length)];
+    const template = TEMPLATES[Math.floor(rng()*TEMPLATES.length)];
     const concept = pool[i % pool.length];
-    let q;
-    if(t==="DEF_TO_TERM") q = makeQuestion_DefToTerm(rng, concept, pool);
-    else if(t==="TERM_TO_DEF") q = makeQuestion_TermToDef(rng, concept, pool);
-    else q = makeQuestion_Scenario(rng, pool);
+    const q = makeQuestion(rng, template, concept, pool);
+    if(!q || !q.options || q.options.length!==4) { i++; continue; }
     q.id = "q_" + String(qs.length+1).padStart(3,"0");
-    if(!q.options || q.options.length!==4) { i++; continue; }
-    // keep a base difficulty from concept/template
-    qs.push(q); i++;
+    qs.push(q);
+    i++;
   }
   return qs;
 }
-const BANK = generateBank500();
 
-/* ===================== State ===================== */
+const BANK = generateBank500();
+const BANK_BY_ID = Object.fromEntries(BANK.map(q=>[q.id,q]));
+
+/* =========================================================
+   State (Mastery + Spaced + Confidence + Modes)
+========================================================= */
 let state = loadState() || {
   started:false,
-  streak:0,
-  answered:0, correct:0, acc:null,
-  enabledTopics:Object.fromEntries(TOPICS.map(t=>[t,true])),
-  seen:{}, reviewQueue:[], history:[],
-  current:null, lock:false,
-  windowDays:7,
+  mode:"mix", // mix | focus | daily
+  focusTopics:Object.fromEntries(TOPICS.map(t=>[t,false])),
+  daily:{dateKey:null, countToday:0, limit:10},
 
-  // NEW: per-topic progression
-  topicProg: Object.fromEntries(TOPICS.map(t=>[t,{
-    lvl:1, xp:0, // 0..100
-    streakInTopic:0, // consecutive correct in this topic
-    attempts:0, correct:0
-  }]))
+  answered:0, correct:0, acc:null,
+  streak:0,
+  dangerCount:0, // high-confidence wrong count
+  lastAnswer:null, // store to show why
+  current:null,
+  lock:false,
+
+  // per-topic mastery
+  topicProg:Object.fromEntries(TOPICS.map(t=>[t,{lvl:1,xp:0,streakInTopic:0,attempts:0,correct:0, mastery:false}])),
+
+  // spaced repetition per item (SM-2-lite)
+  sr:{}, // qid -> {ease, intervalDays, dueAt, lapses, flagged}
+  // keep a small log
+  history:[], // {t, ok, conf, topic, qid}
 };
 
-/* ===================== Reviews (controlled) ===================== */
-/* We still schedule reviews, but only when the topic lvl is stable:
-   - wrong: quick review
-   - right after wrongs: spaced review
-*/
-function scheduleReview(qid, ok){
-  const seen=state.seen[qid]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
-  const wrongs=seen.wrongCount||0, corrects=seen.correctCount||0;
-  let mins=0;
-  if(!ok){
-    mins = wrongs>=2 ? 2 : 5;
-  } else if(wrongs>0){
-    const stage=clamp(corrects,0,4);
-    const sch=[10,60,24*60,3*24*60,7*24*60];
-    mins=sch[stage];
-  }
-  if(mins>0) state.reviewQueue.push({id:qid,dueAt:now()+mins*60*1000});
-}
-function getDueReview(topic){
-  // Controlled: only pull review if it's from SAME topic OR if queue is huge
-  const t=now();
-  state.reviewQueue.sort((a,b)=>a.dueAt-b.dueAt);
-  const same = state.reviewQueue.find(x=>x.dueAt<=t && (BANK.find(q=>q.id===x.id)?.topic===topic));
-  if(same){ state.reviewQueue=state.reviewQueue.filter(x=>x!==same); return BANK.find(q=>q.id===same.id)||null; }
-  if(state.reviewQueue.length>=30){
-    const any = state.reviewQueue.find(x=>x.dueAt<=t);
-    if(any){ state.reviewQueue=state.reviewQueue.filter(x=>x!==any); return BANK.find(q=>q.id===any.id)||null; }
-  }
-  return null;
+/* Initialize SR defaults lazily */
+function getSR(qid){
+  state.sr[qid] = state.sr[qid] || {ease:2.4, intervalDays:0, dueAt:0, lapses:0, flagged:false, lastConf:0, lastOk:null};
+  return state.sr[qid];
 }
 
-/* ===================== Topic Stats / Badges ===================== */
-function badgeFor(score,total){
-  if(total < 5) return "New";
-  if(score < 0.55) return "Bronze";
-  if(score < 0.70) return "Silver";
-  if(score < 0.82) return "Gold";
-  return "Platinum";
+/* =========================================================
+   Modes UI (chips)
+========================================================= */
+function setMode(mode){
+  state.mode=mode;
+  $("modeMix").classList.toggle("on",mode==="mix");
+  $("modeFocus").classList.toggle("on",mode==="focus");
+  $("modeDaily").classList.toggle("on",mode==="daily");
+  $("topicChooser").style.display = (mode==="focus") ? "block" : "none";
+  saveState();
 }
-function badgeColor(name){
-  if(name==="Platinum") return "rgba(110,168,255,.28)";
-  if(name==="Gold") return "rgba(251,191,36,.20)";
-  if(name==="Silver") return "rgba(233,238,252,.14)";
-  if(name==="Bronze") return "rgba(251,113,133,.14)";
-  return "rgba(255,255,255,.10)";
-}
-function topicStats(){
-  const out = {};
-  TOPICS.forEach(t=>out[t]={correct:0,wrong:0,total:0,score:0,badge:"—"});
-  for(const q of BANK){
-    const s = state.seen[q.id];
-    if(!s) continue;
-    const c = (s.correctCount||0);
-    const w = (s.wrongCount||0);
-    const t = q.topic;
-    out[t].correct += c;
-    out[t].wrong += w;
-    out[t].total += (c+w);
-  }
-  for(const t of TOPICS){
-    const a = out[t];
-    const base = 0.35;
-    const k = 6;
-    const p = a.total ? (a.correct/a.total) : base;
-    a.score = clamp(((p*a.total) + (base*k)) / (a.total + k),0,1);
-    a.badge = badgeFor(a.score, a.total);
-  }
-  return out;
-}
-function strengthWeakList(stats){
-  const arr = TOPICS.map(t=>({t,score:stats[t].score,total:stats[t].total}));
-  const eligible = arr.filter(x=>x.total>=5);
-  const best = eligible.slice().sort((a,b)=>b.score-a.score).slice(0,3);
-  const worst = eligible.slice().sort((a,b)=>a.score-b.score).slice(0,3);
-  return {best,worst};
-}
+$("modeMix").onclick=()=>setMode("mix");
+$("modeFocus").onclick=()=>setMode("focus");
+$("modeDaily").onclick=()=>setMode("daily");
 
-/* ===================== Per-topic progression ===================== */
-/* Hard guarantee: within a topic, we pick difficulty around topic lvl. */
-function getTopicProg(topic){ return state.topicProg[topic] || (state.topicProg[topic]={lvl:1,xp:0,streakInTopic:0,attempts:0,correct:0}); }
-
-function topicLevelRules(lvl){
-  // required consecutive correct (within topic) + min accuracy in topic window
-  // becomes stricter as lvl goes up
-  if(lvl<=1) return {needStreak:3, minAcc:0.60};
-  if(lvl===2) return {needStreak:4, minAcc:0.65};
-  if(lvl===3) return {needStreak:5, minAcc:0.70};
-  if(lvl===4) return {needStreak:6, minAcc:0.75};
-  return {needStreak:999, minAcc:0.80};
+/* Build topic chips for focus */
+function buildTopicChips(){
+  const box=$("topicChips"); box.innerHTML="";
+  TOPICS.forEach(t=>{
+    const d=document.createElement("div");
+    d.className="chip" + (state.focusTopics[t]?" on":"");
+    d.textContent=t;
+    d.onclick=()=>{
+      state.focusTopics[t]=!state.focusTopics[t];
+      d.classList.toggle("on", state.focusTopics[t]);
+      saveState();
+    };
+    box.appendChild(d);
+  });
 }
+buildTopicChips();
+setMode(state.mode || "mix");
 
+/* =========================================================
+   Mastery logic (per topic)
+   - Hard gradual selection within each topic band based on lvl
+   - Level up only when:
+     xp>=100 AND streakInTopic>=needStreak AND topicAcc>=minAcc AND attempts>=minAttempts
+========================================================= */
+function getTopicProg(topic){
+  return state.topicProg[topic] || (state.topicProg[topic]={lvl:1,xp:0,streakInTopic:0,attempts:0,correct:0,mastery:false});
+}
+function topicRules(lvl){
+  if(lvl<=1) return {needStreak:3, minAcc:0.60, minAttempts:10};
+  if(lvl===2) return {needStreak:4, minAcc:0.65, minAttempts:14};
+  if(lvl===3) return {needStreak:5, minAcc:0.70, minAttempts:18};
+  if(lvl===4) return {needStreak:6, minAcc:0.75, minAttempts:22};
+  return {needStreak:999, minAcc:0.80, minAttempts:28};
+}
 function updateTopicProgress(topic, ok, qDifficulty){
-  const tp = getTopicProg(topic);
+  const tp=getTopicProg(topic);
   tp.attempts += 1;
   if(ok) tp.correct += 1;
-  const acc = tp.attempts ? (tp.correct/tp.attempts) : 0;
+  const acc = tp.correct / tp.attempts;
 
-  // XP is topic-local
   tp.xp += ok ? (10 + qDifficulty*4) : 2;
   tp.xp = clamp(tp.xp, 0, 120);
-
-  // streak in topic
   tp.streakInTopic = ok ? (tp.streakInTopic+1) : 0;
 
-  // Level up only when BOTH: xp>=100 and streak requirement met and accuracy met
+  // Mastery flag when level 5 and accuracy decent
+  tp.mastery = (tp.lvl>=5 && tp.attempts>=28 && acc>=0.80);
+
   if(tp.lvl<5 && tp.xp>=100){
-    const rule = topicLevelRules(tp.lvl);
-    if(tp.streakInTopic>=rule.needStreak && acc>=rule.minAcc){
+    const r = topicRules(tp.lvl);
+    if(tp.streakInTopic>=r.needStreak && acc>=r.minAcc && tp.attempts>=r.minAttempts){
       tp.lvl += 1;
       tp.xp = 0;
       tp.streakInTopic = 0;
-      toast(`רמה עלתה בנושא "${topic}" ➜ ${tp.lvl}/5 🎉`);
+      toast(`רמה עלתה בנושא "${topic}" ➜ ${tp.lvl}/5`);
     } else {
-      // hold near threshold to prevent "jumping"
-      tp.xp = 92;
+      tp.xp = 92; // hold near threshold
       toast("כמעט! עוד קצת בתוך הנושא 🙂");
     }
   }
@@ -579,88 +736,220 @@ function updateTopicProgress(topic, ok, qDifficulty){
   state.topicProg[topic]=tp;
   return tp;
 }
-
-/* ===================== Selection (topic-first, gradual) ===================== */
-function enabledTopicsList(){
-  return TOPICS.filter(t=>state.enabledTopics[t]);
+function bandForLvl(lvl){
+  if(lvl<=1) return [1,2];
+  if(lvl===2) return [2,3];
+  if(lvl===3) return [3,4];
+  if(lvl===4) return [4,5];
+  return [4,5];
 }
 
-function pickTopic(){
-  const enabled = enabledTopicsList();
-  if(!enabled.length) return null;
+/* =========================================================
+   Spaced Repetition (SM-2-lite)
+   - dueAt stored per q
+   - selection prefers due items first
+   - confidence wrong => higher priority (danger)
+========================================================= */
+function scheduleSR(qid, ok, conf){
+  const sr=getSR(qid);
+  sr.lastConf = conf||0;
+  sr.lastOk = ok;
 
-  // weighted: prefer weaker topics + topics with lower lvl + topics not practiced recently
-  const stats = topicStats();
-  const weights = enabled.map(t=>{
-    const tp = getTopicProg(t);
-    const weakness = 1.15 - stats[t].score; // low score => higher weight
-    const lvlBias = 1.25 - (tp.lvl-1)*0.10; // lower lvl => higher weight
-    const practice = Math.max(1, tp.attempts);
-    const exploration = 1.15 / Math.sqrt(practice); // prefer less practiced a bit
-    const w = clamp(weakness*lvlBias*exploration, 0.25, 2.5);
+  if(!ok){
+    sr.lapses += 1;
+    sr.intervalDays = 0;
+    sr.ease = clamp(sr.ease - (conf>=3?0.25:0.15), 1.3, 2.8);
+    // quick retry if wrong; confidence high => even quicker
+    const mins = conf>=3 ? 3 : 8;
+    sr.dueAt = now() + mins*60*1000;
+  } else {
+    // correct: expand interval
+    if(sr.intervalDays===0) sr.intervalDays = 1;
+    else sr.intervalDays = Math.round(sr.intervalDays * sr.ease);
+
+    // adjust ease slightly
+    sr.ease = clamp(sr.ease + (conf>=3?0.05:0.02), 1.3, 2.8);
+
+    // due in days (but allow short if early learning)
+    const ms = sr.intervalDays * 24*60*60*1000;
+    sr.dueAt = now() + ms;
+  }
+  state.sr[qid]=sr;
+}
+
+/* =========================================================
+   Topic stats + badges
+========================================================= */
+function topicStats(){
+  const out = {};
+  TOPICS.forEach(t=>out[t]={attempts:0,correct:0,score:0,badge:"New"});
+  TOPICS.forEach(t=>{
+    const tp=getTopicProg(t);
+    out[t].attempts = tp.attempts;
+    out[t].correct = tp.correct;
+    const acc = tp.attempts ? (tp.correct/tp.attempts) : 0.35;
+    // smooth score: accuracy + depth
+    const depth = clamp(Math.sqrt(tp.attempts/20),0,1);
+    out[t].score = clamp(acc*0.75 + depth*0.25,0,1);
+    out[t].badge = badgeFor(out[t].score, tp.attempts, tp.lvl);
+  });
+  return out;
+}
+function badgeFor(score, attempts, lvl){
+  if(attempts<5) return "New";
+  if(lvl>=5 && score>=0.82) return "Platinum";
+  if(score>=0.80) return "Gold";
+  if(score>=0.68) return "Silver";
+  return "Bronze";
+}
+function badgeTone(b){
+  if(b==="Platinum") return "rgba(37,99,235,.85)";
+  if(b==="Gold") return "rgba(217,119,6,.75)";
+  if(b==="Silver") return "rgba(2,6,23,.40)";
+  if(b==="Bronze") return "rgba(225,29,72,.55)";
+  return "rgba(37,99,235,.75)";
+}
+
+/* =========================================================
+   Selection: due SR first, then gradual by topic mastery
+========================================================= */
+function enabledTopics(){
+  if(state.mode==="focus"){
+    const chosen = TOPICS.filter(t=>state.focusTopics[t]);
+    return chosen.length ? chosen : TOPICS; // fallback if none selected
+  }
+  return TOPICS;
+}
+function dailyKey(){
+  const d=new Date();
+  const yyyy=d.getFullYear(), mm=String(d.getMonth()+1).padStart(2,"0"), dd=String(d.getDate()).padStart(2,"0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+function ensureDailyCounter(){
+  const key=dailyKey();
+  if(state.daily.dateKey!==key){
+    state.daily.dateKey=key;
+    state.daily.countToday=0;
+  }
+}
+function pickDueItem(topicsAllowed){
+  const t=now();
+  const due = [];
+  for(const [qid,sr] of Object.entries(state.sr)){
+    if(sr.dueAt && sr.dueAt<=t){
+      const q = BANK_BY_ID[qid];
+      if(!q) continue;
+      if(!topicsAllowed.includes(q.topic)) continue;
+      // priority: danger wrong first
+      const dangerBoost = (sr.lastOk===false && sr.lastConf>=3) ? 2.0 : 1.0;
+      const w = dangerBoost * (1 + (sr.lapses||0)*0.2);
+      due.push({q,w});
+    }
+  }
+  if(!due.length) return null;
+  const total = due.reduce((s,x)=>s+x.w,0);
+  let r = Math.random()*total;
+  for(const x of due){ r-=x.w; if(r<=0) return x.q; }
+  return due[due.length-1].q;
+}
+function pickTopicWeighted(topicsAllowed){
+  const stats=topicStats();
+  const weights = topicsAllowed.map(t=>{
+    const tp=getTopicProg(t);
+    const weakness = 1.15 - stats[t].score;     // weaker => more weight
+    const lvlBias  = 1.25 - (tp.lvl-1)*0.10;    // lower lvl => more weight
+    const explore  = 1.15 / Math.sqrt(Math.max(1,tp.attempts));
+    const w = clamp(weakness*lvlBias*explore, 0.25, 2.8);
     return {t,w};
   });
-  const total = weights.reduce((s,x)=>s+x.w,0);
-  let r = Math.random()*total;
+  const total=weights.reduce((s,x)=>s+x.w,0);
+  let r=Math.random()*total;
   for(const x of weights){ r-=x.w; if(r<=0) return x.t; }
   return weights[weights.length-1].t;
 }
+function pickFromTopic(topic){
+  const tp=getTopicProg(topic);
+  const [lo,hi]=bandForLvl(tp.lvl);
+  const pool = BANK.filter(q=>q.topic===topic && (q.difficulty||3)>=lo && (q.difficulty||3)<=hi);
+  const all  = BANK.filter(q=>q.topic===topic);
+  const candidates = pool.length?pool:all;
 
-function pickQuestion(){
-  const topic = pickTopic();
-  if(!topic) return null;
-
-  // Controlled review injection (same topic only)
-  if(state.reviewQueue.length){
-    const rq = getDueReview(topic);
-    if(rq && rq.topic===topic) return rq;
-  }
-
-  const tp = getTopicProg(topic);
-  const target = tp.lvl;
-
-  // filter bank by topic and target difficulty band
-  const all = BANK.filter(q=>q.topic===topic);
-  if(!all.length) return null;
-
-  const band = (lvl)=>{
-    if(lvl<=1) return [1,2];
-    if(lvl===2) return [2,3];
-    if(lvl===3) return [3,4];
-    if(lvl===4) return [4,5];
-    return [4,5];
-  }
-  const [lo,hi] = band(target);
-
-  const candidates = all.filter(q=> (q.difficulty||3)>=lo && (q.difficulty||3)<=hi);
-  const pool = candidates.length ? candidates : all;
-
-  // deterministic-ish choice biased to unseen & flagged & past wrong
-  const scored = pool.map(q=>{
-    const seen = state.seen[q.id];
-    const unseenBoost = seen ? 0.9 : 1.4;
-    const wrongBoost = seen ? (1 + (seen.wrongCount||0)*0.35) : 1;
-    const flaggedBoost = (seen && seen.flagged) ? 1.25 : 1;
-    const diff = q.difficulty||3;
-    const diffFit = 1/(1+Math.abs(diff - clamp(target+0.2,1,5)));
-    return {q,w: unseenBoost*wrongBoost*flaggedBoost*diffFit};
+  // weight unseen & prior wrong & flagged
+  const scored = candidates.map(q=>{
+    const sr=getSR(q.id);
+    const unseen = (state.history.find(h=>h.qid===q.id) ? 1.0 : 1.35);
+    const lapses = 1 + (sr.lapses||0)*0.35;
+    const flagged= sr.flagged ? 1.25 : 1.0;
+    const fit = 1/(1+Math.abs((q.difficulty||3) - clamp(tp.lvl+0.2,1,5)));
+    return {q, w: unseen*lapses*flagged*fit};
   });
-
-  const totalW = scored.reduce((s,x)=>s+x.w,0);
-  let r = Math.random()*totalW;
+  const total=scored.reduce((s,x)=>s+x.w,0);
+  let r=Math.random()*total;
   for(const x of scored){ r-=x.w; if(r<=0) return x.q; }
   return scored[scored.length-1].q;
 }
+function pickQuestion(){
+  const topicsAllowed = enabledTopics();
 
-/* ===================== Overall metrics ===================== */
+  if(state.mode==="daily"){
+    ensureDailyCounter();
+    if(state.daily.countToday>=state.daily.limit){
+      return {id:"daily_done", topic:"", region:"", difficulty:1, bloom:"", conceptTerm:"",
+        q:"סיימת את ה-Daily היום 🎉\nרוצה להמשיך? החליפי מצב ל-Mix/Focus במסך הראשי.",
+        options:["אוקיי","אוקיי","אוקיי","אוקיי"], answer:0,
+        explain:"", why:["","","",""], hint:"", updated:""
+      };
+    }
+  }
+
+  // 1) Prefer due spaced items (within allowed topics)
+  const due = pickDueItem(topicsAllowed);
+  if(due) return due;
+
+  // 2) Otherwise pick topic and then gradual question in that topic
+  const t = pickTopicWeighted(topicsAllowed);
+  return pickFromTopic(t);
+}
+
+/* =========================================================
+   Micro-Retest after wrong
+   - Immediate corrective question, anchored to same conceptTerm
+========================================================= */
+function makeMicroRetest(originalQ){
+  const term = originalQ.conceptTerm;
+  if(!term) return null;
+  const concept = CONCEPTS.find(c=>c.term===term);
+  if(!concept) return null;
+  const rng = mulberry32(SEED + parseInt(originalQ.id.replace("q_",""),10) + 999);
+
+  // alternate template from the original to force retrieval in a different direction
+  const alt = (originalQ.template==="DEF_TO_TERM") ? "TERM_TO_DEF" : "DEF_TO_TERM";
+  const q = makeQuestion(rng, alt, concept, CONCEPTS.slice());
+  q.id = originalQ.id + "_R";
+  q.topic = concept.topic;
+  q.region= concept.region;
+  q.difficulty = clamp((originalQ.difficulty||3),1,5);
+  q.bloom = "הבנה";
+  q.q = "תיקון מיידי (Micro-Retest):\n" + q.q;
+  q.isRetest = true;
+  return q;
+}
+
+/* =========================================================
+   Overall score
+========================================================= */
 function calcOverall(){
   const answered = state.answered||0;
   const acc = (state.acc==null)?0:(state.acc);
   const depth = clamp(Math.sqrt(answered/80),0,1);
-  return clamp((acc*0.7)+(depth*0.3),0,1);
+  // small penalty if danger cluster exists (encourages calibration)
+  const danger = clamp((state.dangerCount||0)/Math.max(1,answered),0,0.2);
+  return clamp((acc*0.68)+(depth*0.32) - danger*0.20, 0, 1);
 }
 
-/* ===================== Canvas helpers ===================== */
+/* =========================================================
+   Drawing (circular meters + donut + radar)
+========================================================= */
 function roundRect(ctx, x, y, w, h, r, fill, stroke){
   r=Math.min(r,w/2,h/2);
   ctx.beginPath();
@@ -674,133 +963,107 @@ function roundRect(ctx, x, y, w, h, r, fill, stroke){
   if(stroke) ctx.stroke();
 }
 
-/* ===================== Meters (circular) ===================== */
 function drawCircularMeter(canvasId, value01, titleBig, subtitle, tone){
   const c=$(canvasId), ctx=c.getContext("2d");
   const w=c.width, h=c.height;
   ctx.clearRect(0,0,w,h);
 
-  // background
-  ctx.fillStyle="rgba(255,255,255,.02)";
+  ctx.fillStyle="#fff";
   roundRect(ctx, 10, 10, w-20, h-20, 18, true, false);
 
   const v = clamp(value01,0,1);
   const cx = w*0.22, cy = h*0.55;
   const r  = Math.min(w,h)*0.28;
 
-  // base ring
   ctx.lineWidth = 26;
-  ctx.strokeStyle = "rgba(255,255,255,.10)";
+  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--ringbg').trim();
   ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.stroke();
 
-  // progress ring
-  ctx.strokeStyle = tone || "rgba(110,168,255,.75)";
+  ctx.strokeStyle = tone || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
   ctx.beginPath();
   ctx.arc(cx,cy,r,-Math.PI/2, -Math.PI/2 + v*2*Math.PI);
   ctx.stroke();
 
-  // value
-  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
   ctx.font="900 34px system-ui";
   ctx.textAlign="center"; ctx.textBaseline="middle";
   ctx.fillText(Math.round(v*100)+"%", cx, cy-6);
 
-  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
   ctx.font="700 14px system-ui";
   ctx.fillText(titleBig, cx, cy+28);
 
-  // right text
   ctx.textAlign="right"; ctx.textBaseline="alphabetic";
-  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
   ctx.font="900 18px system-ui";
   ctx.fillText(subtitle, w-24, 54);
 
-  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
   ctx.font="600 13px system-ui";
   const lines = [
-    "מנגנון: קושי עולה בהדרגה",
-    "חזרות: מבוקר (לא שובר סדר)"
+    "Spaced: לפי due time",
+    "Mastery: רמות לפי נושא",
+    "Confidence: 1–3"
   ];
   lines.forEach((t,i)=>ctx.fillText(t, w-24, 86+i*22));
 }
 
-function toneForBadge(b){
-  if(b==="Platinum") return "rgba(110,168,255,.80)";
-  if(b==="Gold") return "rgba(251,191,36,.75)";
-  if(b==="Silver") return "rgba(233,238,252,.45)";
-  if(b==="Bronze") return "rgba(251,113,133,.55)";
-  return "rgba(110,168,255,.75)";
-}
-
-/* ===================== Donut + Radar + Timeline + PNG ===================== */
 function drawDonut(){
   const c=$("donut"),ctx=c.getContext("2d");
   const w=c.width,h=c.height;
   ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="#fff";
+  roundRect(ctx,10,10,w-20,h-20,18,true,false);
 
   const overall = calcOverall();
   const cx=w*0.18, cy=h*0.55, r=Math.min(w,h)*0.30;
   const start=-Math.PI/2, end=start + overall*2*Math.PI;
 
-  ctx.lineWidth = 26;
-  ctx.strokeStyle = "rgba(255,255,255,.10)";
+  ctx.lineWidth=26;
+  ctx.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--ringbg').trim();
   ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.stroke();
 
-  ctx.strokeStyle = "rgba(110,168,255,.75)";
+  ctx.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
   ctx.beginPath(); ctx.arc(cx,cy,r,start,end); ctx.stroke();
 
-  ctx.fillStyle = "rgba(233,238,252,.95)";
-  ctx.font = "900 34px system-ui";
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+  ctx.font="900 34px system-ui";
   ctx.textAlign="center"; ctx.textBaseline="middle";
   ctx.fillText(Math.round(overall*100)+"%", cx, cy-6);
-  ctx.font = "600 16px system-ui";
-  ctx.fillStyle = "rgba(169,180,214,.95)";
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
+  ctx.font="700 14px system-ui";
   ctx.fillText("Overall ידע", cx, cy+28);
 
-  const x2=w*0.40, y2=h*0.22;
   ctx.textAlign="right"; ctx.textBaseline="alphabetic";
-  ctx.fillStyle="rgba(233,238,252,.95)";
-  ctx.font="800 18px system-ui";
-  ctx.fillText("פירוק מהיר", w-24, y2);
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+  ctx.font="900 18px system-ui";
+  ctx.fillText("פירוק מהיר", w-24, 54);
 
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
   ctx.font="600 14px system-ui";
-  ctx.fillStyle="rgba(169,180,214,.95)";
   const lines=[
     `דיוק: ${fmtPct(state.acc)}`,
     `נענו: ${state.answered||0}`,
-    `רצף: ${state.streak||0}`,
-    `חזרות בתור: ${state.reviewQueue.length}`
+    `אזור סיכון: ${state.dangerCount||0}`,
+    `חזרות due: ${countDue()}`
   ];
-  lines.forEach((t,i)=>ctx.fillText(t, w-24, y2+30+i*22));
-}
-
-function drawBadges(stats){
-  const box = $("badges");
-  box.innerHTML = "";
-  TOPICS.forEach(t=>{
-    const b = stats[t].badge;
-    const score = Math.round(stats[t].score*100);
-    const total = stats[t].total;
-    const el = document.createElement("div");
-    el.className = "badge";
-    el.style.background = badgeColor(b);
-    el.innerHTML = `<span class="dot"></span><span class="bname">${escapeHtml(t)}</span> — ${escapeHtml(b)} • ${score}% • N=${total}`;
-    box.appendChild(el);
-  });
+  lines.forEach((t,i)=>ctx.fillText(t, w-24, 88+i*22));
 }
 
 function drawRadar(){
   const c=$("radar"),ctx=c.getContext("2d");
   const w=c.width,h=c.height;
   ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="#fff";
+  roundRect(ctx,10,10,w-20,h-20,18,true,false);
 
   const stats = topicStats();
   const scores = TOPICS.map(t=>stats[t].score);
-  const cx=w*0.50, cy=h*0.50;
-  const R=Math.min(w,h)*0.38;
+  const cx=w*0.50, cy=h*0.52;
+  const R=Math.min(w,h)*0.36;
   const n=TOPICS.length;
 
-  ctx.strokeStyle="rgba(255,255,255,.10)";
+  ctx.strokeStyle="rgba(15,23,42,.10)";
   ctx.lineWidth=2;
   for(let g=1; g<=4; g++){
     const r=R*(g/4);
@@ -814,7 +1077,7 @@ function drawRadar(){
     ctx.closePath(); ctx.stroke();
   }
 
-  ctx.strokeStyle="rgba(255,255,255,.12)";
+  ctx.strokeStyle="rgba(15,23,42,.10)";
   ctx.lineWidth=2;
   for(let i=0;i<n;i++){
     const ang = -Math.PI/2 + (i*2*Math.PI/n);
@@ -824,8 +1087,8 @@ function drawRadar(){
     ctx.stroke();
   }
 
-  ctx.fillStyle="rgba(110,168,255,.18)";
-  ctx.strokeStyle="rgba(110,168,255,.70)";
+  ctx.fillStyle="rgba(37,99,235,.10)";
+  ctx.strokeStyle="rgba(37,99,235,.60)";
   ctx.lineWidth=3;
   ctx.beginPath();
   for(let i=0;i<n;i++){
@@ -837,8 +1100,8 @@ function drawRadar(){
   }
   ctx.closePath(); ctx.fill(); ctx.stroke();
 
-  ctx.fillStyle="rgba(233,238,252,.95)";
-  ctx.font="700 14px system-ui";
+  ctx.fillStyle="rgba(15,23,42,.90)";
+  ctx.font="700 13px system-ui";
   ctx.textAlign="center"; ctx.textBaseline="middle";
   for(let i=0;i<n;i++){
     const ang = -Math.PI/2 + (i*2*Math.PI/n);
@@ -848,240 +1111,123 @@ function drawRadar(){
     ctx.fillText(label, x, y);
   }
 
-  const sw = strengthWeakList(stats);
-  const best = sw.best.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("\n") || "—";
-  const worst= sw.worst.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("\n") || "—";
-  $("strengthWeak").innerHTML =
-    `<b>חזקות</b><br>${escapeHtml(best).replaceAll("\n","<br>")}<br><br><b>חלשות</b><br>${escapeHtml(worst).replaceAll("\n","<br>")}`;
+  // Strength / Weak
+  const arr = TOPICS.map(t=>({t,score:stats[t].score, attempts:stats[t].attempts}));
+  const eligible = arr.filter(x=>x.attempts>=6);
+  const best = eligible.slice().sort((a,b)=>b.score-a.score).slice(0,3);
+  const worst= eligible.slice().sort((a,b)=>a.score-b.score).slice(0,3);
+  const bestTxt = best.length ? best.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("<br>") : "—";
+  const worstTxt= worst.length? worst.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("<br>") : "—";
+  $("strengthWeak").innerHTML = `<b>חזקות</b><br>${bestTxt}<br><br><b>חלשות</b><br>${worstTxt}`;
 
   drawBadges(stats);
 }
 
-function startOfDay(ts){
-  const d = new Date(ts);
-  d.setHours(0,0,0,0);
-  return d.getTime();
-}
-function formatDay(ts){
-  const d=new Date(ts);
-  const dd=String(d.getDate()).padStart(2,"0");
-  const mm=String(d.getMonth()+1).padStart(2,"0");
-  return `${dd}/${mm}`;
-}
-function aggregateDaily(days){
-  const end = startOfDay(now());
-  const start = end - (days-1)*24*60*60*1000;
-  const map = new Map();
-  for(let t=start; t<=end; t+=24*60*60*1000) map.set(t,{ans:0,ok:0});
-  for(const h of state.history){
-    const d = startOfDay(h.t);
-    if(d<start || d>end) continue;
-    const obj = map.get(d);
-    obj.ans += 1;
-    obj.ok += (h.ok?1:0);
-  }
-  let cumA=0, cumOk=0;
-  const xs=[], dailyAcc=[], overall=[];
-  for(const [day,val] of map.entries()){
-    xs.push(day);
-    cumA += val.ans;
-    cumOk += val.ok;
-    const accDaily = val.ans ? (val.ok/val.ans) : null;
-    const overallWin = cumA ? (cumOk/cumA) : null;
-    dailyAcc.push(accDaily);
-    overall.push(overallWin);
-  }
-  return {xs, dailyAcc, overall};
-}
-function drawTimeline(){
-  const days = state.windowDays || 7;
-  $("w7Btn").className = (days===7) ? "primary" : "";
-  $("w30Btn").className = (days===30) ? "primary" : "";
-
-  const c=$("timeline"),ctx=c.getContext("2d");
-  const w=c.width,h=c.height;
-  ctx.clearRect(0,0,w,h);
-
-  ctx.strokeStyle="rgba(255,255,255,.10)";
-  ctx.lineWidth=2;
-  ctx.strokeRect(10,10,w-20,h-20);
-
-  const padL=50, padR=20, padT=22, padB=40;
-  const x0=padL, x1=w-padR, y0=h-padB, y1=padT;
-
-  ctx.strokeStyle="rgba(255,255,255,.08)";
-  ctx.lineWidth=1;
-  for(let i=0;i<=4;i++){
-    const y=y0 - (i/4)*(y0-y1);
-    ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
-  }
-
-  const series = aggregateDaily(days);
-  const n=series.xs.length;
-  const dx=(x1-x0)/(n-1);
-
-  function plot(arr, strokeStyle, lineWidth){
-    ctx.strokeStyle=strokeStyle;
-    ctx.lineWidth=lineWidth;
-    ctx.beginPath();
-    let started=false;
-    for(let i=0;i<n;i++){
-      const v=arr[i];
-      if(v==null) continue;
-      const x=x0+i*dx;
-      const y=y0 - v*(y0-y1);
-      if(!started){ctx.moveTo(x,y); started=true;}
-      else ctx.lineTo(x,y);
-    }
-    if(started) ctx.stroke();
-  }
-
-  plot(series.overall, "rgba(110,168,255,.75)", 4);
-  plot(series.dailyAcc, "rgba(233,238,252,.40)", 3);
-
-  ctx.fillStyle="rgba(169,180,214,.95)";
-  ctx.font="600 12px system-ui";
-  ctx.textAlign="center";
-  for(let i=0;i<n;i++){
-    if(days===30 && i%5!==0 && i!==n-1) continue;
-    const x=x0+i*dx;
-    ctx.fillText(formatDay(series.xs[i]), x, h-16);
-  }
-
-  ctx.textAlign="right";
-  for(let i=0;i<=4;i++){
-    const v=i/4;
-    const y=y0 - v*(y0-y1);
-    ctx.fillText(Math.round(v*100)+"%", x0-10, y+4);
-  }
-
-  ctx.textAlign="right";
-  ctx.fillStyle="rgba(233,238,252,.85)";
-  ctx.fillText("Overall (חלון)", w-20, 26);
-  ctx.fillStyle="rgba(233,238,252,.55)";
-  ctx.fillText("Accuracy יומי", w-20, 48);
-}
-
-function saveShareCardPng(){
-  const donut=$("donut"), radar=$("radar");
-  const stats=topicStats();
-  const overall=Math.round(calcOverall()*100);
-  const accTxt = fmtPct(state.acc);
-  const answered = state.answered||0;
-
-  const pad=26, W=1100, H=1600;
-  const out=document.createElement("canvas"); out.width=W; out.height=H;
-  const ctx=out.getContext("2d");
-
-  ctx.fillStyle="#0b1220"; ctx.fillRect(0,0,W,H);
-  ctx.fillStyle="rgba(255,255,255,.04)";
-  roundRect(ctx, pad, pad, W-2*pad, H-2*pad, 22, true, false);
-
-  ctx.fillStyle="rgba(233,238,252,.95)";
-  ctx.font="900 28px system-ui";
-  ctx.textAlign="right";
-  ctx.fillText("כרטיס ידע • 500 שאלות", W-pad, pad+36);
-
-  ctx.fillStyle="rgba(169,180,214,.95)";
-  ctx.font="600 14px system-ui";
-  ctx.fillText(`Overall: ${overall}% • דיוק: ${accTxt} • נענו: ${answered}`, W-pad, pad+62);
-
-  ctx.drawImage(donut, pad+20, pad+85, 520, 210);
-  ctx.drawImage(radar, pad+20, pad+320, W-2*pad-40, 620);
-
-  ctx.fillStyle="rgba(233,238,252,.95)";
-  ctx.font="800 18px system-ui";
-  ctx.fillText("דרגות לפי תחום", W-pad, pad+1000);
-
-  ctx.font="600 14px system-ui";
-  ctx.fillStyle="rgba(169,180,214,.95)";
-  let y=pad+1030;
-  const rows = [];
+function drawBadges(stats){
+  const box=$("badges"); box.innerHTML="";
   TOPICS.forEach(t=>{
+    const tp=getTopicProg(t);
     const b=stats[t].badge;
-    const sc=Math.round(stats[t].score*100);
-    const n=stats[t].total;
-    rows.push(`${t}: ${b} • ${sc}% • N=${n}`);
+    const score=Math.round(stats[t].score*100);
+    const el=document.createElement("div");
+    el.className="badge";
+    el.innerHTML = `<span class="dot" style="background:${badgeTone(b)};border-color:${badgeTone(b)}33"></span>
+      <span class="bname">${escapeHtml(t)}</span> — ${escapeHtml(b)} • ${score}% • Lvl ${tp.lvl}/5 • N=${tp.attempts}`;
+    box.appendChild(el);
   });
-  const col1 = rows.slice(0,6);
-  const col2 = rows.slice(6,12);
-  const x1 = W-pad;
-  const x2 = W/2 + 40;
-  col1.forEach((r,i)=>ctx.fillText(r, x1, y+i*26));
-  col2.forEach((r,i)=>ctx.fillText(r, x2, y+i*26));
-
-  ctx.fillStyle="rgba(169,180,214,.80)";
-  ctx.font="600 12px system-ui";
-  ctx.fillText(`Seed: ${SEED} • ${new Date().toLocaleString("he-IL")}`, W-pad, H-pad);
-
-  const a=document.createElement("a");
-  a.download = "כרטיס-ידע.png";
-  a.href = out.toDataURL("image/png");
-  a.click();
 }
 
-/* ===================== UI render & quiz ===================== */
+function countDue(){
+  const t=now();
+  let n=0;
+  for(const sr of Object.values(state.sr)){
+    if(sr.dueAt && sr.dueAt<=t) n++;
+  }
+  return n;
+}
+
+/* =========================================================
+   Render stats + current question
+========================================================= */
 function drawStats(){
-  const overall = calcOverall();
+  const overall=calcOverall();
   $("overallPill").textContent = Math.round(overall*100)+"%";
   $("accPill").textContent = fmtPct(state.acc);
   $("answeredPill").textContent = state.answered||0;
-  $("streakPill").textContent = state.streak||0;
+  $("dangerPill").textContent = state.dangerCount||0;
+  $("reviewPill").textContent = countDue();
 
   $("answeredStat").textContent = state.answered||0;
   $("correctStat").textContent = state.correct||0;
-  $("reviewStat").textContent = state.reviewQueue.length;
+  $("dangerStat").textContent = state.dangerCount||0;
 
-  const q = state.current;
-  if(q){
-    const tp = getTopicProg(q.topic);
+  drawDonut();
+  drawRadar();
+
+  const q=state.current;
+  if(q && q.id && q.id!=="daily_done"){
+    const tp=getTopicProg(q.topic);
     $("topicLvlStat").textContent = `${tp.lvl}/5`;
-    $("topicLabel").textContent = `${q.topic} • רמה ${tp.lvl}/5`;
-    $("xpText").textContent = `התקדמות בנושא: XP ${Math.round(tp.xp)} / 100 • רצף בנושא: ${tp.streakInTopic}`;
-    $("xpBar").style.width = clamp((tp.xp/100)*100,0,100)+"%";
 
-    // topic meter value: mix of topic accuracy + depth
+    // Topic meter value: topic accuracy + depth
     const accT = tp.attempts ? (tp.correct/tp.attempts) : 0;
     const depthT = clamp(Math.sqrt(tp.attempts/20),0,1);
-    const valT = clamp(accT*0.75 + depthT*0.25, 0, 1);
+    const valT = clamp(accT*0.75 + depthT*0.25,0,1);
 
-    const stats = topicStats();
-    const badge = stats[q.topic]?.badge || "New";
-    const tone = toneForBadge(badge);
-
+    const stats=topicStats();
+    const badge=stats[q.topic]?.badge || "New";
+    $("topicLabel").textContent = `${q.topic} • רמה ${tp.lvl}/5 • ${badge}`;
     $("overallLabel").textContent = `Overall ${Math.round(overall*100)}%`;
-    drawCircularMeter("meterOverall", overall, "Overall", "תמונת מצב כללית", "rgba(110,168,255,.80)");
-    drawCircularMeter("meterTopic", valT, "נושא", `${badge} • ${Math.round(valT*100)}%`, tone);
+
+    drawCircularMeter("meterOverall", overall, "Overall", "תמונת מצב כללית", "rgba(37,99,235,.85)");
+    drawCircularMeter("meterTopic", valT, "נושא", `${Math.round(valT*100)}%`, badgeTone(badge));
+
+    $("xpText").textContent = `Mastery: XP ${Math.round(tp.xp)}/100 • רצף בנושא: ${tp.streakInTopic} • דיוק בנושא: ${Math.round(accT*100)}%`;
+    $("xpBar").style.width = clamp((tp.xp/100)*100,0,100)+"%";
   } else {
     $("xpText").textContent = "התקדמות בנושא: —";
     $("xpBar").style.width = "0%";
   }
 
-  drawDonut();
-  drawRadar();
-  drawTimeline();
   saveState();
 }
 
 function setCurrent(q){
   state.current=q; state.lock=false; saveState();
 
-  const tp = getTopicProg(q.topic);
+  // reset feedback UI
+  $("feedbackBox").style.display="none";
+  $("whyBox").style.display="none";
+  $("whyBtn").disabled=true;
+  $("confHint").textContent="";
+  document.querySelectorAll(".confBtn").forEach(b=>b.classList.remove("on"));
 
-  $("qMeta").innerHTML=[
+  if(q.id==="daily_done"){
+    $("qMeta").innerHTML="";
+    $("qText").textContent=q.q;
+    const box=$("answers"); box.innerHTML="";
+    drawStats();
+    return;
+  }
+
+  const tp=getTopicProg(q.topic);
+  const sr=getSR(q.id);
+
+  const meta = [
     `תחום: ${q.topic}`,
     `אזור: ${q.region}`,
+    `Bloom: ${q.bloom}`,
     `קושי: ${(q.difficulty||3)}/5`,
     `רמה בתחום: ${tp.lvl}/5`,
-    `#${q.id.replace("q_","")}`
-  ].map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join("");
+    `#${q.id.replace("q_","")}`,
+    (sr.dueAt?`due: ${new Date(sr.dueAt).toLocaleDateString("he-IL")}`:"due: —")
+  ];
+  $("qMeta").innerHTML = meta.map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join("");
 
   $("qText").textContent=q.q;
 
   const box=$("answers");
   box.innerHTML="";
-  $("feedbackBox").style.display="none";
-
   const keys=["1","2","3","4"];
   q.options.forEach((opt,idx)=>{
     const d=document.createElement("div");
@@ -1090,49 +1236,28 @@ function setCurrent(q){
     d.onclick=()=>selectAnswer(idx);
     box.appendChild(d);
   });
+
   drawStats();
 }
 
-function nextQuestion(){
-  const q=pickQuestion();
-  if(!q){
-    $("qText").textContent="אין שאלות זמינות (כיבית את כל התחומים).";
-    $("answers").innerHTML="";
-    return;
-  }
-  setCurrent(q);
-}
+/* =========================================================
+   Answer flow:
+   - answer -> show feedback
+   - then ask confidence (1-3) and store it
+   - schedule spaced repetition based on ok/conf
+   - if wrong: micro-retest queued as next question once
+========================================================= */
+let queuedRetest=null;
 
 function selectAnswer(idx){
   if(!state.current || state.lock) return;
-  state.lock=true;
   const q=state.current;
-  const ok = idx===q.answer;
+  if(q.id==="daily_done") return;
 
-  // per-question stats
-  const seen=state.seen[q.id]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
-  seen.lastSeen=now();
-  if(ok) seen.correctCount=(seen.correctCount||0)+1;
-  else seen.wrongCount=(seen.wrongCount||0)+1;
-  state.seen[q.id]=seen;
+  state.lock=true;
+  const ok = (idx===q.answer);
 
-  // global stats
-  state.answered += 1;
-  if(ok) state.correct += 1;
-  state.acc = state.correct/state.answered;
-  state.streak = ok ? (state.streak+1) : 0;
-
-  // topic progression (hard gradual)
-  const tp = updateTopicProgress(q.topic, ok, q.difficulty||3);
-
-  // history
-  state.history.push({t:now(), ok, topic:q.topic, topicLvl:tp.lvl});
-  if(state.history.length>2500) state.history = state.history.slice(-2500);
-
-  // schedule reviews
-  scheduleReview(q.id, ok);
-
-  // paint UI choices
+  // paint options
   const nodes=Array.from(document.querySelectorAll(".ans"));
   nodes.forEach(n=>{
     const i=Number(n.dataset.idx);
@@ -1141,65 +1266,262 @@ function selectAnswer(idx){
     n.style.pointerEvents="none";
   });
 
-  $("feedbackText").innerHTML=(ok?`<b style="color:var(--good)">נכון ✅</b>`:`<b style="color:var(--bad)">לא מדויק ❌</b>`)
-    + `<div style="margin-top:6px">${escapeHtml(q.explain)}</div>`;
-  $("hintText").textContent=q.hint||"";
+  // update global stats (confidence recorded next)
+  state.answered += 1;
+  if(ok) state.correct += 1;
+  state.acc = state.correct/state.answered;
+  state.streak = ok ? (state.streak+1) : 0;
+
+  // daily counter
+  if(state.mode==="daily"){
+    ensureDailyCounter();
+    state.daily.countToday += 1;
+  }
+
+  // update topic mastery
+  updateTopicProgress(q.topic, ok, q.difficulty||3);
+
+  // store last answer for why
+  state.lastAnswer = {qid:q.id, chosen:idx, ok};
+
+  // feedback
+  const head = ok
+    ? `<b style="color:var(--good)">נכון ✅</b>`
+    : `<b style="color:var(--bad)">לא מדויק ❌</b>`;
+
+  $("feedbackText").innerHTML = head + `<div style="margin-top:6px">${escapeHtml(q.explain||"")}</div>`;
   $("feedbackBox").style.display="block";
+  $("whyBtn").disabled=false;
+
+  // queue micro-retest if wrong & not already retest
+  queuedRetest = null;
+  if(!ok && !q.isRetest){
+    const rt = makeMicroRetest(q);
+    if(rt) queuedRetest = rt;
+  }
+
+  // confidence buttons activate now
+  $("confHint").textContent = "בחרי 1–3, ואז “שאלה הבאה”.";
+  state.lock=false; // allow confidence selection + next
+  saveState();
+  drawStats();
+}
+
+function setConfidence(c){
+  if(!state.lastAnswer) return;
+  // mark UI
+  document.querySelectorAll(".confBtn").forEach(b=>{
+    b.classList.toggle("on", Number(b.dataset.c)===c);
+  });
+
+  const q = BANK_BY_ID[state.lastAnswer.qid] || state.current;
+  const ok = state.lastAnswer.ok;
+
+  // store history
+  state.history.push({t:now(), ok, conf:c, topic:q.topic, qid:q.id});
+  if(state.history.length>2500) state.history=state.history.slice(-2500);
+
+  // danger: high confidence wrong
+  if(!ok && c>=3){
+    state.dangerCount = (state.dangerCount||0) + 1;
+    toast("סומן כ'אזור סיכון' (ביטחון גבוה + טעות) – יופיע בחזרות");
+  }
+
+  // schedule spaced repetition
+  scheduleSR(q.id, ok, c);
+
+  // store to SR
+  const sr=getSR(q.id);
+  sr.lastConf=c;
+  sr.lastOk=ok;
+
+  state.lastAnswer.conf=c;
 
   saveState();
   drawStats();
 }
 
-/* ===================== Buttons & init ===================== */
+document.querySelectorAll(".confBtn").forEach(btn=>{
+  btn.onclick=()=>setConfidence(Number(btn.dataset.c));
+});
+
+/* Why box */
+$("whyBtn").onclick=()=>{
+  const la=state.lastAnswer;
+  if(!la) return;
+  const q = BANK_BY_ID[la.qid] || state.current;
+  if(!q || !q.why) return;
+  const lines = q.options.map((opt,i)=>{
+    const mark = (i===q.answer) ? "✅" : "•";
+    return `${mark} ${opt} — ${q.why[i]||""}`;
+  });
+  $("whyBox").style.display="block";
+  $("whyBox").innerHTML = "<b>הסבר מסיחים (Distractors)</b><br>" + escapeHtml(lines.join("\n")).replaceAll("\n","<br>");
+};
+
+/* Next question */
+function nextQuestion(){
+  // require confidence after answering (soft enforcement)
+  const fbVisible = $("feedbackBox").style.display!=="none";
+  if(fbVisible && state.lastAnswer && state.lastAnswer.conf==null){
+    toast("בחרי Confidence (1–3) לפני שממשיכים");
+    return;
+  }
+
+  // if retest queued, serve it once
+  if(queuedRetest){
+    const rt=queuedRetest;
+    queuedRetest=null;
+    setCurrent(rt);
+    return;
+  }
+
+  const q=pickQuestion();
+  setCurrent(q);
+}
+
+$("nextBtn").onclick=()=>nextQuestion();
+
+/* Flag for SR */
+$("flagBtn").onclick=()=>{
+  const q=state.current;
+  if(!q || q.id==="daily_done") return;
+  const sr=getSR(q.id);
+  sr.flagged = !sr.flagged;
+  toast(sr.flagged ? "סומן לחזרה" : "בוטל סימון");
+  saveState();
+};
+
+/* Skip */
+$("skipBtn").onclick=()=>{
+  state.streak=0;
+  // do NOT count as answered
+  // if something is due and skipped, keep it due
+  saveState();
+  nextQuestion();
+};
+
+/* Reset */
+$("resetBtn").onclick=()=>{ if(confirm("לאפס הכל? זה ימחק התקדמות.")) hardReset(); };
+
+/* Start */
 $("startBtn").onclick=()=>{
-  state.started=true; saveState();
+  state.started=true;
+  saveState();
   $("screen_intro").style.display="none";
   $("screen_quiz").style.display="block";
   nextQuestion();
 };
-$("skipBtn").onclick=()=>{ if(!state.current) return; state.streak=0; saveState(); nextQuestion(); };
-$("nextBtn").onclick=()=>nextQuestion();
-$("flagBtn").onclick=()=>{
-  if(!state.current) return;
-  state.seen[state.current.id]=state.seen[state.current.id]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
-  state.seen[state.current.id].flagged=!state.seen[state.current.id].flagged;
-  saveState(); toast(state.seen[state.current.id].flagged?"סומן לחזרה":"בוטל סימון");
-};
-$("resetBtn").onclick=()=>{ if(confirm("לאפס הכל? זה ימחק התקדמות.")) hardReset(); };
 
+/* Copy stats */
 $("copyStatsBtn").onclick=()=>{
   const stats=topicStats();
   const summary={
-    date:new Date().toISOString(), seed:SEED, bankSize:500,
-    answered:state.answered, correct:state.correct, accuracy:state.acc,
+    version:VERSION,
+    seed:SEED,
+    bankSize:500,
+    mode:state.mode,
+    daily:state.daily,
+    answered:state.answered,
+    correct:state.correct,
+    accuracy:state.acc,
     overall:Math.round(calcOverall()*100),
-    reviewsQueued:state.reviewQueue.length,
-    topicProgress:Object.fromEntries(TOPICS.map(t=>[t,state.topicProg[t]])),
-    topicBadges:Object.fromEntries(TOPICS.map(t=>[t,stats[t].badge])),
-    topicScores:Object.fromEntries(TOPICS.map(t=>[t,Math.round(stats[t].score*100)])),
+    dangerCount:state.dangerCount||0,
+    dueCount:countDue(),
+    topics:Object.fromEntries(TOPICS.map(t=>{
+      const tp=getTopicProg(t);
+      return [t,{lvl:tp.lvl, attempts:tp.attempts, acc:(tp.attempts?tp.correct/tp.attempts:0), mastery:tp.mastery, badge:stats[t].badge}];
+    })),
   };
   const txt=JSON.stringify(summary,null,2);
   navigator.clipboard?.writeText(txt).then(()=>toast("הדוח הועתק ללוח")).catch(()=>toast("לא הצלחתי להעתיק"));
 };
 
-$("savePngBtn").onclick=()=>saveShareCardPng();
-$("w7Btn").onclick=()=>{state.windowDays=7; saveState(); drawTimeline(); drawStats();};
-$("w30Btn").onclick=()=>{state.windowDays=30; saveState(); drawTimeline(); drawStats();};
+/* Save PNG card */
+function saveShareCardPng(){
+  const donut=$("donut"), radar=$("radar");
+  const overall=Math.round(calcOverall()*100);
+  const accTxt=fmtPct(state.acc);
+  const answered=state.answered||0;
+  const danger=state.dangerCount||0;
+  const due=countDue();
+  const pad=26, W=1100, H=1550;
 
+  const out=document.createElement("canvas"); out.width=W; out.height=H;
+  const ctx=out.getContext("2d");
+
+  ctx.fillStyle="#f6f8fc"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#ffffff";
+  roundRect(ctx, pad, pad, W-2*pad, H-2*pad, 22, true, false);
+
+  ctx.fillStyle="#0f172a";
+  ctx.font="900 28px system-ui";
+  ctx.textAlign="right";
+  ctx.fillText("כרטיס ידע • 500 שאלות", W-pad, pad+36);
+
+  ctx.fillStyle="#475569";
+  ctx.font="600 14px system-ui";
+  ctx.fillText(`Overall: ${overall}% • דיוק: ${accTxt} • נענו: ${answered} • סיכון: ${danger} • due: ${due}`, W-pad, pad+62);
+
+  ctx.drawImage(donut, pad+20, pad+85, 520, 210);
+  ctx.drawImage(radar, pad+20, pad+320, W-2*pad-40, 620);
+
+  ctx.fillStyle="#0f172a";
+  ctx.font="800 18px system-ui";
+  ctx.fillText("Mastery לפי תחום", W-pad, pad+1000);
+
+  const stats=topicStats();
+  ctx.font="600 14px system-ui";
+  ctx.fillStyle="#475569";
+  let y=pad+1030;
+  const rows=TOPICS.map(t=>{
+    const tp=getTopicProg(t);
+    const badge=stats[t].badge;
+    const acc=tp.attempts?Math.round((tp.correct/tp.attempts)*100):0;
+    return `${t}: ${badge} • Lvl ${tp.lvl}/5 • Acc ${acc}% • N=${tp.attempts}`;
+  });
+  const col1=rows.slice(0,6);
+  const col2=rows.slice(6,12);
+  const x1=W-pad;
+  const x2=W/2 + 40;
+  col1.forEach((r,i)=>ctx.fillText(r, x1, y+i*26));
+  col2.forEach((r,i)=>ctx.fillText(r, x2, y+i*26));
+
+  ctx.fillStyle="#64748b";
+  ctx.font="600 12px system-ui";
+  ctx.fillText(`Version: ${VERSION} • ${new Date().toLocaleString("he-IL")}`, W-pad, H-pad);
+
+  const a=document.createElement("a");
+  a.download="כרטיס-ידע.png";
+  a.href=out.toDataURL("image/png");
+  a.click();
+}
+$("savePngBtn").onclick=()=>saveShareCardPng();
+
+/* Keyboard */
 window.addEventListener("keydown",(e)=>{
   if($("screen_quiz").style.display==="none") return;
   if(!state.current) return;
+
   if(e.key>="1" && e.key<="4"){
     const idx=Number(e.key)-1;
     const node=document.querySelector(`.ans[data-idx="${idx}"]`);
     if(node && node.style.pointerEvents!=="none") selectAnswer(idx);
   }
   if(e.key.toLowerCase()==="n"){
-    if($("feedbackBox").style.display!=="none") nextQuestion();
+    nextQuestion();
   }
 });
 
-drawStats();
+/* On load: if started, jump into quiz */
+function boot(){
+  if(state.started){
+    $("screen_intro").style.display="none";
+    $("screen_quiz").style.display="block";
+  }
+  drawStats();
+}
+boot();
 </script>
 </body>
 </html>
