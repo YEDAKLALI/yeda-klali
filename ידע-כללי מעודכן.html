@@ -1,0 +1,1056 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ידע כללי • 500 שאלות • כרטיס ידע (Pro)</title>
+  <style>
+    :root{
+      --bg:#0b1220; --ink:#e9eefc; --muted:#a9b4d6; --line:rgba(255,255,255,.10);
+      --accent:#6ea8ff; --good:#4ade80; --bad:#fb7185; --warn:#fbbf24;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans Hebrew",sans-serif;
+      background:
+        radial-gradient(1200px 800px at 70% -10%, rgba(110,168,255,.35), transparent 55%),
+        radial-gradient(900px 700px at 10% 0%, rgba(251,113,133,.22), transparent 50%),
+        var(--bg);
+      color:var(--ink);
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:16px}
+    header{
+      display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
+      padding:14px;border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      backdrop-filter:blur(8px)
+    }
+    h1{margin:0;font-size:18px;letter-spacing:.2px}
+    .sub{color:var(--muted);font-size:13px;line-height:1.35;margin-top:4px}
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}
+    .pill{
+      border:1px solid var(--line);border-radius:999px;padding:6px 10px;
+      font-size:12px;color:var(--muted);background:rgba(255,255,255,.03);
+      display:inline-flex;gap:6px;align-items:center
+    }
+    .pill b{color:var(--ink);font-weight:900}
+    main{margin-top:14px;display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+    @media (max-width:900px){main{grid-template-columns:1fr}}
+    .card{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03);padding:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .row.space{justify-content:space-between;align-items:flex-start}
+    button{
+      border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);
+      padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:900;font-size:14px
+    }
+    button:hover{border-color:rgba(255,255,255,.22)}
+    button.primary{background:rgba(110,168,255,.18);border-color:rgba(110,168,255,.45)}
+    button.good{background:rgba(74,222,128,.16);border-color:rgba(74,222,128,.45)}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .meta{color:var(--muted);font-size:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .tag{
+      display:inline-flex;gap:6px;align-items:center;padding:6px 9px;border-radius:999px;
+      border:1px solid var(--line);background:rgba(255,255,255,.02);
+      font-size:12px;color:var(--muted);margin:2px 6px 2px 0
+    }
+    .progress{height:10px;border-radius:999px;border:1px solid var(--line);overflow:hidden;background:rgba(255,255,255,.03)}
+    .bar{height:100%;width:0%;background:rgba(110,168,255,.55)}
+    .qtext{font-size:17px;line-height:1.55;margin:10px 0 10px}
+    .answers{display:grid;gap:10px;margin-top:10px}
+    .ans{
+      text-align:right;padding:12px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(255,255,255,.03);cursor:pointer;display:flex;gap:10px;align-items:flex-start
+    }
+    .ans:hover{border-color:rgba(255,255,255,.22)}
+    .ans .key{
+      width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--line);color:var(--muted);font-weight:900;flex:0 0 auto;background:rgba(0,0,0,.12)
+    }
+    .ans .label{flex:1}
+    .ans.correct{border-color:rgba(74,222,128,.6);background:rgba(74,222,128,.10)}
+    .ans.wrong{border-color:rgba(251,113,133,.6);background:rgba(251,113,133,.09)}
+    .box{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.12);line-height:1.55}
+    .small{color:var(--muted);font-size:12px;line-height:1.45}
+    .statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .stat{border:1px solid var(--line);border-radius:14px;padding:10px;background:rgba(255,255,255,.02)}
+    .stat .k{color:var(--muted);font-size:12px}
+    .stat .v{font-size:18px;font-weight:900;margin-top:2px}
+    canvas{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+    .toast{
+      position:fixed;bottom:14px;left:14px;right:14px;max-width:980px;margin:0 auto;
+      padding:10px 12px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(0,0,0,.55);backdrop-filter:blur(6px);display:none;color:var(--ink)
+    }
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .badgeRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .badge{
+      display:inline-flex;gap:8px;align-items:center;
+      border:1px solid var(--line);background:rgba(255,255,255,.02);
+      border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)
+    }
+    .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.20);border:1px solid rgba(255,255,255,.14)}
+    .bname{color:var(--ink);font-weight:900}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="flex:1">
+      <h1>ידע כללי • 500 שאלות קבועות • כרטיס ידע (Pro)</h1>
+      <div class="sub">
+        דרגות לכל תחום + גרף התקדמות (7/30 ימים) + שמירת כרטיס כתמונה (PNG).
+      </div>
+    </div>
+    <div class="pillrow">
+      <div class="pill">רמה: <b id="lvlPill">1</b></div>
+      <div class="pill">רצף: <b id="streakPill">0</b> 🔥</div>
+      <div class="pill">דיוק: <b id="accPill">—</b></div>
+      <div class="pill">מאגר: <b>500</b></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div id="screen_intro">
+        <div class="row space">
+          <div>
+            <div class="qtext" style="margin:0">התחלה</div>
+            <div class="small">טיפ: בוואטסאפ — הורדה → “קבצים” → פתח באמצעות Chrome.</div>
+            <div class="box small" style="margin-top:10px">
+              מקשים: 1–4 לבחירה, N לשאלה הבאה אחרי משוב.
+            </div>
+          </div>
+          <div class="row">
+            <button class="primary" id="startBtn">התחילי</button>
+            <button id="resetBtn">איפוס</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="screen_quiz" style="display:none">
+        <div class="row space">
+          <div>
+            <div class="meta" id="qMeta"></div>
+            <div class="qtext" id="qText">—</div>
+          </div>
+          <div class="row">
+            <button id="skipBtn">דלגי</button>
+          </div>
+        </div>
+
+        <div class="progress" style="margin:10px 0 8px"><div class="bar" id="xpBar"></div></div>
+        <div class="small" id="xpText">XP: 0 / 100</div>
+
+        <div class="answers" id="answers"></div>
+
+        <div class="box" id="feedbackBox" style="display:none">
+          <div id="feedbackText"></div>
+          <div class="small" id="hintText" style="margin-top:6px"></div>
+          <div class="row" style="margin-top:10px">
+            <button class="good" id="nextBtn">שאלה הבאה</button>
+            <button id="flagBtn">סמני לחזרה</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="row space">
+        <div>
+          <div class="qtext" style="margin:0">כרטיס ידע</div>
+          <div class="small">Overall + רדאר תחומים + דרגות + התקדמות זמן.</div>
+        </div>
+        <div class="row">
+          <button id="savePngBtn">שמור כרטיס (PNG)</button>
+          <button id="copyStatsBtn">העתק דוח</button>
+        </div>
+      </div>
+
+      <div class="statgrid" style="margin-top:10px">
+        <div class="stat"><div class="k">נענו</div><div class="v" id="answeredStat">0</div></div>
+        <div class="stat"><div class="k">נכון</div><div class="v" id="correctStat">0</div></div>
+        <div class="stat"><div class="k">חזרות</div><div class="v" id="reviewStat">0</div></div>
+        <div class="stat"><div class="k">קטגוריה</div><div class="v" style="font-size:14px" id="catStat">—</div></div>
+      </div>
+
+      <!-- This is the "shareable card" area -->
+      <div id="shareCard" class="box" style="margin-top:10px">
+        <div class="small"><b>טבעת התקדמות (Overall)</b></div>
+        <canvas id="donut" width="900" height="280"></canvas>
+
+        <div class="small" style="margin-top:10px"><b>רדאר ידע לפי תחומים</b></div>
+        <canvas id="radar" width="900" height="560"></canvas>
+
+        <div class="small" style="margin-top:10px"><b>דרגות לפי תחום</b></div>
+        <div id="badges" class="badgeRow"></div>
+
+        <div class="small" style="margin-top:10px"><b>חזקות / חלשות</b></div>
+        <div id="strengthWeak" class="small" style="margin-top:6px"></div>
+      </div>
+
+      <div class="box" style="margin-top:10px">
+        <div class="row space">
+          <div class="small"><b>היסטוריית התקדמות</b> (בחר חלון זמן)</div>
+          <div class="row">
+            <button id="w7Btn" class="primary">7 ימים</button>
+            <button id="w30Btn">30 ימים</button>
+          </div>
+        </div>
+        <canvas id="timeline" width="900" height="320" style="margin-top:8px"></canvas>
+        <div class="small" style="margin-top:6px">
+          הקו העליון: Overall • הקו התחתון: Accuracy יומי (אם נענו שאלות באותו יום).
+        </div>
+      </div>
+
+      <div class="box small mono" style="margin-top:10px">
+        Seed קבוע: <span id="seedBox"></span> (שינוי SEED יוצר 500 שאלות אחרות).
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ===================== Core ===================== */
+const LS_KEY="gk500_pro_state_v1";
+const SEED = 222905;
+document.getElementById("seedBox").textContent = String(SEED);
+
+const TOPICS=[
+  "היסטוריה","אישים","פוליטיקה ומדינה","צבא וביטחון","כלכלה","מדע",
+  "גיאוגרפיה","תרבות ואומנות","ספרות","טכנולוגיה","סביבה","ספורט"
+];
+
+function $(id){return document.getElementById(id)}
+function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
+function now(){return Date.now()}
+function fmtPct(x){return (x==null)?"—":Math.round(x*100)+"%"}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function toast(msg){const el=$("toast"); el.textContent=msg; el.style.display="block"; clearTimeout(toast._t); toast._t=setTimeout(()=>el.style.display="none",1800)}
+function loadState(){try{const r=localStorage.getItem(LS_KEY); return r?JSON.parse(r):null}catch(e){return null}}
+function saveState(){localStorage.setItem(LS_KEY, JSON.stringify(state))}
+function hardReset(){localStorage.removeItem(LS_KEY); location.reload()}
+
+/* ---------- PRNG (deterministic) ---------- */
+function mulberry32(a){
+  return function(){
+    let t = a += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
+}
+function pick(rng, arr){ return arr[Math.floor(rng()*arr.length)] }
+function shuffle(rng, arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(rng()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+/* ===================== Bank (500 fixed) ===================== */
+const CONCEPTS = [
+  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:1, term:"דמוקרטיה ייצוגית", def:"שיטה שבה הציבור בוחר נציגים שמקבלים החלטות בשמו."},
+  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:1, term:"משאל עם", def:"הצבעה כללית של ציבור הבוחרים על סוגיה אחת מוגדרת."},
+  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:2, term:"הפרדת רשויות", def:"חלוקת סמכויות בין מחוקקת, מבצעת ושופטת כדי לצמצם ריכוז כוח."},
+  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:2, term:"איזונים ובלמים", def:"מנגנונים שמאפשרים לרשויות לפקח זו על זו ולהגביל שימוש לרעה בכוח."},
+  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:2, term:"שלטון החוק", def:"עיקרון שלפיו גם השלטון כפוף לחוק וכללים כלליים ולא לשרירות."},
+  {topic:"פוליטיקה ומדינה", region:"עולם", diff:3, term:"פדרליזם", def:"מבנה מדיני המחלק סמכויות בין ממשל מרכזי ליחידות אזוריות (מדינות/מחוזות)."},
+  {topic:"פוליטיקה ומדינה", region:"עולם", diff:3, term:"משטר נשיאותי", def:"משטר שבו הנשיא נבחר בנפרד מהפרלמנט ומשמש ראש הרשות המבצעת."},
+  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:3, term:"משטר פרלמנטרי", def:"ממשלה שנשענת על אמון הפרלמנט ויכולה ליפול בהצבעת אי-אמון."},
+  {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:3, term:"לגיטימציה", def:"מקור הקבלה וההצדקה לסמכות שלטונית (בחירות, חוק, מסורת, ביצועים)."},
+  {topic:"פוליטיקה ומדינה", region:"עולם", diff:3, term:"פופוליזם", def:"סגנון פוליטי שמדגיש עימות 'העם' מול 'אליטות' ולעיתים מציע פתרונות פשוטים לבעיות מורכבות."},
+  {topic:"פוליטיקה ומדינה", region:"עולם", diff:4, term:"ג'רימנדרינג", def:"שרטוט גבולות מחוזות בחירה באופן שמיטיב פוליטית עם צד מסוים."},
+
+  {topic:"כלכלה", region:"ישראל+עולם", diff:1, term:"אינפלציה", def:"עלייה כללית ומתמשכת במחירים שמפחיתה את כוח הקנייה."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:1, term:"מיתון", def:"ירידה ממושכת בפעילות כלכלית, לרוב עם עלייה באבטלה."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"דפלציה", def:"ירידה כללית ומתמשכת במחירים (לעיתים מלווה בירידה בביקוש)."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"תוצר מקומי גולמי (GDP)", def:"מדד לערך הכולל של סחורות ושירותים שיוצרו בכלכלה בזמן נתון."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"מדיניות פיסקלית", def:"שימוש בתקציב המדינה: מיסים והוצאות כדי להשפיע על הכלכלה."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:2, term:"מדיניות מוניטרית", def:"שימוש בכלים כמו ריבית והיצע כסף (בנק מרכזי) כדי להשפיע על אינפלציה וצמיחה."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:3, term:"ריבית", def:"המחיר של כסף: התשלום על הלוואה או התשואה על חיסכון."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:3, term:"היצע וביקוש", def:"מסגרת שמסבירה כיצד מחיר וכמות נקבעים בשוק לפי רצון לקנות מול רצון למכור."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:3, term:"יתרון יחסי", def:"יכולת לייצר מוצר בעלות אלטרנטיבית נמוכה יחסית לאחרים, בסיס לסחר."},
+  {topic:"כלכלה", region:"ישראל+עולם", diff:4, term:"עלות אלטרנטיבית", def:"מה שמוותרים עליו כשבוחרים אפשרות אחת במקום אחרת."},
+  {topic:"כלכלה", region:"עולם", diff:4, term:"מדד המחירים לצרכן (CPI)", def:"מדד שמודד שינוי במחירים של סל מוצרים ושירותים של משקי בית."},
+
+  {topic:"מדע", region:"ישראל+עולם", diff:1, term:"DNA", def:"מולקולה שנושאת מידע גנטי בתאים."},
+  {topic:"מדע", region:"ישראל+עולם", diff:1, term:"חיידק", def:"יצור חד-תאי (פרוקריוט) שיכול לחיות בסביבות רבות."},
+  {topic:"מדע", region:"ישראל+עולם", diff:1, term:"וירוס", def:"גורם זיהומי שזקוק לתא מארח כדי להשתכפל."},
+  {topic:"מדע", region:"ישראל+עולם", diff:2, term:"השערה", def:"טענה/ניבוי שניתן לבדוק בניסוי או תצפית."},
+  {topic:"מדע", region:"ישראל+עולם", diff:2, term:"תיאוריה מדעית", def:"מסגרת הסבר מבוססת ראיות רבות שמסוגלת לנבא תוצאות."},
+  {topic:"מדע", region:"ישראל+עולם", diff:2, term:"מתאם", def:"קשר סטטיסטי בין משתנים שאינו בהכרח סיבתיות."},
+  {topic:"מדע", region:"ישראל+עולם", diff:3, term:"סיבתיות", def:"יחס שבו שינוי ב-X גורם לשינוי ב-Y."},
+  {topic:"מדע", region:"ישראל+עולם", diff:3, term:"ניסוי מבוקר", def:"ניסוי עם תנאים נשלטים וקבוצת ביקורת להשוואה."},
+  {topic:"מדע", region:"ישראל+עולם", diff:3, term:"פוטוסינתזה", def:"תהליך שבו צמחים מייצרים סוכרים מאור, מים ו-CO₂ ומשחררים חמצן."},
+  {topic:"מדע", region:"ישראל+עולם", diff:4, term:"אנטרופיה", def:"מדד לאי-סדר/מספר מצבים אפשריים במערכת (בהקשר תרמודינמי)."},
+  {topic:"מדע", region:"ישראל+עולם", diff:4, term:"חוק שני של התרמודינמיקה", def:"באופן כללי: אנטרופיה (אי-סדר) במערכת סגורה נוטה לעלות."},
+
+  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:1, term:"קוד פתוח", def:"תוכנה עם קוד מקור גלוי לשימוש ושינוי לפי רישיון."},
+  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:1, term:"אלגוריתם", def:"סט צעדים/כללים לפתרון בעיה או ביצוע משימה."},
+  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:2, term:"הצפנה", def:"המרת מידע לצורה שלא ניתן לקרוא בלי מפתח מתאים."},
+  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:2, term:"פישינג", def:"התחזות כדי לגרום למשתמש למסור סיסמה/מידע רגיש."},
+  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:3, term:"אימות דו-שלבי (2FA)", def:"אבטחה שמוסיפה שכבת אימות נוספת מעבר לסיסמה."},
+  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:3, term:"ענן מחשוב", def:"אספקת משאבי מחשוב (אחסון/שרתים) דרך האינטרנט לפי צורך."},
+  {topic:"טכנולוגיה", region:"ישראל+עולם", diff:4, term:"למידת מכונה", def:"שיטות שבהן מודלים לומדים דפוסים מנתונים כדי לחזות/לסווג."},
+
+  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:1, term:"הרתעה", def:"לגרום ליריב להימנע מפעולה בגלל עלות/סיכון צפויים."},
+  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:1, term:"מודיעין", def:"איסוף וניתוח מידע להפחתת אי-ודאות ותמיכה בהחלטות."},
+  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:2, term:"הגנה אזרחית", def:"היערכות להגן על אוכלוסייה ותשתיות בזמן חירום."},
+  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:3, term:"דוקטרינה", def:"עקרונות מנחים להפעלת כוח/מדיניות ביטחונית."},
+  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:3, term:"מלחמה היברידית", def:"שילוב אמצעים צבאיים ולא-צבאיים (סייבר, תודעה, כלכלה) במערכה אחת."},
+  {topic:"צבא וביטחון", region:"ישראל+עולם", diff:4, term:"סייבר", def:"תחום התקיפה/הגנה במערכות מחשוב, רשתות ונתונים."},
+
+  {topic:"גיאוגרפיה", region:"עולם", diff:1, term:"קו המשווה", def:"קו רוחב 0° שמחלק את העולם לצפון ולדרום."},
+  {topic:"גיאוגרפיה", region:"עולם", diff:1, term:"קו גריניץ' (מרידיאן 0)", def:"קו אורך 0° המשמש בסיס למדידת קווי אורך ואזורי זמן."},
+  {topic:"גיאוגרפיה", region:"עולם", diff:3, term:"אקלים", def:"דפוס מזג אוויר ארוך טווח באזור מסוים."},
+
+  {topic:"סביבה", region:"ישראל+עולם", diff:2, term:"קיימות", def:"שימוש במשאבים באופן שאינו פוגע ביכולת הדורות הבאים לחיות ולשגשג."},
+  {topic:"סביבה", region:"ישראל+עולם", diff:2, term:"מגוון ביולוגי", def:"עושר וגיוון של מינים, גנים ומערכות אקולוגיות."},
+  {topic:"סביבה", region:"ישראל+עולם", diff:3, term:"אפקט חממה", def:"תהליך שבו גזים באטמוספרה לוכדים חום ומחממים את פני כדור הארץ."},
+
+  {topic:"תרבות ואומנות", region:"עולם", diff:2, term:"רנסנס", def:"תקופה של 'לידה מחדש' באירופה עם עניין מחודש בקלאסיקה, מדע ואומנות."},
+  {topic:"תרבות ואומנות", region:"עולם", diff:2, term:"אימפרסיוניזם", def:"סגנון אומנות שמדגיש אור ורושם רגעי, פחות דיוק ריאליסטי."},
+
+  {topic:"ספרות", region:"ישראל+עולם", diff:2, term:"מטאפורה", def:"דימוי לא-מילולי שמעניק משמעות חדשה ('ים של דאגות')."},
+  {topic:"ספרות", region:"ישראל+עולם", diff:3, term:"אירוניה", def:"פער בין הציפייה/הנאמר לבין מה שקורה בפועל או מה שהקורא מבין."},
+  {topic:"ספרות", region:"ישראל+עולם", diff:3, term:"מספר לא-מהימן", def:"מספר שסיפורו אינו בהכרח אמין; הקורא מזהה סתירות/הטיות."},
+
+  {topic:"ספורט", region:"עולם", diff:1, term:"אולימפיאדה", def:"תחרות ספורט בינלאומית רב-ענפית (קיץ/חורף) לפי כללים רשמיים."},
+  {topic:"ספורט", region:"עולם", diff:2, term:"שיא עולם", def:"התוצאה הטובה ביותר שנמדדה באופן רשמי בענף לפי הכללים."},
+
+  {topic:"היסטוריה", region:"עולם", diff:1, term:"מלחמת העולם הראשונה", def:"עימות עולמי בשנים 1914–1918 בין בריתות מעצמות."},
+  {topic:"היסטוריה", region:"עולם", diff:1, term:"מלחמת העולם השנייה", def:"עימות עולמי בשנים 1939–1945."},
+  {topic:"היסטוריה", region:"עולם", diff:2, term:"המלחמה הקרה", def:"עימות גיאו-פוליטי בין גושים (מזרח/מערב) בלי מלחמה ישירה כוללת."},
+  {topic:"היסטוריה", region:"עולם", diff:2, term:"נפילת חומת ברלין (1989)", def:"אירוע שסימל שינויי משטר באירופה והאיץ את סיום המלחמה הקרה."},
+  {topic:"היסטוריה", region:"עולם", diff:3, term:"השפל הגדול", def:"משבר כלכלי עולמי חמור בעיקר בשנות ה-30."},
+  {topic:"היסטוריה", region:"ישראל", diff:1, term:"הכרזת המדינה (1948)", def:"הכרזת עצמאות ישראל והקמת המדינה בשנת 1948."},
+  {topic:"היסטוריה", region:"ישראל", diff:2, term:"תוכנית החלוקה (1947)", def:"הצעת האו״ם לחלוקת שטח המנדט לשתי מדינות (יהודית/ערבית)."},
+  {topic:"היסטוריה", region:"ישראל", diff:3, term:"מלחמת ששת הימים (1967)", def:"מלחמה קצרה שהובילה לשינויים טריטוריאליים משמעותיים ולהשלכות מדיניות ארוכות."},
+
+  {topic:"אישים", region:"עולם", diff:1, term:"אלברט איינשטיין", def:"מדען המזוהה במיוחד עם תורת היחסות."},
+  {topic:"אישים", region:"עולם", diff:1, term:"אייזק ניוטון", def:"מדען המזוהה עם חוקי התנועה הקלאסיים והכבידה."},
+  {topic:"אישים", region:"ישראל", diff:2, term:"דוד בן-גוריון", def:"ראש הממשלה הראשון של ישראל ומנהיג מרכזי בהכרזת העצמאות."}
+];
+
+const SCENARIOS = [
+  {term:"אינפלציה", scenario:"המחירים של רוב המוצרים עולים לאורך חודשים וכוח הקנייה של הכסף יורד."},
+  {term:"עלות אלטרנטיבית", scenario:"כשבחרת ללמוד במקום לעבוד, הוויתור על ההכנסה הוא 'המחיר' של הבחירה."},
+  {term:"מדיניות מוניטרית", scenario:"בנק מרכזי מעלה ריבית כדי לקרר ביקושים ולהפחית לחץ אינפלציוני."},
+  {term:"הפרדת רשויות", scenario:"הסמכויות מחולקות כדי שממשלה לא תשלוט גם בחקיקה וגם במשפט בלי פיקוח."},
+  {term:"שלטון החוק", scenario:"גם שר/ראש ממשלה כפופים לכללים ויכולים לעמוד לדין כמו כל אזרח."},
+  {term:"פדרליזם", scenario:"במדינה מסוימת יש ממשל מרכזי, אבל גם למדינות/מחוזות יש סמכויות חקיקה."},
+  {term:"פישינג", scenario:"קיבלת מייל שנראה כמו הבנק ומבקש להזין סיסמה — אבל זה ניסיון גניבה."},
+  {term:"אימות דו-שלבי (2FA)", scenario:"אחרי סיסמה, את מקבלת קוד ב-SMS/אפליקציה כדי להיכנס לחשבון."},
+  {term:"הרתעה", scenario:"מדינה נמנעת מתקיפה כי היא חוששת מהתגובה ומהמחיר הצפוי."},
+  {term:"מתאם", scenario:"בנתונים רואים ששני משתנים 'זזים יחד', אך זה לא מוכיח שאחד גורם לשני."},
+  {term:"ניסוי מבוקר", scenario:"בודקים תרופה מול קבוצת ביקורת כדי לוודא שההשפעה לא מקרית."},
+  {term:"אפקט חממה", scenario:"גזים באטמוספרה לוכדים חום ומעלים את הטמפרטורה הממוצעת."},
+];
+
+const TEMPLATE_TYPES=["DEF_TO_TERM","TERM_TO_DEF","SCENARIO_TERM"];
+
+function makeQuestion_DefToTerm(rng, concept, pool){
+  const correct = concept.term;
+  const distractors = shuffle(rng, pool.filter(c=>c.topic===concept.topic && c.term!==correct).map(c=>c.term)).slice(0,3);
+  const options = shuffle(rng, [correct, ...distractors]);
+  const answer = options.indexOf(correct);
+  return { topic: concept.topic, region: concept.region, difficulty: concept.diff,
+    q: "איזה מושג מתאים להגדרה הבאה?\n" + concept.def,
+    options, answer,
+    explain: "המושג הנכון הוא: " + correct + ". הגדרה: " + concept.def,
+    hint: "(מושג=שם קצר לרעיון/תופעה.)"
+  };
+}
+function makeQuestion_TermToDef(rng, concept, pool){
+  const correct = concept.def;
+  const distractors = shuffle(rng, pool.filter(c=>c.topic===concept.topic && c.term!==concept.term).map(c=>c.def)).slice(0,3);
+  const options = shuffle(rng, [correct, ...distractors]);
+  const answer = options.indexOf(correct);
+  return { topic: concept.topic, region: concept.region, difficulty: clamp(concept.diff+1,1,5),
+    q: "מה ההגדרה המדויקת ביותר ל:\n" + concept.term,
+    options, answer,
+    explain: "הגדרה נכונה: " + correct,
+    hint: "(הגדרה=הסבר קצר למה זה.)"
+  };
+}
+function makeQuestion_Scenario(rng, pool){
+  const sc = pick(rng, SCENARIOS);
+  const correct = sc.term;
+  const distractors = shuffle(rng, pool.filter(c=>c.term!==correct).map(c=>c.term)).slice(0,3);
+  const options = shuffle(rng, [correct, ...distractors]);
+  const answer = options.indexOf(correct);
+  const c = pool.find(x=>x.term===correct) || {topic:"כלכלה",region:"ישראל+עולם",diff:3,def:""};
+  return { topic: c.topic, region: c.region, difficulty: clamp((c.diff||3)+1,1,5),
+    q: "איזה מושג מתאר הכי טוב את המצב הבא?\n" + sc.scenario,
+    options, answer,
+    explain: "המושג הנכון הוא: " + correct + (c.def?(". " + c.def):""),
+    hint: "(תרחיש=תיאור מצב אמיתי/אפשרי.)"
+  };
+}
+function generateBank500(){
+  const rng = mulberry32(SEED);
+  const pool = CONCEPTS.slice();
+  const qs = [];
+  let i=0;
+  while(qs.length<500){
+    const t = TEMPLATE_TYPES[Math.floor(rng()*TEMPLATE_TYPES.length)];
+    const concept = pool[i % pool.length];
+    let q;
+    if(t==="DEF_TO_TERM") q = makeQuestion_DefToTerm(rng, concept, pool);
+    else if(t==="TERM_TO_DEF") q = makeQuestion_TermToDef(rng, concept, pool);
+    else q = makeQuestion_Scenario(rng, pool);
+    q.id = "q_" + String(qs.length+1).padStart(3,"0");
+    if(!q.options || q.options.length!==4) { i++; continue; }
+    qs.push(q); i++;
+  }
+  qs.forEach((q,idx)=>{
+    const prog = idx/(qs.length-1);
+    const target = 1 + Math.floor(prog*4);
+    q.difficulty = clamp(Math.round((q.difficulty*0.6)+(target*0.4)),1,5);
+  });
+  return qs;
+}
+const BANK = generateBank500();
+
+/* ===================== State ===================== */
+let state = loadState() || {
+  started:false,
+  level:1, xp:0, streak:0,
+  answered:0, correct:0, acc:null,
+  enabledTopics:Object.fromEntries(TOPICS.map(t=>[t,true])),
+  seen:{}, reviewQueue:[], history:[],
+  current:null, lock:false,
+  windowDays:7
+};
+
+/* ===================== Selection & Reviews ===================== */
+function getDueReview(){
+  const t=now();
+  state.reviewQueue.sort((a,b)=>a.dueAt-b.dueAt);
+  const item=state.reviewQueue.find(x=>x.dueAt<=t);
+  if(!item) return null;
+  state.reviewQueue=state.reviewQueue.filter(x=>x!==item);
+  return BANK.find(q=>q.id===item.id)||null;
+}
+function pickNew(){
+  const enabled=BANK.filter(q=>state.enabledTopics[q.topic]);
+  if(!enabled.length) return null;
+  const target=clamp(state.level+(Math.random()<0.25?1:0)-(Math.random()<0.15?1:0),1,5);
+  const scored=enabled.map(q=>{
+    const seen=state.seen[q.id];
+    const unseenBoost=seen?0.85:1.35;
+    const diffScore=1/(1+Math.abs((q.difficulty||3)-target));
+    const wrongBoost=seen?(1+(seen.wrongCount||0)*0.35):1;
+    const flaggedBoost=(seen&&seen.flagged)?1.25:1;
+    return {q,w:diffScore*unseenBoost*wrongBoost*flaggedBoost};
+  });
+  const total=scored.reduce((s,x)=>s+x.w,0);
+  let r=Math.random()*total;
+  for(const x of scored){r-=x.w; if(r<=0) return x.q;}
+  return scored[scored.length-1].q;
+}
+function pickQuestion(){
+  if(state.reviewQueue.length && Math.random()<0.40){
+    const rq=getDueReview();
+    if(rq && state.enabledTopics[rq.topic]) return rq;
+  }
+  return pickNew();
+}
+function scheduleReview(qid,ok){
+  const seen=state.seen[qid]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
+  const wrongs=seen.wrongCount||0, corrects=seen.correctCount||0;
+  let mins=0;
+  if(!ok) mins = wrongs>=2 ? 2 : 5;
+  else if(wrongs>0){
+    const stage=clamp(corrects,0,4);
+    const sch=[10,60,24*60,3*24*60,7*24*60];
+    mins=sch[stage];
+  }
+  if(mins>0) state.reviewQueue.push({id:qid,dueAt:now()+mins*60*1000});
+}
+function updateLeveling(ok,qd){
+  const base = ok ? (10+qd*4) : 3;
+  state.xp += base;
+  state.streak = ok ? state.streak+1 : 0;
+  state.answered += 1;
+  if(ok) state.correct += 1;
+  state.acc = state.correct/state.answered;
+
+  // timeline history entry (store per answer)
+  state.history.push({t:now(), ok, topic:state.current?.topic||"", level:state.level});
+  if(state.history.length>2000) state.history = state.history.slice(-2000);
+
+  if(state.xp>=100){
+    const minAcc=(state.level<=2)?0.62:(state.level===3?0.68:0.72);
+    if((state.acc||0)>=minAcc && state.level<5){state.level+=1; state.xp=0; toast("עלית רמה! 🎉");}
+    else{state.xp=92; toast("כמעט! עוד קצת 🙂");}
+  }
+  saveState();
+}
+
+/* ===================== Topic Scores + Badges ===================== */
+function topicStats(){
+  const out = {};
+  TOPICS.forEach(t=>out[t]={correct:0,wrong:0,total:0,score:0,badge:"—"});
+  for(const q of BANK){
+    const s = state.seen[q.id];
+    if(!s) continue;
+    const c = (s.correctCount||0);
+    const w = (s.wrongCount||0);
+    const t = q.topic;
+    out[t].correct += c;
+    out[t].wrong += w;
+    out[t].total += (c+w);
+  }
+  for(const t of TOPICS){
+    const a = out[t];
+    const base = 0.35;
+    const k = 6;
+    const p = a.total ? (a.correct/a.total) : base;
+    a.score = clamp(((p*a.total) + (base*k)) / (a.total + k),0,1);
+
+    // badge thresholds + minimum attempts
+    a.badge = badgeFor(a.score, a.total);
+  }
+  return out;
+}
+function badgeFor(score,total){
+  if(total < 5) return "New";
+  if(score < 0.55) return "Bronze";
+  if(score < 0.70) return "Silver";
+  if(score < 0.82) return "Gold";
+  return "Platinum";
+}
+function badgeColor(name){
+  // keep simple: no explicit colors in CSS; use alpha overlays
+  if(name==="Platinum") return "rgba(110,168,255,.28)";
+  if(name==="Gold") return "rgba(251,191,36,.20)";
+  if(name==="Silver") return "rgba(233,238,252,.14)";
+  if(name==="Bronze") return "rgba(251,113,133,.14)";
+  return "rgba(255,255,255,.10)";
+}
+function strengthWeakList(stats){
+  const arr = TOPICS.map(t=>({t,score:stats[t].score,total:stats[t].total}));
+  const eligible = arr.filter(x=>x.total>=5);
+  const best = eligible.slice().sort((a,b)=>b.score-a.score).slice(0,3);
+  const worst = eligible.slice().sort((a,b)=>a.score-b.score).slice(0,3);
+  return {best,worst};
+}
+
+/* ===================== Canvas helpers ===================== */
+function roundRect(ctx, x, y, w, h, r, fill, stroke){
+  if(w<0) return;
+  r=Math.min(r,w/2,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+  if(fill) ctx.fill();
+  if(stroke) ctx.stroke();
+}
+
+/* ===================== Infographics ===================== */
+function calcOverall(){
+  const answered = state.answered||0;
+  const acc = (state.acc==null)?0:(state.acc);
+  const depth = clamp(Math.sqrt(answered/60),0,1);
+  return clamp((acc*0.7)+(depth*0.3),0,1);
+}
+
+function drawDonut(){
+  const c=$("donut"),ctx=c.getContext("2d");
+  const w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+
+  const overall = calcOverall();
+  const cx=w*0.18, cy=h*0.55, r=Math.min(w,h)*0.30;
+  const start=-Math.PI/2, end=start + overall*2*Math.PI;
+
+  ctx.lineWidth = 26;
+  ctx.strokeStyle = "rgba(255,255,255,.10)";
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.stroke();
+
+  ctx.strokeStyle = "rgba(110,168,255,.75)";
+  ctx.beginPath(); ctx.arc(cx,cy,r,start,end); ctx.stroke();
+
+  ctx.fillStyle = "rgba(233,238,252,.95)";
+  ctx.font = "900 34px system-ui";
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText(Math.round(overall*100)+"%", cx, cy-6);
+  ctx.font = "600 16px system-ui";
+  ctx.fillStyle = "rgba(169,180,214,.95)";
+  ctx.fillText("Overall ידע", cx, cy+28);
+
+  const x2=w*0.40, y2=h*0.22;
+  ctx.textAlign="right"; ctx.textBaseline="alphabetic";
+  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.font="800 18px system-ui";
+  ctx.fillText("פירוק מהיר", w-24, y2);
+
+  ctx.font="600 14px system-ui";
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  const lines=[
+    `דיוק: ${fmtPct(state.acc)}`,
+    `נענו: ${state.answered||0}`,
+    `רמה: ${state.level}/5`,
+    `חזרות בתור: ${state.reviewQueue.length}`
+  ];
+  lines.forEach((t,i)=>ctx.fillText(t, w-24, y2+30+i*22));
+
+  const bx=w*0.40, by=h*0.73, bw=w*0.56, bh=16;
+  ctx.strokeStyle="rgba(255,255,255,.12)";
+  ctx.lineWidth=2;
+  roundRect(ctx,bx,by,bw,bh,10,false,true);
+  ctx.fillStyle="rgba(110,168,255,.55)";
+  roundRect(ctx,bx,by,bw*clamp(state.xp/100,0,1),bh,10,true,false);
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.font="600 12px system-ui";
+  ctx.textAlign="right";
+  ctx.fillText("XP לרמה הבאה", w-24, by-8);
+}
+
+function drawRadar(){
+  const c=$("radar"),ctx=c.getContext("2d");
+  const w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+
+  const stats = topicStats();
+  const scores = TOPICS.map(t=>stats[t].score);
+  const cx=w*0.50, cy=h*0.50;
+  const R=Math.min(w,h)*0.38;
+  const n=TOPICS.length;
+
+  ctx.strokeStyle="rgba(255,255,255,.10)";
+  ctx.lineWidth=2;
+  for(let g=1; g<=4; g++){
+    const r=R*(g/4);
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const ang = -Math.PI/2 + (i*2*Math.PI/n);
+      const x=cx + r*Math.cos(ang);
+      const y=cy + r*Math.sin(ang);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.stroke();
+  }
+
+  ctx.strokeStyle="rgba(255,255,255,.12)";
+  ctx.lineWidth=2;
+  for(let i=0;i<n;i++){
+    const ang = -Math.PI/2 + (i*2*Math.PI/n);
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx + R*Math.cos(ang), cy + R*Math.sin(ang));
+    ctx.stroke();
+  }
+
+  ctx.fillStyle="rgba(110,168,255,.18)";
+  ctx.strokeStyle="rgba(110,168,255,.70)";
+  ctx.lineWidth=3;
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    const ang = -Math.PI/2 + (i*2*Math.PI/n);
+    const r = R * scores[i];
+    const x = cx + r*Math.cos(ang);
+    const y = cy + r*Math.sin(ang);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+
+  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.font="700 14px system-ui";
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  for(let i=0;i<n;i++){
+    const ang = -Math.PI/2 + (i*2*Math.PI/n);
+    const x = cx + (R+52)*Math.cos(ang);
+    const y = cy + (R+52)*Math.sin(ang);
+    const label = TOPICS[i].length>12 ? TOPICS[i].replace(" ומדינה","") : TOPICS[i];
+    ctx.fillText(label, x, y);
+  }
+
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.font="600 12px system-ui";
+  ctx.textAlign="right"; ctx.textBaseline="alphabetic";
+  ctx.fillText("מדד ידע = דיוק מתוקן לפי כמות ניסיונות (מונע קפיצות מוקדמות).", w-20, h-18);
+
+  const sw = strengthWeakList(stats);
+  const best = sw.best.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("\n") || "—";
+  const worst= sw.worst.map(x=>`• ${x.t} (${Math.round(x.score*100)}%)`).join("\n") || "—";
+  $("strengthWeak").innerHTML =
+    `<b>חזקות</b><br>${escapeHtml(best).replaceAll("\n","<br>")}<br><br><b>חלשות</b><br>${escapeHtml(worst).replaceAll("\n","<br>")}`;
+
+  drawBadges(stats);
+}
+
+function drawBadges(stats){
+  const box = $("badges");
+  box.innerHTML = "";
+  TOPICS.forEach(t=>{
+    const b = stats[t].badge;
+    const score = Math.round(stats[t].score*100);
+    const total = stats[t].total;
+    const el = document.createElement("div");
+    el.className = "badge";
+    el.style.background = badgeColor(b);
+    el.innerHTML = `<span class="dot"></span><span class="bname">${escapeHtml(t)}</span> — ${escapeHtml(b)} • ${score}% • N=${total}`;
+    box.appendChild(el);
+  });
+}
+
+/* ===================== Timeline (7/30 days) ===================== */
+function startOfDay(ts){
+  const d = new Date(ts);
+  d.setHours(0,0,0,0);
+  return d.getTime();
+}
+function formatDay(ts){
+  const d=new Date(ts);
+  const dd=String(d.getDate()).padStart(2,"0");
+  const mm=String(d.getMonth()+1).padStart(2,"0");
+  return `${dd}/${mm}`;
+}
+function aggregateDaily(days){
+  const end = startOfDay(now());
+  const start = end - (days-1)*24*60*60*1000;
+  const map = new Map(); // day-> {ans, ok}
+  for(let t=start; t<=end; t+=24*60*60*1000){
+    map.set(t,{ans:0,ok:0});
+  }
+  for(const h of state.history){
+    const d = startOfDay(h.t);
+    if(d<start || d>end) continue;
+    const obj = map.get(d);
+    obj.ans += 1;
+    obj.ok += (h.ok?1:0);
+  }
+  // Build series: overall = cumulative in window, acc = daily
+  let cumA=0, cumOk=0;
+  const xs=[], dailyAcc=[], overall=[];
+  for(const [day,val] of map.entries()){
+    xs.push(day);
+    cumA += val.ans;
+    cumOk += val.ok;
+    const accDaily = val.ans ? (val.ok/val.ans) : null;
+    const overallWin = cumA ? (cumOk/cumA) : null;
+    dailyAcc.push(accDaily);
+    overall.push(overallWin);
+  }
+  return {xs, dailyAcc, overall};
+}
+
+function drawTimeline(){
+  const days = state.windowDays || 7;
+  $("w7Btn").className = (days===7) ? "primary" : "";
+  $("w30Btn").className = (days===30) ? "primary" : "";
+
+  const c=$("timeline"),ctx=c.getContext("2d");
+  const w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+
+  // frame
+  ctx.strokeStyle="rgba(255,255,255,.10)";
+  ctx.lineWidth=2;
+  ctx.strokeRect(10,10,w-20,h-20);
+
+  const padL=50, padR=20, padT=22, padB=40;
+  const x0=padL, x1=w-padR, y0=h-padB, y1=padT;
+  // grid lines
+  ctx.strokeStyle="rgba(255,255,255,.08)";
+  ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y=y0 - (i/4)*(y0-y1);
+    ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
+  }
+
+  const series = aggregateDaily(days);
+  const n=series.xs.length;
+  if(n<2){
+    ctx.fillStyle="rgba(169,180,214,.95)";
+    ctx.font="600 14px system-ui";
+    ctx.fillText("אין מספיק נתונים.", w-24, h/2);
+    return;
+  }
+  const dx=(x1-x0)/(n-1);
+
+  // helper to plot
+  function plot(arr, strokeStyle, lineWidth){
+    ctx.strokeStyle=strokeStyle;
+    ctx.lineWidth=lineWidth;
+    ctx.beginPath();
+    let started=false;
+    for(let i=0;i<n;i++){
+      const v=arr[i];
+      if(v==null) continue;
+      const x=x0+i*dx;
+      const y=y0 - v*(y0-y1);
+      if(!started){ctx.moveTo(x,y); started=true;}
+      else ctx.lineTo(x,y);
+    }
+    if(started) ctx.stroke();
+  }
+
+  // overall (thicker)
+  plot(series.overall, "rgba(110,168,255,.75)", 4);
+  // daily accuracy (thinner)
+  plot(series.dailyAcc, "rgba(233,238,252,.40)", 3);
+
+  // labels X
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.font="600 12px system-ui";
+  ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+  for(let i=0;i<n;i++){
+    if(days===30 && i%5!==0 && i!==n-1) continue;
+    const x=x0+i*dx;
+    ctx.fillText(formatDay(series.xs[i]), x, h-16);
+  }
+
+  // y axis marks
+  ctx.textAlign="right";
+  for(let i=0;i<=4;i++){
+    const v=i/4;
+    const y=y0 - v*(y0-y1);
+    ctx.fillText(Math.round(v*100)+"%", x0-10, y+4);
+  }
+
+  // legend
+  ctx.textAlign="right";
+  ctx.fillStyle="rgba(233,238,252,.85)";
+  ctx.fillText("Overall (חלון)", w-20, 26);
+  ctx.fillStyle="rgba(233,238,252,.55)";
+  ctx.fillText("Accuracy יומי", w-20, 48);
+}
+
+/* ===================== Share as PNG ===================== */
+function saveShareCardPng(){
+  // combine donut + radar + badges into a single canvas
+  const donut=$("donut"), radar=$("radar");
+  const stats=topicStats(); // to render badges as text in the image
+  const overall=Math.round(calcOverall()*100);
+  const accTxt = fmtPct(state.acc);
+  const answered = state.answered||0;
+  const level = state.level;
+
+  const pad=26;
+  const W = 1100;
+  const H = 1600;
+
+  const out = document.createElement("canvas");
+  out.width=W; out.height=H;
+  const ctx=out.getContext("2d");
+
+  // background
+  ctx.fillStyle="#0b1220";
+  ctx.fillRect(0,0,W,H);
+
+  // subtle panels
+  ctx.fillStyle="rgba(255,255,255,.04)";
+  roundRect(ctx, pad, pad, W-2*pad, H-2*pad, 22, true, false);
+
+  // title
+  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.font="900 28px system-ui";
+  ctx.textAlign="right";
+  ctx.fillText("כרטיס ידע • 500 שאלות", W-pad, pad+36);
+
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.font="600 14px system-ui";
+  ctx.fillText(`Overall: ${overall}% • דיוק: ${accTxt} • נענו: ${answered} • רמה: ${level}/5`, W-pad, pad+62);
+
+  // draw donut snapshot
+  ctx.drawImage(donut, pad+20, pad+85, 520, 210);
+
+  // draw radar snapshot
+  ctx.drawImage(radar, pad+20, pad+320, W-2*pad-40, 620);
+
+  // badges text
+  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.font="800 18px system-ui";
+  ctx.textAlign="right";
+  ctx.fillText("דרגות לפי תחום", W-pad, pad+1000);
+
+  ctx.font="600 14px system-ui";
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  let y=pad+1030;
+  const rows = [];
+  TOPICS.forEach(t=>{
+    const b=stats[t].badge;
+    const sc=Math.round(stats[t].score*100);
+    const n=stats[t].total;
+    rows.push(`${t}: ${b} • ${sc}% • N=${n}`);
+  });
+  // split into columns
+  const col1 = rows.slice(0,6);
+  const col2 = rows.slice(6,12);
+  const x1 = W-pad;
+  const x2 = W/2 + 40;
+  col1.forEach((r,i)=>ctx.fillText(r, x1, y+i*26));
+  col2.forEach((r,i)=>ctx.fillText(r, x2, y+i*26));
+
+  // strengths/weaknesses
+  const sw = strengthWeakList(stats);
+  ctx.fillStyle="rgba(233,238,252,.95)";
+  ctx.font="800 18px system-ui";
+  ctx.fillText("חזקות / חלשות", W-pad, pad+1230);
+
+  ctx.fillStyle="rgba(169,180,214,.95)";
+  ctx.font="600 14px system-ui";
+  const best = sw.best.length ? sw.best.map(x=>`${x.t} (${Math.round(x.score*100)}%)`).join(" • ") : "—";
+  const worst= sw.worst.length? sw.worst.map(x=>`${x.t} (${Math.round(x.score*100)}%)`).join(" • ") : "—";
+  ctx.fillText("חזקות: " + best, W-pad, pad+1260);
+  ctx.fillText("חלשות: " + worst, W-pad, pad+1286);
+
+  // footer
+  ctx.fillStyle="rgba(169,180,214,.80)";
+  ctx.font="600 12px system-ui";
+  ctx.fillText(`Seed: ${SEED} • ${new Date().toLocaleString("he-IL")}`, W-pad, H-pad);
+
+  // download
+  const a=document.createElement("a");
+  a.download = "כרטיס-ידע.png";
+  a.href = out.toDataURL("image/png");
+  a.click();
+}
+
+/* ===================== UI render & quiz ===================== */
+function drawStats(){
+  $("lvlPill").textContent=state.level;
+  $("streakPill").textContent=state.streak;
+  $("accPill").textContent=fmtPct(state.acc);
+  $("answeredStat").textContent=state.answered;
+  $("correctStat").textContent=state.correct;
+  $("reviewStat").textContent=state.reviewQueue.length;
+
+  const pct=clamp((state.xp/100)*100,0,100);
+  $("xpBar").style.width=pct+"%";
+  $("xpText").textContent=`XP: ${Math.round(state.xp)} / 100`;
+
+  drawDonut();
+  drawRadar();
+  drawTimeline();
+  saveState();
+}
+
+function setCurrent(q){
+  state.current=q; state.lock=false; saveState();
+  $("catStat").textContent=q.topic;
+  $("qMeta").innerHTML=[
+    `תחום: ${q.topic}`, `אזור: ${q.region}`, `קושי: ${q.difficulty}/5`, `#${q.id.replace("q_","")}`
+  ].map(x=>`<span class="tag">${escapeHtml(x)}</span>`).join("");
+  $("qText").textContent=q.q;
+
+  const box=$("answers");
+  box.innerHTML="";
+  $("feedbackBox").style.display="none";
+
+  const keys=["1","2","3","4"];
+  q.options.forEach((opt,idx)=>{
+    const d=document.createElement("div");
+    d.className="ans"; d.dataset.idx=idx;
+    d.innerHTML=`<div class="key">${keys[idx]}</div><div class="label">${escapeHtml(opt)}</div>`;
+    d.onclick=()=>selectAnswer(idx);
+    box.appendChild(d);
+  });
+  drawStats();
+}
+
+function nextQuestion(){
+  const q=pickQuestion();
+  if(!q){
+    $("qText").textContent="אין שאלות זמינות (כיבית את כל התחומים).";
+    $("answers").innerHTML="";
+    return;
+  }
+  setCurrent(q);
+}
+
+function selectAnswer(idx){
+  if(!state.current || state.lock) return;
+  state.lock=true;
+  const q=state.current;
+  const ok = idx===q.answer;
+
+  const seen=state.seen[q.id]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
+  seen.lastSeen=now();
+  if(ok) seen.correctCount=(seen.correctCount||0)+1;
+  else seen.wrongCount=(seen.wrongCount||0)+1;
+  state.seen[q.id]=seen;
+
+  const nodes=Array.from(document.querySelectorAll(".ans"));
+  nodes.forEach(n=>{
+    const i=Number(n.dataset.idx);
+    if(i===q.answer) n.classList.add("correct");
+    if(i===idx && !ok) n.classList.add("wrong");
+    n.style.pointerEvents="none";
+  });
+
+  $("feedbackText").innerHTML=(ok?`<b style="color:var(--good)">נכון ✅</b>`:`<b style="color:var(--bad)">לא מדויק ❌</b>`)
+    + `<div style="margin-top:6px">${escapeHtml(q.explain)}</div>`;
+  $("hintText").textContent=q.hint||"";
+  $("feedbackBox").style.display="block";
+
+  scheduleReview(q.id, ok);
+  updateLeveling(ok, q.difficulty||3);
+  drawStats();
+}
+
+/* ===================== Buttons & init ===================== */
+$("startBtn").onclick=()=>{
+  state.started=true; saveState();
+  $("screen_intro").style.display="none";
+  $("screen_quiz").style.display="block";
+  nextQuestion();
+};
+$("skipBtn").onclick=()=>{ if(!state.current) return; state.streak=0; saveState(); nextQuestion(); };
+$("nextBtn").onclick=()=>nextQuestion();
+$("flagBtn").onclick=()=>{
+  if(!state.current) return;
+  state.seen[state.current.id]=state.seen[state.current.id]||{correctCount:0,wrongCount:0,lastSeen:0,flagged:false};
+  state.seen[state.current.id].flagged=!state.seen[state.current.id].flagged;
+  saveState(); toast(state.seen[state.current.id].flagged?"סומן לחזרה":"בוטל סימון");
+};
+$("resetBtn").onclick=()=>{ if(confirm("לאפס הכל? זה ימחק התקדמות.")) hardReset(); };
+
+$("copyStatsBtn").onclick=()=>{
+  const stats=topicStats();
+  const summary={
+    date:new Date().toISOString(), seed:SEED, bankSize:500,
+    level:state.level, answered:state.answered, correct:state.correct,
+    accuracy:state.acc, reviewsQueued:state.reviewQueue.length,
+    overall:Math.round(calcOverall()*100),
+    topicBadges:Object.fromEntries(TOPICS.map(t=>[t,stats[t].badge])),
+    topicScores:Object.fromEntries(TOPICS.map(t=>[t,Math.round(stats[t].score*100)])),
+    windowDays: state.windowDays
+  };
+  const txt=JSON.stringify(summary,null,2);
+  navigator.clipboard?.writeText(txt).then(()=>toast("הדוח הועתק ללוח")).catch(()=>toast("לא הצלחתי להעתיק"));
+};
+
+$("savePngBtn").onclick=()=>saveShareCardPng();
+
+$("w7Btn").onclick=()=>{state.windowDays=7; saveState(); drawTimeline(); drawStats();};
+$("w30Btn").onclick=()=>{state.windowDays=30; saveState(); drawTimeline(); drawStats();};
+
+window.addEventListener("keydown",(e)=>{
+  if($("screen_quiz").style.display==="none") return;
+  if(!state.current) return;
+  if(e.key>="1" && e.key<="4"){
+    const idx=Number(e.key)-1;
+    const node=document.querySelector(`.ans[data-idx="${idx}"]`);
+    if(node && node.style.pointerEvents!=="none") selectAnswer(idx);
+  }
+  if(e.key.toLowerCase()==="n"){
+    if($("feedbackBox").style.display!=="none") nextQuestion();
+  }
+});
+
+drawStats();
+</script>
+</body>
+</html>
