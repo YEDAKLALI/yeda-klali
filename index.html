@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ידע כללי • 500 • Light • Mastery+Spaced+Confidence</title>
+  <title>בוחן ידע כללי</title>
   <style>
     :root{
       --bg:#f6f8fc;
@@ -12,11 +12,10 @@
       --muted:#475569;
       --line:rgba(15,23,42,.12);
       --shadow: 0 10px 30px rgba(15,23,42,.08);
-      --accent:#2563eb;      /* blue */
-      --accent2:#06b6d4;     /* cyan */
+      --accent:#2563eb;
+      --accent2:#06b6d4;
       --good:#16a34a;
       --bad:#e11d48;
-      --warn:#d97706;
       --ringbg:rgba(15,23,42,.10);
     }
     *{box-sizing:border-box}
@@ -35,11 +34,10 @@
       border:1px solid var(--line);
       border-radius:18px;
       box-shadow:var(--shadow);
-      padding:14px 14px 12px;
-      display:flex;gap:12px;justify-content:space-between;align-items:flex-start;
+      padding:14px;
+      display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;
     }
-    h1{margin:0;font-size:18px;letter-spacing:.2px}
-    .sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.4}
+    h1{margin:0;font-size:20px;letter-spacing:.2px}
     .pillrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
     .pill{
       background:rgba(37,99,235,.06);
@@ -183,39 +181,16 @@
       color:var(--ink);
       font-weight:900;
     }
-    .confBtns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-    .confBtn{
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius:999px;
-      padding:8px 10px;
-      font-size:12px;
-      color:var(--muted);
-      cursor:pointer;
-    }
-    .confBtn.on{
-      border-color:rgba(6,182,212,.45);
-      background:rgba(6,182,212,.10);
-      color:var(--ink);
-      font-weight:900;
-    }
   </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div style="flex:1">
-      <h1>ידע כללי • 500 שאלות • גרסה בהירה • Mastery + Spaced + Confidence</h1>
-      <div class="sub">
-        למידה מבוססת: שליפה (Quiz), חזרות מרווחות (Spaced), דירוג ביטחון (Confidence), הדרגתיות קשיחה לכל נושא (Topic Mastery),
-        ערבוב חכם (Interleaving), ותיקון מיידי אחרי טעות (Micro-Retest).
-      </div>
-    </div>
+    <h1>בוחן ידע כללי</h1>
     <div class="pillrow">
       <div class="pill">Overall: <b id="overallPill">—</b></div>
       <div class="pill">דיוק: <b id="accPill">—</b></div>
       <div class="pill">נענו: <b id="answeredPill">0</b></div>
-      <div class="pill">מסוכן: <b id="dangerPill">0</b></div>
       <div class="pill">חזרות: <b id="reviewPill">0</b></div>
       <div class="pill">מאגר: <b>500</b></div>
     </div>
@@ -227,20 +202,11 @@
         <div class="row space">
           <div>
             <div class="qtext" style="margin:0">התחלה</div>
-            <div class="small">
-              לפתוח בדפדפן (Chrome). מקשים: 1–4 לבחירה, N לשאלה הבאה.
-            </div>
-
-            <div class="box small" style="margin-top:10px">
-              <b>מצבי למידה:</b><br>
-              • <b>Mix</b>: ערבוב חכם בין נושאים (Interleaving).<br>
-              • <b>Focus</b>: להתמקד בנושאים שתבחר.<br><br>
-              <b>Mastery:</b> לכל נושא רמה 1–5. הרמה עולה רק עם רצף הצלחות + דיוק מינימלי + XP בתחום.
-            </div>
+            <div class="small">פתיחה בכרום. מקשים: 1–4 לבחירה, N לשאלה הבאה.</div>
 
             <div class="divider"></div>
 
-            <div class="small"><b>בחירת מצב</b></div>
+            <div class="small"><b>מצב למידה</b></div>
             <div class="choiceRow">
               <div class="chip on" id="modeMix">Mix (מומלץ)</div>
               <div class="chip" id="modeFocus">Focus</div>
@@ -253,7 +219,7 @@
             </div>
 
             <div class="box small" style="margin-top:10px">
-              <b>מה חדש בבוחן:</b> אחרי תשובה תדרג ביטחון (1–3). אם טעית בביטחון גבוה—המערכת תיתן לזה עדיפות בחזרות (זה "אזור סיכון").
+              המערכת מדרגת קושי בתוך כל נושא (Lvl 1–5) ומשלבת חזרות מרווחות (Spaced) + תיקון מיידי אחרי טעות (Micro-Retest).
             </div>
           </div>
 
@@ -275,7 +241,27 @@
           </div>
         </div>
 
-        <div class="meters">
+        <div class="progress" style="margin:10px 0 8px"><div class="bar" id="xpBar"></div></div>
+        <div class="small" id="xpText">התקדמות בנושא: —</div>
+
+        <div class="answers" id="answers"></div>
+
+        <div class="box" id="feedbackBox" style="display:none">
+          <div id="feedbackText"></div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="good" id="nextBtn">שאלה הבאה</button>
+            <button id="flagBtn">סמני לחזרה</button>
+            <button id="whyBtn">למה השאר שגוי?</button>
+          </div>
+
+          <div id="whyBox" class="box small" style="display:none;margin-top:10px"></div>
+        </div>
+
+        <!-- ✅ הועבר לתחתית השאלון (לא מעל) -->
+        <div class="meters" id="metersBottom">
           <div class="meterCard">
             <div class="meterTitle"><b>מד עגול: Overall</b><span id="overallLabel">—</span></div>
             <canvas id="meterOverall" width="900" height="260"></canvas>
@@ -287,33 +273,6 @@
             <div class="small">מבוסס על ביצועים בתוך הנושא בלבד + מינימום ניסיונות (Mastery).</div>
           </div>
         </div>
-
-        <div class="progress" style="margin:10px 0 8px"><div class="bar" id="xpBar"></div></div>
-        <div class="small" id="xpText">התקדמות בנושא: —</div>
-
-        <div class="answers" id="answers"></div>
-
-        <div class="box" id="feedbackBox" style="display:none">
-          <div id="feedbackText"></div>
-
-          <div class="divider"></div>
-
-          <div class="small"><b>כמה היית בטוחה בתשובה?</b> (Confidence)</div>
-          <div class="confBtns">
-            <div class="confBtn" data-c="1">1 — לא בטוחה</div>
-            <div class="confBtn" data-c="2">2 — די בטוחה</div>
-            <div class="confBtn" data-c="3">3 — בטוחה מאוד</div>
-          </div>
-          <div class="small" id="confHint" style="margin-top:6px"></div>
-
-          <div class="row" style="margin-top:10px">
-            <button class="good" id="nextBtn">שאלה הבאה</button>
-            <button id="flagBtn">סמני לחזרה</button>
-            <button id="whyBtn">למה השאר שגוי?</button>
-          </div>
-
-          <div id="whyBox" class="box small" style="display:none;margin-top:10px"></div>
-        </div>
       </div>
     </section>
 
@@ -321,7 +280,7 @@
       <div class="row space">
         <div>
           <div class="qtext" style="margin:0">כרטיס ידע</div>
-          <div class="small">רדאר לפי תחומים, דרגות, “אזור סיכון”, ושמירת PNG.</div>
+          <div class="small">רדאר לפי תחומים, דרגות, ושמירת PNG.</div>
         </div>
         <div class="row">
           <button id="savePngBtn">שמור כרטיס (PNG)</button>
@@ -332,7 +291,7 @@
       <div class="statgrid">
         <div class="stat"><div class="k">נענו</div><div class="v" id="answeredStat">0</div></div>
         <div class="stat"><div class="k">נכון</div><div class="v" id="correctStat">0</div></div>
-        <div class="stat"><div class="k">אזור סיכון</div><div class="v" id="dangerStat">0</div></div>
+        <div class="stat"><div class="k">חזרות due</div><div class="v" id="dueStat">0</div></div>
         <div class="stat"><div class="k">רמה בנושא נוכחי</div><div class="v" id="topicLvlStat">—</div></div>
       </div>
 
@@ -369,8 +328,8 @@
 /* =========================================================
    CONFIG
 ========================================================= */
-const LS_KEY="gk500_light_mastery_v1";
-const VERSION="2025-12-19-light-mastery";
+const LS_KEY="gk500_light_mastery_v2_noConfidence";
+const VERSION="2025-12-19-light-mastery-v2";
 const SEED=222905;
 
 document.getElementById("verBox").textContent = VERSION;
@@ -381,7 +340,7 @@ const TOPICS=[
   "גיאוגרפיה","תרבות ואומנות","ספרות","טכנולוגיה","סביבה","ספורט"
 ];
 
-const BLOOM = ["זיכרון","הבנה","יישום","ניתוח"]; // kept compact for UI
+const BLOOM = ["זיכרון","הבנה","יישום","ניתוח"];
 
 /* =========================================================
    Utils
@@ -416,10 +375,6 @@ function pick(rng, arr){ return arr[Math.floor(rng()*arr.length)] }
 
 /* =========================================================
    Concepts (compact, generated to 500 questions deterministically)
-   Each question includes:
-   - topic, difficulty 1..5 (content difficulty)
-   - bloom level
-   - conceptTerm (anchor), so we can do micro-retest
 ========================================================= */
 const CONCEPTS = [
   {topic:"פוליטיקה ומדינה", region:"ישראל+עולם", diff:1, term:"דמוקרטיה ייצוגית", def:"שיטה שבה הציבור בוחר נציגים שמקבלים החלטות בשמו."},
@@ -493,7 +448,6 @@ const SCENARIOS = [
 
 const TEMPLATES=["DEF_TO_TERM","TERM_TO_DEF","SCENARIO_TERM","COMPARE","APPLY"];
 
-/* Bloom heuristics by template */
 function bloomOf(template){
   if(template==="DEF_TO_TERM") return "זיכרון";
   if(template==="TERM_TO_DEF") return "הבנה";
@@ -502,7 +456,6 @@ function bloomOf(template){
   return "ניתוח";
 }
 
-/* Build distractor explanations: brief, no heavy claims */
 function makeDistractorWhy(correctTerm, optionTerm){
   if(optionTerm===correctTerm) return "זו התשובה הנכונה.";
   return "זו אופציה 'מפתה' כי היא קשורה לאותו תחום, אבל היא לא מתאימה להגדרה/תרחיש המדויקים בשאלה.";
@@ -535,7 +488,6 @@ function makeQuestion(rng, template, concept, pool){
       options, answer,
       explain:"המושג הנכון הוא: " + concept.term + ". " + concept.def,
       why: options.map(o=>makeDistractorWhy(concept.term,o)),
-      hint:"(מושג=שם קצר לרעיון/תופעה.)",
       updated:"2025-12"
     };
   }
@@ -549,7 +501,6 @@ function makeQuestion(rng, template, concept, pool){
       options, answer,
       explain:"הגדרה נכונה: " + concept.def,
       why: options.map(o=> (o===concept.def?"זו ההגדרה המדויקת.":"נשמע דומה, אבל אינו מתאר את המושג הזה באופן הנכון.")),
-      hint:"(הגדרה=הסבר קצר למה זה.)",
       updated:"2025-12"
     };
   }
@@ -566,13 +517,11 @@ function makeQuestion(rng, template, concept, pool){
       options, answer,
       explain:"המושג הנכון הוא: " + correct + ". " + (anchor.def||""),
       why: options.map(o=>makeDistractorWhy(correct,o)),
-      hint:"(תרחיש=תיאור מצב.)",
       updated:"2025-12"
     };
   }
 
   if(template==="APPLY"){
-    // Apply: choose what action best matches concept principle (light, not policy advice)
     const correct = concept.term;
     const {options,answer}=optsFromTerms(correct,true);
     const q =
@@ -585,12 +534,10 @@ function makeQuestion(rng, template, concept, pool){
       q, options, answer,
       explain:"מפתח היישום: " + correct + " — " + concept.def,
       why: options.map(o=>makeDistractorWhy(correct,o)),
-      hint:"(יישום=להבין איך הרעיון עובד במציאות.)",
       updated:"2025-12"
     };
   }
 
-  // COMPARE (analysis)
   const a = concept;
   const b = pick(rng, pool.filter(x=>x.topic===topic && x.term!==a.term)) || concept;
   const correct = a.term;
@@ -602,7 +549,6 @@ function makeQuestion(rng, template, concept, pool){
     options, answer,
     explain:"למרות ש-" + b.term + " יכול להישמע קשור, ההגדרה כאן תואמת יותר ל-" + a.term + ". " + a.def,
     why: options.map(o=>makeDistractorWhy(a.term,o)),
-    hint:"(ניתוח=להבחין בהבדלים דקים.)",
     updated:"2025-12"
   };
 }
@@ -628,38 +574,33 @@ const BANK = generateBank500();
 const BANK_BY_ID = Object.fromEntries(BANK.map(q=>[q.id,q]));
 
 /* =========================================================
-   State (Mastery + Spaced + Confidence + Modes)
+   State (Mastery + Spaced + Modes)  — ללא Confidence
 ========================================================= */
 let state = loadState() || {
   started:false,
-  mode:"mix", // mix | focus | daily
+  mode:"mix",
   focusTopics:Object.fromEntries(TOPICS.map(t=>[t,false])),
   daily:{dateKey:null, countToday:0, limit:10},
 
   answered:0, correct:0, acc:null,
   streak:0,
-  dangerCount:0, // high-confidence wrong count
-  lastAnswer:null, // store to show why
+  lastAnswer:null,
   current:null,
   lock:false,
 
-  // per-topic mastery
   topicProg:Object.fromEntries(TOPICS.map(t=>[t,{lvl:1,xp:0,streakInTopic:0,attempts:0,correct:0, mastery:false}])),
 
-  // spaced repetition per item (SM-2-lite)
-  sr:{}, // qid -> {ease, intervalDays, dueAt, lapses, flagged}
-  // keep a small log
-  history:[], // {t, ok, conf, topic, qid}
+  sr:{}, // qid -> {ease, intervalDays, dueAt, lapses, flagged, lastOk}
+  history:[],
 };
 
-/* Initialize SR defaults lazily */
 function getSR(qid){
-  state.sr[qid] = state.sr[qid] || {ease:2.4, intervalDays:0, dueAt:0, lapses:0, flagged:false, lastConf:0, lastOk:null};
+  state.sr[qid] = state.sr[qid] || {ease:2.4, intervalDays:0, dueAt:0, lapses:0, flagged:false, lastOk:null};
   return state.sr[qid];
 }
 
 /* =========================================================
-   Modes UI (chips)
+   Modes UI
 ========================================================= */
 function setMode(mode){
   state.mode=mode;
@@ -673,7 +614,6 @@ $("modeMix").onclick=()=>setMode("mix");
 $("modeFocus").onclick=()=>setMode("focus");
 $("modeDaily").onclick=()=>setMode("daily");
 
-/* Build topic chips for focus */
 function buildTopicChips(){
   const box=$("topicChips"); box.innerHTML="";
   TOPICS.forEach(t=>{
@@ -692,10 +632,7 @@ buildTopicChips();
 setMode(state.mode || "mix");
 
 /* =========================================================
-   Mastery logic (per topic)
-   - Hard gradual selection within each topic band based on lvl
-   - Level up only when:
-     xp>=100 AND streakInTopic>=needStreak AND topicAcc>=minAcc AND attempts>=minAttempts
+   Mastery logic
 ========================================================= */
 function getTopicProg(topic){
   return state.topicProg[topic] || (state.topicProg[topic]={lvl:1,xp:0,streakInTopic:0,attempts:0,correct:0,mastery:false});
@@ -717,7 +654,6 @@ function updateTopicProgress(topic, ok, qDifficulty){
   tp.xp = clamp(tp.xp, 0, 120);
   tp.streakInTopic = ok ? (tp.streakInTopic+1) : 0;
 
-  // Mastery flag when level 5 and accuracy decent
   tp.mastery = (tp.lvl>=5 && tp.attempts>=28 && acc>=0.80);
 
   if(tp.lvl<5 && tp.xp>=100){
@@ -728,7 +664,7 @@ function updateTopicProgress(topic, ok, qDifficulty){
       tp.streakInTopic = 0;
       toast(`רמה עלתה בנושא "${topic}" ➜ ${tp.lvl}/5`);
     } else {
-      tp.xp = 92; // hold near threshold
+      tp.xp = 92;
       toast("כמעט! עוד קצת בתוך הנושא 🙂");
     }
   }
@@ -745,32 +681,24 @@ function bandForLvl(lvl){
 }
 
 /* =========================================================
-   Spaced Repetition (SM-2-lite)
-   - dueAt stored per q
-   - selection prefers due items first
-   - confidence wrong => higher priority (danger)
+   Spaced Repetition (SM-2-lite) — ללא Confidence
 ========================================================= */
-function scheduleSR(qid, ok, conf){
+function scheduleSR(qid, ok){
   const sr=getSR(qid);
-  sr.lastConf = conf||0;
   sr.lastOk = ok;
 
   if(!ok){
     sr.lapses += 1;
     sr.intervalDays = 0;
-    sr.ease = clamp(sr.ease - (conf>=3?0.25:0.15), 1.3, 2.8);
-    // quick retry if wrong; confidence high => even quicker
-    const mins = conf>=3 ? 3 : 8;
-    sr.dueAt = now() + mins*60*1000;
+    sr.ease = clamp(sr.ease - 0.15, 1.3, 2.8);
+    // quick retry if wrong
+    sr.dueAt = now() + 8*60*1000;
   } else {
-    // correct: expand interval
     if(sr.intervalDays===0) sr.intervalDays = 1;
     else sr.intervalDays = Math.round(sr.intervalDays * sr.ease);
 
-    // adjust ease slightly
-    sr.ease = clamp(sr.ease + (conf>=3?0.05:0.02), 1.3, 2.8);
+    sr.ease = clamp(sr.ease + 0.02, 1.3, 2.8);
 
-    // due in days (but allow short if early learning)
     const ms = sr.intervalDays * 24*60*60*1000;
     sr.dueAt = now() + ms;
   }
@@ -788,7 +716,6 @@ function topicStats(){
     out[t].attempts = tp.attempts;
     out[t].correct = tp.correct;
     const acc = tp.attempts ? (tp.correct/tp.attempts) : 0.35;
-    // smooth score: accuracy + depth
     const depth = clamp(Math.sqrt(tp.attempts/20),0,1);
     out[t].score = clamp(acc*0.75 + depth*0.25,0,1);
     out[t].badge = badgeFor(out[t].score, tp.attempts, tp.lvl);
@@ -811,12 +738,12 @@ function badgeTone(b){
 }
 
 /* =========================================================
-   Selection: due SR first, then gradual by topic mastery
+   Selection
 ========================================================= */
 function enabledTopics(){
   if(state.mode==="focus"){
     const chosen = TOPICS.filter(t=>state.focusTopics[t]);
-    return chosen.length ? chosen : TOPICS; // fallback if none selected
+    return chosen.length ? chosen : TOPICS;
   }
   return TOPICS;
 }
@@ -840,9 +767,7 @@ function pickDueItem(topicsAllowed){
       const q = BANK_BY_ID[qid];
       if(!q) continue;
       if(!topicsAllowed.includes(q.topic)) continue;
-      // priority: danger wrong first
-      const dangerBoost = (sr.lastOk===false && sr.lastConf>=3) ? 2.0 : 1.0;
-      const w = dangerBoost * (1 + (sr.lapses||0)*0.2);
+      const w = 1 + (sr.lapses||0)*0.25 + (sr.flagged?0.25:0);
       due.push({q,w});
     }
   }
@@ -856,8 +781,8 @@ function pickTopicWeighted(topicsAllowed){
   const stats=topicStats();
   const weights = topicsAllowed.map(t=>{
     const tp=getTopicProg(t);
-    const weakness = 1.15 - stats[t].score;     // weaker => more weight
-    const lvlBias  = 1.25 - (tp.lvl-1)*0.10;    // lower lvl => more weight
+    const weakness = 1.15 - stats[t].score;
+    const lvlBias  = 1.25 - (tp.lvl-1)*0.10;
     const explore  = 1.15 / Math.sqrt(Math.max(1,tp.attempts));
     const w = clamp(weakness*lvlBias*explore, 0.25, 2.8);
     return {t,w};
@@ -874,10 +799,10 @@ function pickFromTopic(topic){
   const all  = BANK.filter(q=>q.topic===topic);
   const candidates = pool.length?pool:all;
 
-  // weight unseen & prior wrong & flagged
   const scored = candidates.map(q=>{
     const sr=getSR(q.id);
-    const unseen = (state.history.find(h=>h.qid===q.id) ? 1.0 : 1.35);
+    const seen = state.history.find(h=>h.qid===q.id);
+    const unseen = seen ? 1.0 : 1.35;
     const lapses = 1 + (sr.lapses||0)*0.35;
     const flagged= sr.flagged ? 1.25 : 1.0;
     const fit = 1/(1+Math.abs((q.difficulty||3) - clamp(tp.lvl+0.2,1,5)));
@@ -895,25 +820,22 @@ function pickQuestion(){
     ensureDailyCounter();
     if(state.daily.countToday>=state.daily.limit){
       return {id:"daily_done", topic:"", region:"", difficulty:1, bloom:"", conceptTerm:"",
-        q:"סיימת את ה-Daily היום 🎉\nרוצה להמשיך? החליפי מצב ל-Mix/Focus במסך הראשי.",
+        q:"סיימת את ה-Daily היום 🎉\nרוצה להמשיך? חזרי למסך הראשי והחליפי מצב ל-Mix/Focus.",
         options:["אוקיי","אוקיי","אוקיי","אוקיי"], answer:0,
-        explain:"", why:["","","",""], hint:"", updated:""
+        explain:"", why:["","","",""], updated:""
       };
     }
   }
 
-  // 1) Prefer due spaced items (within allowed topics)
   const due = pickDueItem(topicsAllowed);
   if(due) return due;
 
-  // 2) Otherwise pick topic and then gradual question in that topic
   const t = pickTopicWeighted(topicsAllowed);
   return pickFromTopic(t);
 }
 
 /* =========================================================
    Micro-Retest after wrong
-   - Immediate corrective question, anchored to same conceptTerm
 ========================================================= */
 function makeMicroRetest(originalQ){
   const term = originalQ.conceptTerm;
@@ -921,8 +843,6 @@ function makeMicroRetest(originalQ){
   const concept = CONCEPTS.find(c=>c.term===term);
   if(!concept) return null;
   const rng = mulberry32(SEED + parseInt(originalQ.id.replace("q_",""),10) + 999);
-
-  // alternate template from the original to force retrieval in a different direction
   const alt = (originalQ.template==="DEF_TO_TERM") ? "TERM_TO_DEF" : "DEF_TO_TERM";
   const q = makeQuestion(rng, alt, concept, CONCEPTS.slice());
   q.id = originalQ.id + "_R";
@@ -934,21 +854,20 @@ function makeMicroRetest(originalQ){
   q.isRetest = true;
   return q;
 }
+let queuedRetest=null;
 
 /* =========================================================
-   Overall score
+   Overall
 ========================================================= */
 function calcOverall(){
   const answered = state.answered||0;
   const acc = (state.acc==null)?0:(state.acc);
   const depth = clamp(Math.sqrt(answered/80),0,1);
-  // small penalty if danger cluster exists (encourages calibration)
-  const danger = clamp((state.dangerCount||0)/Math.max(1,answered),0,0.2);
-  return clamp((acc*0.68)+(depth*0.32) - danger*0.20, 0, 1);
+  return clamp((acc*0.68)+(depth*0.32), 0, 1);
 }
 
 /* =========================================================
-   Drawing (circular meters + donut + radar)
+   Drawing
 ========================================================= */
 function roundRect(ctx, x, y, w, h, r, fill, stroke){
   r=Math.min(r,w/2,h/2);
@@ -1003,7 +922,7 @@ function drawCircularMeter(canvasId, value01, titleBig, subtitle, tone){
   const lines = [
     "Spaced: לפי due time",
     "Mastery: רמות לפי נושא",
-    "Confidence: 1–3"
+    "Micro-Retest אחרי טעות"
   ];
   lines.forEach((t,i)=>ctx.fillText(t, w-24, 86+i*22));
 }
@@ -1037,14 +956,13 @@ function drawDonut(){
   ctx.textAlign="right"; ctx.textBaseline="alphabetic";
   ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
   ctx.font="900 18px system-ui";
-  ctx.fillText("פירוק מהיר", w-24, 54);
+  ctx.fillText("סטטוס", w-24, 54);
 
   ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
   ctx.font="600 14px system-ui";
   const lines=[
     `דיוק: ${fmtPct(state.acc)}`,
     `נענו: ${state.answered||0}`,
-    `אזור סיכון: ${state.dangerCount||0}`,
     `חזרות due: ${countDue()}`
   ];
   lines.forEach((t,i)=>ctx.fillText(t, w-24, 88+i*22));
@@ -1111,7 +1029,6 @@ function drawRadar(){
     ctx.fillText(label, x, y);
   }
 
-  // Strength / Weak
   const arr = TOPICS.map(t=>({t,score:stats[t].score, attempts:stats[t].attempts}));
   const eligible = arr.filter(x=>x.attempts>=6);
   const best = eligible.slice().sort((a,b)=>b.score-a.score).slice(0,3);
@@ -1147,19 +1064,18 @@ function countDue(){
 }
 
 /* =========================================================
-   Render stats + current question
+   Render
 ========================================================= */
 function drawStats(){
   const overall=calcOverall();
   $("overallPill").textContent = Math.round(overall*100)+"%";
   $("accPill").textContent = fmtPct(state.acc);
   $("answeredPill").textContent = state.answered||0;
-  $("dangerPill").textContent = state.dangerCount||0;
   $("reviewPill").textContent = countDue();
 
   $("answeredStat").textContent = state.answered||0;
   $("correctStat").textContent = state.correct||0;
-  $("dangerStat").textContent = state.dangerCount||0;
+  $("dueStat").textContent = countDue();
 
   drawDonut();
   drawRadar();
@@ -1169,7 +1085,6 @@ function drawStats(){
     const tp=getTopicProg(q.topic);
     $("topicLvlStat").textContent = `${tp.lvl}/5`;
 
-    // Topic meter value: topic accuracy + depth
     const accT = tp.attempts ? (tp.correct/tp.attempts) : 0;
     const depthT = clamp(Math.sqrt(tp.attempts/20),0,1);
     const valT = clamp(accT*0.75 + depthT*0.25,0,1);
@@ -1195,17 +1110,14 @@ function drawStats(){
 function setCurrent(q){
   state.current=q; state.lock=false; saveState();
 
-  // reset feedback UI
   $("feedbackBox").style.display="none";
   $("whyBox").style.display="none";
   $("whyBtn").disabled=true;
-  $("confHint").textContent="";
-  document.querySelectorAll(".confBtn").forEach(b=>b.classList.remove("on"));
 
   if(q.id==="daily_done"){
     $("qMeta").innerHTML="";
     $("qText").textContent=q.q;
-    const box=$("answers"); box.innerHTML="";
+    $("answers").innerHTML="";
     drawStats();
     return;
   }
@@ -1240,15 +1152,6 @@ function setCurrent(q){
   drawStats();
 }
 
-/* =========================================================
-   Answer flow:
-   - answer -> show feedback
-   - then ask confidence (1-3) and store it
-   - schedule spaced repetition based on ok/conf
-   - if wrong: micro-retest queued as next question once
-========================================================= */
-let queuedRetest=null;
-
 function selectAnswer(idx){
   if(!state.current || state.lock) return;
   const q=state.current;
@@ -1257,7 +1160,6 @@ function selectAnswer(idx){
   state.lock=true;
   const ok = (idx===q.answer);
 
-  // paint options
   const nodes=Array.from(document.querySelectorAll(".ans"));
   nodes.forEach(n=>{
     const i=Number(n.dataset.idx);
@@ -1266,25 +1168,24 @@ function selectAnswer(idx){
     n.style.pointerEvents="none";
   });
 
-  // update global stats (confidence recorded next)
   state.answered += 1;
   if(ok) state.correct += 1;
   state.acc = state.correct/state.answered;
   state.streak = ok ? (state.streak+1) : 0;
 
-  // daily counter
   if(state.mode==="daily"){
     ensureDailyCounter();
     state.daily.countToday += 1;
   }
 
-  // update topic mastery
   updateTopicProgress(q.topic, ok, q.difficulty||3);
 
-  // store last answer for why
   state.lastAnswer = {qid:q.id, chosen:idx, ok};
+  state.history.push({t:now(), ok, topic:q.topic, qid:q.id});
+  if(state.history.length>2500) state.history=state.history.slice(-2500);
 
-  // feedback
+  scheduleSR(q.id, ok);
+
   const head = ok
     ? `<b style="color:var(--good)">נכון ✅</b>`
     : `<b style="color:var(--bad)">לא מדויק ❌</b>`;
@@ -1293,59 +1194,17 @@ function selectAnswer(idx){
   $("feedbackBox").style.display="block";
   $("whyBtn").disabled=false;
 
-  // queue micro-retest if wrong & not already retest
   queuedRetest = null;
   if(!ok && !q.isRetest){
     const rt = makeMicroRetest(q);
     if(rt) queuedRetest = rt;
   }
 
-  // confidence buttons activate now
-  $("confHint").textContent = "בחרי 1–3, ואז “שאלה הבאה”.";
-  state.lock=false; // allow confidence selection + next
+  state.lock=false;
   saveState();
   drawStats();
 }
 
-function setConfidence(c){
-  if(!state.lastAnswer) return;
-  // mark UI
-  document.querySelectorAll(".confBtn").forEach(b=>{
-    b.classList.toggle("on", Number(b.dataset.c)===c);
-  });
-
-  const q = BANK_BY_ID[state.lastAnswer.qid] || state.current;
-  const ok = state.lastAnswer.ok;
-
-  // store history
-  state.history.push({t:now(), ok, conf:c, topic:q.topic, qid:q.id});
-  if(state.history.length>2500) state.history=state.history.slice(-2500);
-
-  // danger: high confidence wrong
-  if(!ok && c>=3){
-    state.dangerCount = (state.dangerCount||0) + 1;
-    toast("סומן כ'אזור סיכון' (ביטחון גבוה + טעות) – יופיע בחזרות");
-  }
-
-  // schedule spaced repetition
-  scheduleSR(q.id, ok, c);
-
-  // store to SR
-  const sr=getSR(q.id);
-  sr.lastConf=c;
-  sr.lastOk=ok;
-
-  state.lastAnswer.conf=c;
-
-  saveState();
-  drawStats();
-}
-
-document.querySelectorAll(".confBtn").forEach(btn=>{
-  btn.onclick=()=>setConfidence(Number(btn.dataset.c));
-});
-
-/* Why box */
 $("whyBtn").onclick=()=>{
   const la=state.lastAnswer;
   if(!la) return;
@@ -1359,30 +1218,19 @@ $("whyBtn").onclick=()=>{
   $("whyBox").innerHTML = "<b>הסבר מסיחים (Distractors)</b><br>" + escapeHtml(lines.join("\n")).replaceAll("\n","<br>");
 };
 
-/* Next question */
 function nextQuestion(){
-  // require confidence after answering (soft enforcement)
-  const fbVisible = $("feedbackBox").style.display!=="none";
-  if(fbVisible && state.lastAnswer && state.lastAnswer.conf==null){
-    toast("בחרי Confidence (1–3) לפני שממשיכים");
-    return;
-  }
-
-  // if retest queued, serve it once
   if(queuedRetest){
     const rt=queuedRetest;
     queuedRetest=null;
     setCurrent(rt);
     return;
   }
-
   const q=pickQuestion();
   setCurrent(q);
 }
 
 $("nextBtn").onclick=()=>nextQuestion();
 
-/* Flag for SR */
 $("flagBtn").onclick=()=>{
   const q=state.current;
   if(!q || q.id==="daily_done") return;
@@ -1392,19 +1240,14 @@ $("flagBtn").onclick=()=>{
   saveState();
 };
 
-/* Skip */
 $("skipBtn").onclick=()=>{
   state.streak=0;
-  // do NOT count as answered
-  // if something is due and skipped, keep it due
   saveState();
   nextQuestion();
 };
 
-/* Reset */
 $("resetBtn").onclick=()=>{ if(confirm("לאפס הכל? זה ימחק התקדמות.")) hardReset(); };
 
-/* Start */
 $("startBtn").onclick=()=>{
   state.started=true;
   saveState();
@@ -1413,7 +1256,6 @@ $("startBtn").onclick=()=>{
   nextQuestion();
 };
 
-/* Copy stats */
 $("copyStatsBtn").onclick=()=>{
   const stats=topicStats();
   const summary={
@@ -1426,7 +1268,6 @@ $("copyStatsBtn").onclick=()=>{
     correct:state.correct,
     accuracy:state.acc,
     overall:Math.round(calcOverall()*100),
-    dangerCount:state.dangerCount||0,
     dueCount:countDue(),
     topics:Object.fromEntries(TOPICS.map(t=>{
       const tp=getTopicProg(t);
@@ -1437,31 +1278,32 @@ $("copyStatsBtn").onclick=()=>{
   navigator.clipboard?.writeText(txt).then(()=>toast("הדוח הועתק ללוח")).catch(()=>toast("לא הצלחתי להעתיק"));
 };
 
-/* Save PNG card */
 function saveShareCardPng(){
   const donut=$("donut"), radar=$("radar");
   const overall=Math.round(calcOverall()*100);
   const accTxt=fmtPct(state.acc);
   const answered=state.answered||0;
-  const danger=state.dangerCount||0;
   const due=countDue();
-  const pad=26, W=1100, H=1550;
+  const pad=26, W=1100, H=1450;
 
   const out=document.createElement("canvas"); out.width=W; out.height=H;
   const ctx=out.getContext("2d");
 
   ctx.fillStyle="#f6f8fc"; ctx.fillRect(0,0,W,H);
+
+  function rr(x,y,w,h,r){ roundRect(ctx,x,y,w,h,r,true,false); }
+
   ctx.fillStyle="#ffffff";
-  roundRect(ctx, pad, pad, W-2*pad, H-2*pad, 22, true, false);
+  rr(pad,pad,W-2*pad,H-2*pad,22);
 
   ctx.fillStyle="#0f172a";
   ctx.font="900 28px system-ui";
   ctx.textAlign="right";
-  ctx.fillText("כרטיס ידע • 500 שאלות", W-pad, pad+36);
+  ctx.fillText("כרטיס ידע • בוחן ידע כללי", W-pad, pad+36);
 
   ctx.fillStyle="#475569";
   ctx.font="600 14px system-ui";
-  ctx.fillText(`Overall: ${overall}% • דיוק: ${accTxt} • נענו: ${answered} • סיכון: ${danger} • due: ${due}`, W-pad, pad+62);
+  ctx.fillText(`Overall: ${overall}% • דיוק: ${accTxt} • נענו: ${answered} • due: ${due}`, W-pad, pad+62);
 
   ctx.drawImage(donut, pad+20, pad+85, 520, 210);
   ctx.drawImage(radar, pad+20, pad+320, W-2*pad-40, 620);
@@ -1498,7 +1340,6 @@ function saveShareCardPng(){
 }
 $("savePngBtn").onclick=()=>saveShareCardPng();
 
-/* Keyboard */
 window.addEventListener("keydown",(e)=>{
   if($("screen_quiz").style.display==="none") return;
   if(!state.current) return;
@@ -1513,7 +1354,6 @@ window.addEventListener("keydown",(e)=>{
   }
 });
 
-/* On load: if started, jump into quiz */
 function boot(){
   if(state.started){
     $("screen_intro").style.display="none";
